@@ -26,7 +26,7 @@ mount_height = keyswitch_height + 3;
 
 cap_top_height = 9;
 
-alpha = 180/24;
+alpha = 180/12;
 beta = 180/36;
 
 finger_row_radius = (mount_height + 0.25) / 2 / sin(alpha/2) + cap_top_height;
