@@ -15,11 +15,11 @@ keywall_thickness = 1.5;
 sa_profile_key_height = 12.7;
 
 plate_thickness = 2.5;
-plate_vertical_padding = 2;
-plate_horizontal_padding = 2;
+plate_vertical_padding = 2.5;
+plate_horizontal_padding = 2.5;
 
-plate_width = keyhole_length + 2 * plate_horizontal_padding;
-plate_height = keyhole_length + 2 * plate_vertical_padding;
+plate_width = keyhole_length + plate_horizontal_padding;
+plate_height = keyhole_length + plate_vertical_padding;
 
 mount_width = keycap_length + 1;
 mount_height = keycap_depth + 1;
@@ -39,8 +39,8 @@ finger_column_offset_index = [0, 0, 0];
 finger_column_offset_index_stretch = [0, 0, 0];
 finger_column_offset_middle = [0, 2.82, -3.0]; // was moved -4.5
 finger_column_offset_ring = [0, 0, 0];
-finger_column_offset_pinky = [0, -5.8, 5.64];
-finger_column_offset_pinky_stretch = [0.5, -5.8, 5.64];
+finger_column_offset_pinky = [0, -8, 5.64];
+finger_column_offset_pinky_stretch = [0, -8, 5.64];
 finger_column_offsets = [
   finger_column_offset_index_stretch,
   finger_column_offset_index,
