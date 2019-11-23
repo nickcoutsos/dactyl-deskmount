@@ -66,8 +66,8 @@ thumb_columns = [
 ];
 
 thumb_overrides = [
-  [0, 0, 2, 1, 90],
-  [1, 0, 2, 1, 90]
+  [0, 0, 1, 2, 90],
+  [1, 0, 1, 2, 90]
 ];
 
 function get_overrides (source, colIndex, rowIndex) = (

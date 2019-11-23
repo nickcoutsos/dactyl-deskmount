@@ -9,6 +9,16 @@ module finger_place(column, row) {
     children();
 }
 
+module finger_corner_nw(col, row) { finger_place(col, row) translate([-plate_width/2, plate_height/2, 0]) children(); }
+module finger_corner_ne(col, row) { finger_place(col, row) translate([plate_width/2, plate_height/2, 0]) children(); }
+module finger_corner_se(col, row) { finger_place(col, row) translate([plate_width/2, -plate_height/2, 0]) children(); }
+module finger_corner_sw(col, row) { finger_place(col, row) translate([-plate_width/2, -plate_height/2, 0]) children(); }
+
+module finger_edge_n(col, row) { finger_place(col, row) translate([0, plate_height/2, 0]) children(); }
+module finger_edge_e(col, row) { finger_place(col, row) translate([plate_width/2, 0, 0]) children(); }
+module finger_edge_s(col, row) { finger_place(col, row) translate([0, -plate_height/2, 0]) children(); }
+module finger_edge_w(col, row) { finger_place(col, row) translate([-plate_width/2, 0, 0]) children(); }
+
 function finger_place_transformation(column, row) = (
   let(row_angle = alpha * (2 - row))
   let(column_angle = beta * (2 - column))
@@ -29,14 +39,23 @@ module thumb_place (colIndex, rowIndex) {
   dimensions = get_overrides(thumb_overrides, colIndex, rowIndex);
   $u = dimensions[0];
   $h = dimensions[1];
-  rot = dimensions[2];
+  $rot = dimensions[2];
   column = colIndex;
   row = thumb_columns[colIndex][rowIndex];
 
   multmatrix(thumb_place_transformation(column, row))
-    rotate([0, 0, rot])
     children();
 }
+
+module thumb_corner_nw(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * -plate_width/2, (is_undef($h) ? 1 : $h) * plate_height/2, 0]) children(); }
+module thumb_corner_ne(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * plate_width/2, (is_undef($h) ? 1 : $h) * plate_height/2, 0]) children(); }
+module thumb_corner_se(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * plate_width/2, (is_undef($h) ? 1 : $h) * -plate_height/2, 0]) children(); }
+module thumb_corner_sw(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * -plate_width/2, (is_undef($h) ? 1 : $h) * -plate_height/2, 0]) children(); }
+
+module thumb_edge_n(col, row) { $length = is_undef($u) ? 1 : $u * plate_height; thumb_place(col, row) translate([0, (is_undef($h) ? 1 : $h) * plate_height/2, 0]) children(); }
+module thumb_edge_e(col, row) { $length = is_undef($h) ? 1 : $h * plate_height; thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * plate_width/2, 0, 0]) children(); }
+module thumb_edge_s(col, row) { $length = is_undef($u) ? 1 : $u * plate_height; thumb_place(col, row) translate([0, (is_undef($h) ? 1 : $h) * -plate_height/2, 0]) children(); }
+module thumb_edge_w(col, row) { $length = is_undef($h) ? 1 : $h * plate_height; thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * -plate_width/2, 0, 0]) children(); }
 
 function thumb_place_transformation (column, row) = (
   let(column_angle = beta * column)
