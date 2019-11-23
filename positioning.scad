@@ -25,8 +25,16 @@ function finger_place_transformation(column, row) = (
   * translation([0, 0, -finger_row_radius])
 );
 
-module thumb_place (column, row) {
+module thumb_place (colIndex, rowIndex) {
+  dimensions = get_overrides(thumb_overrides, colIndex, rowIndex);
+  $u = dimensions[0];
+  $h = dimensions[1];
+  rot = dimensions[2];
+  column = colIndex;
+  row = thumb_columns[colIndex][rowIndex];
+
   multmatrix(thumb_place_transformation(column, row))
+    rotate([0, 0, rot])
     children();
 }
 
