@@ -23,8 +23,17 @@ module axes(length=30) {
   color("royalblue") vector([0, 0, 1] * length);
 }
 
-module connector() {
+module corner() {
   translate([0, 0, -plate_thickness/2]) cube([.01, .01, plate_thickness], center=true);
+}
+
+module edge(horizontal=false) {
+  length = horizontal
+    ? plate_width * (is_undef($u) ? 1 : $u)
+    : plate_height * (is_undef($h) ? 1 : $h);
+
+  translate([0, 0, -plate_thickness/2])
+  cube([ horizontal ? length : .01, !horizontal ? length : .01, plate_thickness], center=true);
 }
 
 module kailh_choc_switch() {
@@ -233,5 +242,18 @@ module header_pins(pin_count, right_angle=false, reverse=false) {
         cube([0.64, 0.64, 6.5]);
       }
     }
+  }
+}
+
+module edge_profile(rot=0) {
+  rotate([0, 0, -rot])
+  difference() {
+    union() {
+      translate([0, 0, -plate_thickness]) rotate([90, 0, 0]) cylinder(r=plate_thickness, h=.01, center=true);
+      translate([0, 0, -plate_thickness*1.5]) cube([plate_thickness*2, .01, plate_thickness], center=true);
+    }
+
+    translate([plate_thickness/2, 0, -plate_thickness]) cube([plate_thickness+.01, .1, plate_thickness*2+.01], center=true);
+    translate([0, 0, -plate_thickness*1.75]) cube([plate_thickness*2+.01, .1, plate_thickness/2], center=true);
   }
 }
