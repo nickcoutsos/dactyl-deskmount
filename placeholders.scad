@@ -30,6 +30,7 @@ module connector() {
 module kailh_choc_switch() {
   rot = !is_undef($rot) ? $rot : 0;
   detail = !is_undef($detail) && $detail;
+  height = !is_undef($key_pressed) && $key_pressed == true ? -2.18 : 0;
 
   rotate([0, 0, rot]) {
     color("lightgray") translate([0, 0, 1.4]) cube([13.8, 13.8, 2.8], center=true);
@@ -45,7 +46,9 @@ module kailh_choc_switch() {
     color("dimgray") translate([0, 0, -2.2]) rotate([180, 0, 0]) cylinder(d=3.4, h=2.65);
     color("yellow") translate([0, -5.9, -2.2]) rotate([180, 0, 0]) cylinder(d=1.2, h=2.65);
     color("yellow") translate([5, -3.8, -2.2]) rotate([180, 0, 0]) cylinder(d=1.2, h=2.65);
+
     color("saddlebrown")
+    translate([0, 0, height])
     translate([0, 0, 2.5+1.5+.3])
     difference() {
       cube([12, 5.5, 3], center=true);
@@ -61,6 +64,7 @@ module kailh_choc_keycap() {
   u = !is_undef($u) ? $u : 1;
   h = !is_undef($h) ? $h : 1;
   rot = !is_undef($rot) ? $rot : 0;
+  height = !is_undef($key_pressed) && $key_pressed == true ? 2.18 : (cap_top_height - keycap_height);
 
   width = 17.6 * (rot == 90 ? h : u);
   depth = 16.6 * (rot == 90 ? u : h);
@@ -68,7 +72,7 @@ module kailh_choc_keycap() {
   top_width = width - 2.6;
   top_depth = depth - 3.4;
 
-  translate([0, 0, cap_top_height - keycap_height])
+  translate([0, 0, height])
   rotate([0, 0, rot])
   difference() {
     hull() {
