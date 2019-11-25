@@ -23,11 +23,11 @@ module axes(length=30) {
   color("royalblue") vector([0, 0, 1] * length);
 }
 
-module corner() {
+module plate_corner() {
   translate([0, 0, -plate_thickness/2]) cube([.01, .01, plate_thickness], center=true);
 }
 
-module edge(horizontal=false) {
+module plate_edge(horizontal=false) {
   length = horizontal
     ? plate_width * (is_undef($u) ? 1 : $u)
     : plate_height * (is_undef($h) ? 1 : $h);

@@ -13,19 +13,20 @@ for (col=[0:len(finger_columns)-1]) {
     finger_place(col, row) color("lightsteelblue") kailh_choc_plate();
   }
 
-  color("lightsteelblue")
-  for (rowIndex=[0:len(finger_columns[col])-2]) {
-    this_row = finger_columns[col][rowIndex];
-    next_row = finger_columns[col][rowIndex+1];
-
-    hull() {
-      finger_edge_s(col, this_row) edge(horizontal=true);
-      finger_edge_n(col, next_row) edge(horizontal=true);
-    }
-  }
 }
 
 color("lightsteelblue") {
+  for (col=[0:len(finger_columns)-1]) {
+    for (rowIndex=[0:len(finger_columns[col])-2]) {
+      this_row = finger_columns[col][rowIndex];
+      next_row = finger_columns[col][rowIndex+1];
+
+      hull() {
+        finger_edge_s(col, this_row) plate_edge(horizontal=true);
+        finger_edge_n(col, next_row) plate_edge(horizontal=true);
+      }
+    }
+  }
   for (col=[0:len(finger_columns)-2]) {
     this_column = finger_columns[col];
     next_column = finger_columns[col+1];
@@ -37,14 +38,14 @@ color("lightsteelblue") {
       down_right = [col+1, next_column[rowIndex+1]];
 
       if (right.y) triangle_hulls() {
-        finger_corner_ne(this.x, this.y) corner();
-        finger_corner_nw(right.x, right.y) corner();
-        finger_corner_se(this.x, this.y) corner();
-        finger_corner_sw(right.x, right.y) corner();
+        finger_corner_ne(this.x, this.y) plate_corner();
+        finger_corner_nw(right.x, right.y) plate_corner();
+        finger_corner_se(this.x, this.y) plate_corner();
+        finger_corner_sw(right.x, right.y) plate_corner();
 
-        if (down.y) finger_corner_ne(down.x, down.y) corner();
-        if (down_right.x && down_right.y) finger_corner_nw(down_right.x, down_right.y) corner();
-        else if (down.y) finger_corner_se(down.x, down.y) corner();
+        if (down.y) finger_corner_ne(down.x, down.y) plate_corner();
+        if (down_right.x && down_right.y) finger_corner_nw(down_right.x, down_right.y) plate_corner();
+        else if (down.y) finger_corner_se(down.x, down.y) plate_corner();
       }
     }
   }
@@ -64,45 +65,45 @@ for (colIndex=[0:len(thumb_columns)-1]) {
     next_row = rows[rowIndex+1];
 
     hull() {
-      thumb_edge_n(colIndex, rowIndex) edge(horizontal=true);
-      thumb_edge_s(colIndex, rowIndex+1) edge(horizontal=true);
+      thumb_edge_n(colIndex, rowIndex) plate_edge(horizontal=true);
+      thumb_edge_s(colIndex, rowIndex+1) plate_edge(horizontal=true);
     }
   }
 }
 
 color("lightsteelblue") {
   triangle_hulls() {
-    thumb_corner_ne(2, 2) corner();
-    thumb_corner_nw(1, 1) corner();
-    thumb_corner_se(2, 2) corner();
-    thumb_corner_sw(1, 1) corner();
-    thumb_corner_ne(2, 1) corner();
-    thumb_corner_nw(1, 0) corner();
-    thumb_corner_se(2, 1) corner();
-    thumb_edge_w(1, 0) corner();
-    thumb_corner_ne(2, 0) corner();
-    thumb_corner_sw(1, 0) corner();
-    thumb_corner_se(2, 0) corner();
+    thumb_corner_ne(2, 2) plate_corner();
+    thumb_corner_nw(1, 1) plate_corner();
+    thumb_corner_se(2, 2) plate_corner();
+    thumb_corner_sw(1, 1) plate_corner();
+    thumb_corner_ne(2, 1) plate_corner();
+    thumb_corner_nw(1, 0) plate_corner();
+    thumb_corner_se(2, 1) plate_corner();
+    thumb_edge_w(1, 0) plate_corner();
+    thumb_corner_ne(2, 0) plate_corner();
+    thumb_corner_sw(1, 0) plate_corner();
+    thumb_corner_se(2, 0) plate_corner();
   }
 
   hull() {
-    thumb_edge_w(0, 0) edge();
-    thumb_edge_e(1, 0) edge();
+    thumb_edge_w(0, 0) plate_edge();
+    thumb_edge_e(1, 0) plate_edge();
   }
 
   triangle_hulls() {
-    finger_corner_sw(1, 4) corner();
-    thumb_edge_e(0, 0) corner();
-    finger_corner_nw(1, 4) corner();
-    thumb_corner_ne(0, 0) corner();
-    finger_corner_sw(1, 3) corner();
-    thumb_corner_nw(0, 0) corner();
-    finger_corner_sw(0, 3) corner();
-    thumb_corner_ne(1, 0) corner();
-    thumb_corner_se(1, 1) corner();
-    thumb_corner_ne(1, 1) corner();
-    finger_corner_sw(0, 3) corner();
-    finger_corner_nw(0, 3) corner();
+    finger_corner_sw(1, 4) plate_corner();
+    thumb_edge_e(0, 0) plate_corner();
+    finger_corner_nw(1, 4) plate_corner();
+    thumb_corner_ne(0, 0) plate_corner();
+    finger_corner_sw(1, 3) plate_corner();
+    thumb_corner_nw(0, 0) plate_corner();
+    finger_corner_sw(0, 3) plate_corner();
+    thumb_corner_ne(1, 0) plate_corner();
+    thumb_corner_se(1, 1) plate_corner();
+    thumb_corner_ne(1, 1) plate_corner();
+    finger_corner_sw(0, 3) plate_corner();
+    finger_corner_nw(0, 3) plate_corner();
   }
 }
 
