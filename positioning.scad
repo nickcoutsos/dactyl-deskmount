@@ -2,27 +2,30 @@ use <scad-utils/transformations.scad>
 use <scad-utils/linalg.scad>
 include <definitions.scad>
 
-
 module finger_place(column, row) {
+  $u = is_undef($u) ? 1 : $u;
+  $h = is_undef($h) ? 1 : $h;
   transformation = finger_place_transformation(column, row);
   multmatrix(transformation)
     children();
 }
 
-module finger_corner_nw(col, row) { finger_place(col, row) translate([-plate_width/2, plate_height/2, 0]) children(); }
-module finger_corner_ne(col, row) { finger_place(col, row) translate([plate_width/2, plate_height/2, 0]) children(); }
-module finger_corner_se(col, row) { finger_place(col, row) translate([plate_width/2, -plate_height/2, 0]) children(); }
-module finger_corner_sw(col, row) { finger_place(col, row) translate([-plate_width/2, -plate_height/2, 0]) children(); }
+module finger_corner_nw(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_width/2*$u, plate_height/2*$h, 0]) children(); } }
+module finger_corner_ne(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([plate_width/2*$u, plate_height/2*$h, 0]) children(); } }
+module finger_corner_se(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([plate_width/2*$u, -plate_height/2*$h, 0]) children(); } }
+module finger_corner_sw(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_width/2*$u, -plate_height/2*$h, 0]) children(); } }
 
-module finger_edge_n(col, row) { finger_place(col, row) translate([0, plate_height/2, 0]) children(); }
-module finger_edge_e(col, row) { finger_place(col, row) translate([plate_width/2, 0, 0]) children(); }
-module finger_edge_s(col, row) { finger_place(col, row) translate([0, -plate_height/2, 0]) children(); }
-module finger_edge_w(col, row) { finger_place(col, row) translate([-plate_width/2, 0, 0]) children(); }
+module finger_edge_n(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, plate_height/2*$h, 0]) children(); } }
+module finger_edge_e(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([plate_width/2*$u, 0, 0]) children(); } }
+module finger_edge_s(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, -plate_height/2*$h, 0]) children(); } }
+module finger_edge_w(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_width/2*$u, 0, 0]) children(); } }
 
 function finger_place_transformation(column, row) = (
   let(row_angle = alpha * (2 - row))
   let(column_angle = beta * (2 - column))
-  let(column_offset = finger_column_offsets[column])
+  let(column_offset = !is_undef(finger_column_offsets[column])
+    ? finger_column_offsets[column]
+    : [0, 0, 0])
 
   translation([0, 0, 13])
   * rotation(beta*3 * Y)
