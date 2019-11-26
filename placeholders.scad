@@ -257,3 +257,57 @@ module edge_profile(rot=0) {
     translate([0, 0, -plate_thickness*1.75]) cube([plate_thickness*2+.01, .1, plate_thickness/2], center=true);
   }
 }
+
+module ball_mount() {
+  $fn = 12;
+
+  color("dimgray")
+  difference() {
+    cylinder(d=28.44, h=29.26);
+    translate([0, 0, 20]) cylinder(d=18.88, h=10);
+    translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) sphere(r=12);
+    translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) cylinder(d=8, h=20);
+    translate([0, -10, 21.55 + 8]) cube([8, 10, 8], center=true);
+  }
+
+  color("silver") translate([0, 0, 23.98]) rotate([90, 0, 0]) sphere(r=11);
+  color("silver") translate([0, 0, 23.98]) rotate([90, 0, 0]) cylinder(d=5, h=30.23);
+  color("dimgray") translate([0, 0, 23.98]) rotate([90, 0, 0]) translate([0, 0, 15.05]) cylinder(d=28.88, h=8.47);
+  translate([0, 0, 10.72+5.82/2]) rotate([-90, 0, 0]) {
+    color("silver") cylinder(d=5.82, h=21.45);
+    color("dimgray") translate([0, 0, 43.44-28.44+10.36/2]) cylinder(d=12.51, h=10.36);
+    color("dimgray") translate([0, 0, 43.44-28.44+10.36]) cube([25.84, 5.09, 10.36], center=true);
+  }
+}
+
+module led() {
+  CLEARANCE = is_undef($clearance) ? 0 : $clearance;
+  pcb_thickness = 1.16;
+  pcb_diameter = 8;
+  led_length = 3.34;
+  led_height = 1.04;
+
+  translate([0, 0, pcb_thickness/2]) {
+    color([0.25, 0.25, 0.25])
+    cylinder(
+      d=pcb_diameter + CLEARANCE * 2,
+      h=pcb_thickness + CLEARANCE * 2,
+      center=true
+    );
+
+    color("white")
+    translate([0, 0, pcb_thickness / 2 + led_height / 2]) {
+      cube([
+        led_length + CLEARANCE * 2,
+        led_length + CLEARANCE * 2,
+        led_height + CLEARANCE * 2
+      ], center=true);
+    }
+  }
+
+  color("silver")
+  for (i=[0:2]) {
+    translate([(i - 1) * 1.95, -2, 0]) cube([1, 2.18, .05], center=true);
+    translate([(i - 1) * 1.95, 2, 0]) cube([1, 2.18, .05], center=true);
+  }
+}
