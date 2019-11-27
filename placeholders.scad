@@ -259,24 +259,32 @@ module edge_profile(rot=0) {
 }
 
 module ball_mount() {
-  $fn = 12;
+  $fn = 24;
 
-  color("dimgray")
-  difference() {
-    cylinder(d=28.44, h=29.26);
-    translate([0, 0, 20]) cylinder(d=18.88, h=10);
-    translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) sphere(r=12);
-    translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) cylinder(d=8, h=20);
-    translate([0, -10, 21.55 + 8]) cube([8, 10, 8], center=true);
+  rotate(60, X)
+  rotate(180, Z) {
+    translate([0, 0, -23.98])
+    color("dimgray")
+    difference() {
+      cylinder(d=28.44, h=29.26);
+      translate([0, 0, 20]) cylinder(d=18.88, h=10);
+      translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) sphere(r=12);
+      translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) cylinder(d=8, h=20);
+      translate([0, -10, 21.55 + 8]) cube([8, 10, 8], center=true);
+    }
+
+    translate([0, 0, -23.98])
+    translate([0, 0, 10.72+5.82/2]) rotate([-90, 0, 0]) {
+      color("silver") cylinder(d=5.82, h=21.45);
+      color("dimgray") translate([0, 0, 43.44-28.44+10.36/2]) cylinder(d=12.51, h=10.36);
+      color("dimgray") translate([0, 0, 43.44-28.44+10.36]) cube([25.84, 5.09, 10.36], center=true);
+    }
   }
 
-  color("silver") translate([0, 0, 23.98]) rotate([90, 0, 0]) sphere(r=11);
-  color("silver") translate([0, 0, 23.98]) rotate([90, 0, 0]) cylinder(d=5, h=30.23);
-  color("dimgray") translate([0, 0, 23.98]) rotate([90, 0, 0]) translate([0, 0, 15.05]) cylinder(d=28.88, h=8.47);
-  translate([0, 0, 10.72+5.82/2]) rotate([-90, 0, 0]) {
-    color("silver") cylinder(d=5.82, h=21.45);
-    color("dimgray") translate([0, 0, 43.44-28.44+10.36/2]) cylinder(d=12.51, h=10.36);
-    color("dimgray") translate([0, 0, 43.44-28.44+10.36]) cube([25.84, 5.09, 10.36], center=true);
+  rotate(0, X) {
+    color("silver") sphere(r=11);
+    color("silver") cylinder(d=5, h=30.23);
+    color("dimgray") translate([0, 0, 15.05]) cylinder(d=28.88, h=8.47);
   }
 }
 
