@@ -258,10 +258,10 @@ module edge_profile(rot=0) {
   }
 }
 
-module ball_mount() {
+module ball_mount(pivot=[0, 0, 0]) {
   $fn = 24;
 
-  rotate(60, X)
+  rotate(50, X)
   rotate(180, Z) {
     translate([0, 0, -23.98])
     color("dimgray")
@@ -281,10 +281,11 @@ module ball_mount() {
     }
   }
 
-  rotate(0, X) {
+  rotate(pivot) {
     color("silver") sphere(r=11);
     color("silver") cylinder(d=5, h=30.23);
     color("dimgray") translate([0, 0, 15.05]) cylinder(d=28.88, h=8.47);
+    translate([0, 0, 15.05+8.47]) children();
   }
 }
 

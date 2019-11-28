@@ -277,7 +277,10 @@ module plate_trim() {
   }
 }
 
-color("lightsteelblue") assembled_plate();
-color("lightsteelblue") plate_trim();
-
-ball_mount();
+ball_mount() {
+  translate([35, 0, -10]) {
+    color("lightsteelblue") assembled_plate();
+    color("lightsteelblue") plate_trim();
+    accessories();
+  }
+}
