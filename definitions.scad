@@ -14,7 +14,7 @@ keywall_thickness = 1.5;
 
 sa_profile_key_height = 12.7;
 
-plate_thickness = 2.5;
+plate_thickness = 3.5;
 plate_vertical_padding = 2.5;
 plate_horizontal_padding = 2.5;
 
