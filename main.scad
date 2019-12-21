@@ -8,6 +8,9 @@ include <definitions.scad>
 
 $fn = 8;
 $key_pressed = false;
+$render_switches = true;
+$render_keycaps = true;
+$render_leds = false;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -45,6 +48,7 @@ module assembled_plate() {
       }
     }
   }
+
   for (col=[0:len(finger_columns)-2]) {
     this_column = finger_columns[col];
     next_column = finger_columns[col+1];
@@ -123,8 +127,8 @@ module assembled_plate() {
 module accessories() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
-      finger_place(col, row) kailh_choc_switch();
-      finger_place(col, row) color("white") kailh_choc_keycap();
+      if ($render_switches) finger_place(col, row) kailh_choc_switch();
+      if ($render_keycaps) finger_place(col, row) color("white") kailh_choc_keycap();
     }
   }
 
@@ -132,11 +136,12 @@ module accessories() {
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      thumb_place(colIndex, rowIndex) kailh_choc_switch();
-      thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
+      if ($render_switches) thumb_place(colIndex, rowIndex) kailh_choc_switch();
+      if ($render_keycaps) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
     }
   }
 
+  if ($render_leds)
   for (pos=leds) {
     $fn=12;
     $u = led_size;
@@ -277,10 +282,6 @@ module plate_trim() {
   }
 }
 
-ball_mount() {
-  translate([35, 0, -10]) {
-    color("lightsteelblue") assembled_plate();
-    color("lightsteelblue") plate_trim();
-    accessories();
-  }
-}
+assembled_plate();
+plate_trim();
+accessories();
