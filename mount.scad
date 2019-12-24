@@ -7,11 +7,11 @@ use <util.scad>
 use <main.scad>
 include <definitions.scad>
 
-keyboard_offset = rotation([0, -20, 0]) * translation([35, 10, -10]);
+keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -7]);
 posts = [
-  keyboard_offset * thumb_place_transformation(2, 0.5) * translation([15, -5, 0]),
-  keyboard_offset * finger_place_transformation(2, 3.5) * translation([8, 0, 0]),
-  keyboard_offset * finger_place_transformation(0.5, 1)
+  keyboard_offset * thumb_place_transformation(2.5, 0.5) * translation([0, 0, -5]),
+  keyboard_offset * finger_place_transformation(1.4, 4.5) * translation([0, 0, -5]),
+  keyboard_offset * finger_place_transformation(1.4, 0.5) * translation([0, 0, -5])
 ];
 
 module tee_nut() {
@@ -27,8 +27,8 @@ module tee_nut() {
 }
 
 module screw_post() {
-   translate([0, 0, -5 -plate_thickness])
-   cylinder(d=6, h=10);
+   translate([0, 0, -2 -plate_thickness])
+   cylinder(d=6, h=6);
 }
 
 module arc(a=90, r1=1, r2=1, h=1, center=false) {
@@ -59,14 +59,14 @@ ball_mount([0, 30, 0]) {
     multmatrix(posts[0]) translate([0, 0, -10]) cylinder(d=6, h=5);
   }
 
-  hull() {
-    rotate([0, 0, 290]) arc(r1=14, r2=5, h=5.6, a=60);
-    multmatrix(posts[1]) translate([0, 0, -10]) cylinder(d=6, h=5);
-  }
-
-  hull() {
-    rotate([0, 0, 50]) arc(r1=14, r2=5, h=5.6, a=60);
-    multmatrix(posts[2]) translate([0, 0, -10]) cylinder(d=6, h=5);
+  serial_hulls() {
+    $fn=8;
+    multmatrix(posts[1]) translate([0, 0, -4]) sphere(r=3);
+    multmatrix(keyboard_offset * finger_place_transformation(1.4, 4)) translate([0, 0, -10]) sphere(r=3);
+    multmatrix(keyboard_offset * finger_place_transformation(1.4, 3)) translate([0, 0, -10]) sphere(r=3.5);
+    multmatrix(keyboard_offset * finger_place_transformation(1.4, 2)) translate([0, 0, -10]) sphere(r=3.5);
+    multmatrix(keyboard_offset * finger_place_transformation(1.4, 1)) translate([0, 0, -10]) sphere(r=3);
+    multmatrix(posts[2]) translate([0, 0, -4]) sphere(r=3);
   }
 
   multmatrix(posts[0]) screw_post();
