@@ -120,7 +120,7 @@ module kailh_choc_plate() {
 }
 
 module pro_micro(center=false) {
-  CLEARANCE = $clearance == undef ? 0.15 : $clearance;
+  CLEARANCE = is_undef($clearance) ? 0.15 : $clearance;
   C = [1, 1, 1] * CLEARANCE;
   pcb_dimensions = [33.27, 18.22, 1.5];
   socket_dimensions = [0.64, 0.64, 1.6];
