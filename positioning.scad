@@ -83,3 +83,17 @@ module place_thumb_keys (columns, rows) {
     }
   }
 }
+
+posts = [
+  thumb_place_transformation(2.5, 0.5) * translation([0, 0, -5]),
+  finger_place_transformation(1.4, 4.5) * translation([0, 0, -5]),
+  finger_place_transformation(1.4, 0.5) * translation([0, 0, -5])
+];
+
+function post_place_transformation (index) = (
+  posts[index]
+);
+
+module post_place(index) {
+  multmatrix(post_place_transformation(index)) children();
+}

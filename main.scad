@@ -10,7 +10,8 @@ $fn = 8;
 $key_pressed = false;
 $render_switches = true;
 $render_keycaps = true;
-$render_leds = false;
+$render_controller = false;
+$render_leds = true;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -22,6 +23,11 @@ leds = [
   [-0.75, 2.34],
   [-0.75, 1.96],
 ];
+
+module screw_post() {
+   translate([0, 0, -2 -plate_thickness])
+   cylinder(d=6, h=6);
+}
 
 module assembled_plate() {
   for (col=[0:len(finger_columns)-1]) {
@@ -153,6 +159,15 @@ module accessories() {
     translate([0, 0, -3])
       led();
   }
+
+
+  if ($render_controller)
+  thumb_place(0.5, 0)
+  translate([0, 0, -10])
+  rotate([180, 0, 0]) {
+    socket(center=true);
+    translate([0, 0, 2]) pro_micro(center=true);
+  }
 }
 
 module plate_trim() {
@@ -280,6 +295,10 @@ module plate_trim() {
     finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([0, 30, 0]) edge_profile(90);
     finger_corner_nw(0, 1) edge_profile(90);
   }
+
+  post_place(0) screw_post();
+  post_place(1) screw_post();
+  post_place(2) screw_post();
 }
 
 assembled_plate();
