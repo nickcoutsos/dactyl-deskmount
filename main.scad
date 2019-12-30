@@ -25,11 +25,17 @@ leds = [
 ];
 
 module screw_post() {
-   translate([0, 0, -2 -plate_thickness])
-   cylinder(d=6, h=6);
+  translate([0, 0, -2])
+  cylinder(d=8, h=5);
 }
 
-module assembled_plate() {
+module screw_cutout() {
+  cylinder(d=3, h=plate_thickness*4, center=true);
+  cylinder(d=4.5, h=5);
+  translate([0, 0, 2]) cylinder(d1=3, d2=6, h=5, center=true);
+}
+
+module plate() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
       finger_place(col, row) kailh_choc_plate();
@@ -301,6 +307,19 @@ module plate_trim() {
   post_place(2) screw_post();
 }
 
-assembled_plate();
+module assembled_plate() {
+  difference() {
+    union() {
+      plate();
+      plate_trim();
+    }
+
+    post_place(0) screw_cutout();
+    post_place(1) screw_cutout();
+    post_place(2) screw_cutout();
+  }
+}
+
+plate();
 plate_trim();
 accessories();
