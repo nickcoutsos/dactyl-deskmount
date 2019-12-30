@@ -73,8 +73,16 @@ ball_mount([0, 30, 0]) {
         arc(r1=14, r2=12, h=mount_base_height, a=140);
     }
 
-    color("green", alpha=0.4) post_place(0) cylinder(d=3, h=20, center=true);
-    color("green", alpha=0.4) post_place(1) cylinder(d=3, h=20, center=true);
-    color("green", alpha=0.4) post_place(2) cylinder(d=3, h=20, center=true);
+    color("crimson", alpha=0.4) post_place(0) cylinder(d=1.5, h=25, center=true);
+    color("crimson", alpha=0.4) post_place(1) cylinder(d=1.5, h=25, center=true);
+    color("crimson", alpha=0.4) post_place(2) cylinder(d=1.5, h=25, center=true);
+
+    post_place(0) m3_screw();
+    post_place(1) m3_screw();
+    post_place(2) m3_screw();
+
+    post_place(0) translate([0, 0, -7]) m3_hex_nut();
+    post_place(1) translate([0, 0, -7]) m3_hex_nut();
+    post_place(2) translate([0, 0, -7]) m3_hex_nut();
   }
 }

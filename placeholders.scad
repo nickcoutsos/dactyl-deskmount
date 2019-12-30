@@ -321,3 +321,28 @@ module led() {
     translate([(i - 1) * 1.95, 2, 0]) cube([1, 2.18, .05], center=true);
   }
 }
+
+module m3_hex_nut() {
+  center = !is_undef($center) && $center;
+  clearance = is_undef($clearance) ? 0 : $clearance;
+  detail = !is_undef($detail) && $detail;
+  diameter = 6.12 + clearance;
+  height = 2.35 + clearance;
+
+  color("dimgray")
+  translate([0, 0, center ? -height/2 : 0])
+  difference() {
+    cylinder(d=diameter, h=height, $fn=6);
+    if (detail) {
+      translate([0, 0, -0.1]) cylinder(d=3.1, h=height + .2);
+    }
+  }
+}
+
+module m3_screw() {
+  color("dimgray") {
+    cylinder(d=5.85, h=1.7);
+    translate([0,  0, 1.7]) cylinder(d1=5.85, d2=3, h=0.8);
+    translate([0, 0, -11.75]) cylinder(d=3, h=11.75);
+  }
+}
