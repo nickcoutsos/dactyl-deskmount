@@ -10,7 +10,7 @@ include <definitions.scad>
 $fn = 12;
 keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -6]);
 
-module tee_nut() {
+module tee_nut(footprint=false) {
   $fn=26;
   clearance = is_undef($clearance) ? 0 : $clearance;
   height = 8.98 + clearance;
@@ -26,6 +26,11 @@ module tee_nut() {
     rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
     rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
     rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+  }
+
+  if (footprint) {
+    translate([0, 0, height-1])
+    cylinder(d=diameter + clearance/2, h=5);
   }
 }
 
@@ -115,3 +120,9 @@ ball_mount([0, 30, 0]) {
     post_place(2) translate([0, 0, -7]) m3_hex_nut();
   }
 }
+
+// difference() {
+//   mount();
+//   tee_nut($clearance=1, footprint=true);
+//   multmatrix(keyboard_offset) assembled_plate();
+// }
