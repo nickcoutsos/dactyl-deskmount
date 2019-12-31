@@ -259,8 +259,6 @@ module edge_profile(rot=0) {
 }
 
 module ball_mount(pivot=[0, 0, 0]) {
-  $fn = 24;
-
   rotate(90, Z)
   rotate(50, X)
   rotate(180, Z) {

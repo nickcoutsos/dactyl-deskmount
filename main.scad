@@ -25,14 +25,14 @@ leds = [
 ];
 
 module screw_post() {
-  translate([0, 0, -2])
-  cylinder(d=8, h=5);
+  translate([0, 0, -1]) cylinder(d=8, h=4);
+  translate([0, 0, -2]) cylinder(d=5.5, h=3);
 }
 
 module screw_cutout() {
   cylinder(d=3, h=plate_thickness*4, center=true);
   cylinder(d=4.5, h=5);
-  translate([0, 0, 2]) cylinder(d1=3, d2=6, h=5, center=true);
+  translate([0, 0, 2]) cylinder(d1=3, d2=7, h=5, center=true);
 }
 
 module plate() {
