@@ -323,3 +323,12 @@ module assembled_plate() {
 plate();
 plate_trim();
 accessories();
+
+/// samples for test prints
+// intersection() {
+//   assembled_plate();
+//   // keys
+//   #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
+//   // screw hole
+//   #translate([-11, -51, 29]) cylinder(d=12, h=12, center=true);
+// }

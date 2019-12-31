@@ -56,7 +56,7 @@ module arc(a=90, r1=1, r2=1, h=1, center=false) {
 mount_base_height = 8.5;
 
 module mount() {
-  color("forestgreen") cylinder(d=28, h=mount_base_height);
+  color("forestgreen") cylinder(d=28, h=mount_base_height, $fn=24);
 
   color("mediumseagreen")
   multmatrix(keyboard_offset)
@@ -118,8 +118,15 @@ ball_mount([0, 30, 0]) {
   }
 }
 
-// difference() {
-//   mount();
-//   tee_nut($clearance=1, footprint=true);
-//   multmatrix(keyboard_offset) assembled_plate();
+/// samples for test prints
+// intersection() {
+//   difference() {
+//     mount();
+//     tee_nut($clearance=1, footprint=true);
+//     multmatrix(keyboard_offset) assembled_plate();
+//   }
+//   // nut holder
+//   // #translate([10, -42, 22]) cylinder(d=12, h=12, center=true);
+//   // base
+//   // #translate([0, 0, -1]) cylinder(d=30, h=15);
 // }
