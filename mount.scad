@@ -8,17 +8,24 @@ use <main.scad>
 include <definitions.scad>
 
 $fn = 12;
-keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -10]);
+keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -6]);
 
 module tee_nut() {
-  translate([0, 0, 5.97])
+  $fn=26;
+  clearance = is_undef($clearance) ? 0 : $clearance;
+  height = 8.98 + clearance;
+  prongs = [3, 1.58, 7.75];
+  diameter = 19;
+
+  translate([0, 0, height])
+  translate([0, 0, -clearance/2])
   rotate([180, 0, 0]) {
-    cylinder(d=19, h=1.19);
-    cylinder(d=7.7, h=5.97);
-    rotate([0, 0, 90*1]) translate([19/2-1.2, 0, 3.17/2]) cube([2, .6, 3.17], center=true);
-    rotate([0, 0, 90*2]) translate([19/2-1.2, 0, 3.17/2]) cube([2, .6, 3.17], center=true);
-    rotate([0, 0, 90*3]) translate([19/2-1.2, 0, 3.17/2]) cube([2, .6, 3.17], center=true);
-    rotate([0, 0, 90*4]) translate([19/2-1.2, 0, 3.17/2]) cube([2, .6, 3.17], center=true);
+    cylinder(d=diameter + clearance/2, h=1.35 + clearance);
+    cylinder(d=7.7 + clearance/2, h=height);
+    rotate([0, 0, 90*1]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
   }
 }
 
@@ -41,7 +48,7 @@ module arc(a=90, r1=1, r2=1, h=1, center=false) {
   }
 }
 
-mount_base_height = 5.5;
+mount_base_height = 8.5;
 
 module mount() {
   color("forestgreen") cylinder(d=28, h=mount_base_height);
