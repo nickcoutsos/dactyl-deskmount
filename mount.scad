@@ -37,7 +37,7 @@ module tee_nut(footprint=false) {
 module screw_and_nut_cutout() {
   translate([0, 0, 4]) cylinder(d=6, h=3);
   translate([0, 0, -1]) cylinder(d=3, h=6);
-  translate([0, 0, -1]) m3_hex_nut($clearance=1);
+  scale([1, 1, 2]) translate([0, 0, -2]) m3_hex_nut($clearance=1);
   m3_hex_nut($clearance=1);
 }
 
@@ -111,13 +111,10 @@ ball_mount([0, 30, 0]) {
     color("lightsteelblue") assembled_plate();
     accessories($render_controller=true);
 
-    post_place(0) m3_screw();
-    post_place(1) m3_screw();
-    post_place(2) m3_screw();
-
-    post_place(0) translate([0, 0, -7]) m3_hex_nut();
-    post_place(1) translate([0, 0, -7]) m3_hex_nut();
-    post_place(2) translate([0, 0, -7]) m3_hex_nut();
+    for (i=[0:2]) post_place(i) {
+      m3_screw();
+      translate([0, 0, -7]) m3_hex_nut();
+    }
   }
 }
 

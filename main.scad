@@ -6,7 +6,7 @@ use <positioning.scad>
 use <util.scad>
 include <definitions.scad>
 
-$fn = 8;
+$fn = 12;
 $key_pressed = false;
 $render_switches = true;
 $render_keycaps = true;
@@ -25,7 +25,7 @@ leds = [
 ];
 
 module screw_post() {
-  translate([0, 0, -1]) cylinder(d=8, h=4);
+  translate([0, 0, -1]) cylinder(d=9.5, h=4);
   translate([0, 0, -2]) cylinder(d=5.5, h=3);
 }
 
