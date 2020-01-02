@@ -8,8 +8,8 @@ include <definitions.scad>
 
 $fn = 12;
 $key_pressed = false;
-$render_switches = true;
-$render_keycaps = true;
+$render_switches = false;
+$render_keycaps = false;
 $render_controller = false;
 $render_leds = true;
 
@@ -162,7 +162,7 @@ module accessories() {
     finger_place(pos.x, pos.y)
     multmatrix(led_transform)
     translate(led_offset)
-    translate([0, 0, -3])
+    translate([0, 0, -6])
       led();
   }
 
@@ -302,6 +302,32 @@ module plate_trim() {
     finger_corner_nw(0, 1) edge_profile(90);
   }
 
+  // color("red", alpha=0.4)
+  difference() {
+    serial_hulls() {
+      finger_edge_n(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_s(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_n(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_s(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_n(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_s(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_n(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+    }
+
+    for (pos=leds) {
+      $fn=12;
+      $u = led_size;
+      $h = led_size;
+
+      finger_place(pos.x, pos.y)
+      multmatrix(led_transform)
+      translate(led_offset)
+      translate([0, 0, -6])
+        led($clearance=1);
+    }
+  }
+
   post_place(0) screw_post();
   post_place(1) screw_post();
   post_place(2) screw_post();
@@ -320,9 +346,10 @@ module assembled_plate() {
   }
 }
 
-plate();
-plate_trim();
-accessories();
+assembled_plate();
+// plate();
+// plate_trim();
+// accessories();
 
 /// samples for test prints
 // intersection() {
