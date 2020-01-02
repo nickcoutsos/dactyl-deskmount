@@ -5,7 +5,16 @@ include <definitions.scad>
 module finger_place(column, row) {
   $u = is_undef($u) ? 1 : $u;
   $h = is_undef($h) ? 1 : $h;
+  arc = column >= 4 ? -2 : 0;
+  pivot = column >= 4
+    ? translation_part(finger_place_transformation(4, 3))
+    : [0, 0, 0];
+
   transformation = finger_place_transformation(column, row);
+
+  translate(pivot)
+  rotate([0, 0, arc])
+  translate(-pivot)
   multmatrix(transformation)
     children();
 }
