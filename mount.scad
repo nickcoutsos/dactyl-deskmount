@@ -13,24 +13,29 @@ keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -6]);
 module tee_nut(footprint=false) {
   $fn=26;
   clearance = is_undef($clearance) ? 0 : $clearance;
-  height = 8.98 + clearance;
-  prongs = [3, 1.58, 7.75];
+  height = 8.98;
+  prongs = [3.5, 1.58, 7.75];
   diameter = 19;
 
   translate([0, 0, height])
-  translate([0, 0, -clearance/2])
+  translate([0, 0, clearance/2])
   rotate([180, 0, 0]) {
-    cylinder(d=diameter + clearance/2, h=1.35 + clearance);
-    cylinder(d=7.7 + clearance/2, h=height);
-    rotate([0, 0, 90*1]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, 0, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    translate([0, 0, clearance/4]) cylinder(d=diameter + clearance/2, h=1.35 + clearance/2);
+    translate([0, 0, clearance/4]) cylinder(d=7.7 + clearance/2, h=height + clearance/2);
+    translate([0, 0, clearance/4]) cylinder(d1=10 + clearance/2, d2=7.7 + clearance/2, h=2 + clearance/2);
+    rotate([0, 0, 90*1]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
   }
 
   if (footprint) {
     translate([0, 0, height-1])
-    cylinder(d=diameter + clearance/2, h=5);
+    cylinder(
+      d1=diameter + clearance/2,
+      d2=diameter + 5 + clearance/2,
+      h=5
+    );
   }
 }
 
