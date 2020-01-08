@@ -337,10 +337,33 @@ module m3_hex_nut() {
   }
 }
 
-module m3_screw() {
+module m3_screw(footprint=false) {
+  clearance = is_undef($clearance) ? 0 : $clearance;
+  head_diameter = 5.85 + clearance;
+
   color("dimgray") {
-    cylinder(d=5.85, h=1.7);
-    translate([0,  0, 1.7]) cylinder(d1=5.85, d2=3, h=0.8);
-    translate([0, 0, -11.75]) cylinder(d=3, h=11.75);
+    cylinder(d=head_diameter, h=1.7 + clearance/2);
+    translate([0,  0, 1.7 + clearance/4]) cylinder(d1=head_diameter, d2=3 + clearance, h=0.8 + clearance/4);
+    translate([0, 0, -11.75 - clearance/4]) cylinder(d=3 + clearance, h=11.75 + clearance/2);
+  }
+
+  if (footprint) {
+    cylinder(
+      d1=head_diameter,
+      d2=head_diameter+2,
+      h=5
+    );
+  }
+}
+
+module arc(a=90, r1=1, r2=1, h=1, center=false) {
+  translate(-[0, 0, center ? h/2 : 0])
+  difference() {
+    cylinder(r=r1, h=h, center=center);
+    translate([0, 0, -.1]) {
+      cylinder(r=r2, h=h+0.2);
+      translate([-r1-0.1, -r1-0.1, 0]) cube([r1*2+.1, r1+.1, h+0.2]);
+      rotate([0, 0, -180+a]) translate([-r1-0.1, -r1-0.1, 0]) cube([r1*2+.1, r1+.1, h+0.2]);
+    }
   }
 }

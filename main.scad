@@ -25,8 +25,10 @@ leds = [
 ];
 
 module screw_post() {
-  translate([0, 0, -1]) cylinder(d=9.5, h=4);
+  outer = 11;
+  translate([0, 1.5, 1]) cube([outer, 3, 4], center=true);
   translate([0, 0, -2]) cylinder(d=5.5, h=3);
+  translate([0, 0, -1]) rotate([0, 0, 180]) arc(180, r1=outer/2, r2=0, h=4);
 }
 
 module screw_cutout() {
@@ -328,9 +330,9 @@ module plate_trim() {
     }
   }
 
-  post_place(0) screw_post();
-  post_place(1) screw_post();
-  post_place(2) screw_post();
+  post_place(0) rotate([0, 0, -90]) screw_post();
+  post_place(1) rotate([0, 0, 0]) screw_post();
+  post_place(2) rotate([0, 0, 180]) screw_post();
 }
 
 module assembled_plate() {
@@ -340,9 +342,9 @@ module assembled_plate() {
       plate_trim();
     }
 
-    post_place(0) screw_cutout();
-    post_place(1) screw_cutout();
-    post_place(2) screw_cutout();
+    post_place(0) m3_screw($clearance=1, footprint=true);
+    post_place(1) m3_screw($clearance=1, footprint=true);
+    post_place(2) m3_screw($clearance=1, footprint=true);
   }
 }
 

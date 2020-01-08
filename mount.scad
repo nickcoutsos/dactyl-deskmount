@@ -40,22 +40,10 @@ module tee_nut(footprint=false) {
 }
 
 module screw_and_nut_cutout() {
-  translate([0, 0, 4]) cylinder(d=6, h=3);
+  translate([0, 0, 5]) cylinder(d=6.5, h=3);
   translate([0, 0, -1]) cylinder(d=3, h=6);
   scale([1, 1, 2]) translate([0, 0, -2]) m3_hex_nut($clearance=1);
-  m3_hex_nut($clearance=1);
-}
-
-module arc(a=90, r1=1, r2=1, h=1, center=false) {
-  translate(-[0, 0, center ? h/2 : 0])
-  difference() {
-    cylinder(r=r1, h=h, center=center);
-    translate([0, 0, -.1]) {
-      cylinder(r=r2, h=h+0.2);
-      translate([-r1-0.1, -r1-0.1, 0]) cube([r1*2+.1, r1+.1, h+0.2]);
-      rotate([0, 0, -180+a]) translate([-r1-0.1, -r1-0.1, 0]) cube([r1*2+.1, r1+.1, h+0.2]);
-    }
-  }
+  m3_hex_nut($clearance=.75);
 }
 
 mount_base_height = 8.5;
@@ -83,14 +71,14 @@ module mount() {
   multmatrix(keyboard_offset)
   difference() {
     serial_hulls() {
-      post_place(1) translate([0, 0, -7 + .01]) cylinder(d=9.5, h=6);
+      post_place(1) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
       post_place(1) translate([0, 0, -7 + .01]) cylinder(d=6, h=5);
       multmatrix(finger_place_transformation(1.2, 4)) translate([0, 0, -10]) sphere(r=3);
       multmatrix(finger_place_transformation(1.2, 3)) translate([0, 0, -10]) sphere(r=3.5);
       multmatrix(finger_place_transformation(1.2, 2)) translate([0, 0, -10]) sphere(r=3.5);
       multmatrix(finger_place_transformation(1.2, 1)) translate([0, 0, -10]) sphere(r=3);
       post_place(2) translate([0, 0, -7 + .01]) cylinder(d=6, h=5);
-      post_place(2) translate([0, 0, -7 + .01]) cylinder(d=9.5, h=6);
+      post_place(2) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
     }
 
     post_place(1) translate([0, 0, -7]) screw_and_nut_cutout();
