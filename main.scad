@@ -307,14 +307,14 @@ module plate_trim() {
   // color("red", alpha=0.4)
   difference() {
     serial_hulls() {
-      finger_edge_n(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_s(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_n(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_s(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_n(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_s(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_n(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
-      finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.5]) plate_edge(horizontal=true);
+      finger_edge_n(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
     }
 
     for (pos=leds) {
@@ -326,7 +326,7 @@ module plate_trim() {
       multmatrix(led_transform)
       translate(led_offset)
       translate([0, 0, -6])
-        led($clearance=1);
+        led($clearance=0.5, footprint=true);
     }
   }
 
@@ -357,7 +357,20 @@ assembled_plate();
 // intersection() {
 //   assembled_plate();
 //   // keys
-//   #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
+//   // #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
 //   // screw hole
-//   #translate([-11, -51, 29]) cylinder(d=12, h=12, center=true);
+//   // #translate([-11, -51, 29]) cylinder(d=12, h=12, center=true);
+//   // leds
+//   // #serial_hulls() {
+//   //   finger_edge_n(leds[0].x, leds[0].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_s(leds[0].x, leds[0].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_n(leds[1].x, leds[1].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_s(leds[1].x, leds[1].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_n(leds[2].x, leds[2].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_s(leds[2].x, leds[2].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_n(leds[3].x, leds[3].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_s(leds[3].x, leds[3].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_n(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   //   finger_edge_s(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
+//   // }
 // }
