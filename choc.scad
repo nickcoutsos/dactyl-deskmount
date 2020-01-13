@@ -11,6 +11,8 @@ module choc_keycap() {
   depth = 16.6 * (rot == 90 ? u : h);
   thickness = 1.5;
 
+  top = !is_undef($key_pressed) && $key_pressed == true ? 2.18 : (cap_top_height - height);
+
   detail = is_undef($detail) ? false : $detail;
 
   sphere_radius = 150;
@@ -51,6 +53,8 @@ module choc_keycap() {
     }
   }
 
+  translate([0, 0, top])
+  rotate([0, 0, rot])
   union() {
     difference() {
       union() {
@@ -62,7 +66,7 @@ module choc_keycap() {
     }
 
     legs();
-    bump();
+    if (!is_undef($bump) && $bump) bump();
   }
 }
 
@@ -82,6 +86,6 @@ module legs() {
 }
 
 difference() {
-  choc_keycap($u=1);
+  choc_keycap($u=2, $rot=90);
   // translate([5, 0, 2]) cube([10, 20, 8], center=true);
 }
