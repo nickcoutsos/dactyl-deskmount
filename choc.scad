@@ -1,21 +1,20 @@
 include <definitions.scad>
 
-module choc_keycap() {
+module choc_keycap(height=3.5) {
 
   u = !is_undef($u) ? $u : 1;
   h = !is_undef($h) ? $h : 1;
-  rot = !is_undef($rot) ? $rot : 0;
+  scoop = max(0, min(1, is_undef($scoop) ? 0 : $scoop));
 
-  height = 3.5;
-  width = 17.6 * (rot == 90 ? h : u);
-  depth = 16.6 * (rot == 90 ? u : h);
+  width = 17.6 * u;
+  depth = 16.6 * h;
   thickness = 1.5;
 
   top = !is_undef($key_pressed) && $key_pressed == true ? 2.18 : (cap_top_height - height);
 
   detail = is_undef($detail) ? false : $detail;
 
-  sphere_radius = 150;
+  sphere_radius = (1 - scoop) * 150;
   sphere_offset = 2.825;
 
   module outer() {
@@ -36,8 +35,11 @@ module choc_keycap() {
   }
 
   module scoop() {
+    scoop_offset_x = u * (is_undef($scoop_offset_x) ? 0 : $scoop_offset_x);
+    scoop_offset_y = h * (is_undef($scoop_offset_y) ? 0 : $scoop_offset_y);
     scale([u, h, 1])
     translate([0, 0, sphere_offset + sphere_radius])
+    translate([scoop_offset_y, scoop_offset_y, 0])
     rotate([90, 0, 0])
     sphere(r=sphere_radius, $fa=1);
   }
@@ -45,7 +47,6 @@ module choc_keycap() {
   module bump() {
     translate([0, 0, sphere_offset])
     translate([0, 0, sphere_radius - .25])
-    rotate([-1, 0, 0])
     translate([0, 0, -sphere_radius])
     difference() {
       sphere(d=2, $fn=48);
@@ -54,7 +55,6 @@ module choc_keycap() {
   }
 
   translate([0, 0, top])
-  rotate([0, 0, rot])
   union() {
     difference() {
       union() {
@@ -66,6 +66,7 @@ module choc_keycap() {
     }
 
     legs();
+
     if (!is_undef($bump) && $bump) bump();
   }
 }
@@ -86,6 +87,17 @@ module legs() {
 }
 
 difference() {
-  choc_keycap($u=2, $rot=90);
+  // original
+  // choc_keycap();
+
+  // deep scoop
+  // choc_keycap(height=3.8, $scoop=0.81);
+
+  // deep w/ bump
+  choc_keycap(height=3.8, $scoop=0.81, $bump=true);
+
+  // thumb
+  // choc_keycap($u=2, $scoop_offset_y=-4);
+
   // translate([5, 0, 2]) cube([10, 20, 8], center=true);
 }
