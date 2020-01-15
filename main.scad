@@ -359,7 +359,7 @@ assembled_plate();
 //   // keys
 //   #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
 //   // thumb cluster
-//   #thumb_place(1, 0) translate([0, 10, 5]) cube([60, 70, 20], center=true);
+//   // #thumb_place(1, 0) translate([0, 10, 5]) cube([60, 70, 20], center=true);
 //   // screw hole
 //   // #translate([-11, -51, 29]) cylinder(d=12, h=12, center=true);
 //   // leds
