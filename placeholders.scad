@@ -113,8 +113,8 @@ module kailh_choc_plate() {
     cube(keyhole_length, center=true);
 
     rotate([0, 0, rot]) {
-      translate([0, 3.30, -2-1.125]) cube([keyhole_length+2, 3.5, 4], center=true);
-      translate([0, -3.30, -2-1.125]) cube([keyhole_length+2, 3.5, 4], center=true);
+      translate([0, 3.30, -2-1.125]) cube([keyhole_length+2, 4, 4], center=true);
+      translate([0, -3.30, -2-1.125]) cube([keyhole_length+2, 4, 4], center=true);
     }
   }
 }
