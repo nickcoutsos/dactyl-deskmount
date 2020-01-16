@@ -388,7 +388,11 @@ assembled_plate($detail=true);
 // intersection() {
 //   assembled_plate();
 //   // keys
-//   #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
+//   // #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
+//   // keys, first two rows
+//   // #union() {
+//   //   for (col=[0:5], row=[1,2]) finger_place(col, row) cube(25, center=true);
+//   // }
 //   // thumb cluster
 //   // #thumb_place(1, 0) translate([0, 10, 5]) cube([60, 70, 20], center=true);
 //   // screw hole
