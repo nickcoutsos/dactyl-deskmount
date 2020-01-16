@@ -192,7 +192,7 @@ module socket(center=false) {
 }
 
 module trrs_breakout(center=false) {
-  CLEARANCE = $clearance == undef ? 0.15 : $clearance;
+  CLEARANCE = is_undef($clearance) ? 0.15 : $clearance;
   C = [1, 1, 1] * CLEARANCE;
   pcb = [11, 12.82, 1.8];
   socket = [6, 12.25, 5];

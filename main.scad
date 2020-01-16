@@ -179,6 +179,8 @@ module accessories() {
 }
 
 module plate_trim() {
+  detail = is_undef($detail) ? false : $detail;
+
   // connect led column in corner between index column and thumb cluster
   triangle_hulls() {
     finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
@@ -202,13 +204,19 @@ module plate_trim() {
   hull() {
     finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_edge(horizontal=true);
     thumb_corner_nw(1, 1) edge_profile(90);
-    thumb_corner_ne(1, 1) rotate([0, 0, 0]) edge_profile(60);
+    thumb_corner_ne(1, 1) rotate([0, 45, 0]) edge_profile(90);
   }
   triangle_hulls() {
-    thumb_corner_nw(1, 1) edge_profile(90);
+    thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
-    thumb_corner_ne(2, 2) edge_profile(90);
-    thumb_corner_nw(2, 2) edge_profile(90);
+    thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    thumb_corner_nw(2, 2)
+    translate([10, 0, -15])
+    translate([0, 0, -plate_thickness*1.5])
+    translate([0, 0, plate_thickness])
+    rotate([-90, 0, 0])
+      plate_corner();
+    thumb_corner_nw(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
   }
 
 
@@ -276,15 +284,32 @@ module plate_trim() {
     thumb_corner_sw(2, 2) edge_profile(0);
     thumb_corner_nw(2, 2) edge_profile(0);
 
+    thumb_corner_nw(2, 2) edge_profile(90);
+    thumb_corner_ne(2, 2) edge_profile(90);
+    thumb_corner_nw(1, 1) edge_profile(90);
+  }
+
+  serial_hulls() {
     // thumb top left corner
+    thumb_corner_nw(2, 2) edge_profile(0);
     thumb_corner_nw(2, 2) edge_profile(30);
     thumb_corner_nw(2, 2) edge_profile(60);
     thumb_corner_nw(2, 2) edge_profile(90);
+  }
+
+  serial_hulls() {
     thumb_corner_nw(2, 2)
     translate([0, 0, -plate_thickness*1.5])
-    rotate([0, -90, 0])
+    rotate([-90, 0, 0])
     translate([0, 0, plate_thickness])
-      edge_profile(90);
+      edge_profile(0);
+
+    thumb_corner_nw(2, 2)
+    translate([10, 0, -15])
+    translate([0, 0, -plate_thickness*1.5])
+    translate([0, 0, plate_thickness])
+    rotate([-90, 0, 0])
+      edge_profile(45);
 
     // thumb to led column
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([-90, 0, 0]) edge_profile(0);
@@ -317,16 +342,18 @@ module plate_trim() {
       finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
     }
 
-    for (pos=leds) {
-      $fn=12;
-      $u = led_size;
-      $h = led_size;
+    if (detail) {
+      for (pos=leds) {
+        $fn=12;
+        $u = led_size;
+        $h = led_size;
 
-      finger_place(pos.x, pos.y)
-      multmatrix(led_transform)
-      translate(led_offset)
-      translate([0, 0, -6])
-        led($clearance=0.5, footprint=true);
+        finger_place(pos.x, pos.y)
+        multmatrix(led_transform)
+        translate(led_offset)
+        translate([0, 0, -6])
+          led($clearance=0.5, footprint=true);
+      }
     }
   }
 
@@ -336,19 +363,23 @@ module plate_trim() {
 }
 
 module assembled_plate() {
+  detail = is_undef($detail) ? false : $detail;
+
   difference() {
     union() {
       plate();
       plate_trim();
     }
 
-    post_place(0) m3_screw($clearance=1, footprint=true);
-    post_place(1) m3_screw($clearance=1, footprint=true);
-    post_place(2) m3_screw($clearance=1, footprint=true);
+    if (detail) {
+      post_place(0) m3_screw($clearance=1, footprint=true);
+      post_place(1) m3_screw($clearance=1, footprint=true);
+      post_place(2) m3_screw($clearance=1, footprint=true);
+    }
   }
 }
 
-assembled_plate();
+assembled_plate($detail=true);
 // plate();
 // plate_trim();
 // accessories();
