@@ -9,12 +9,12 @@ keycap_length = 17.6;
 keycap_depth = 16.6;
 keycap_height = 3.4;
 
-keyhole_length = 14;
+keyhole_length = 13.8;
 keywall_thickness = 1.5;
 
 sa_profile_key_height = 12.7;
 
-plate_thickness = 3.5;
+plate_thickness = 2.7;
 plate_vertical_padding = 2.5;
 plate_horizontal_padding = 2.5;
 

@@ -26,7 +26,8 @@ leds = [
 
 module screw_post() {
   outer = 11;
-  translate([0, 1.5, 1]) cube([outer, 3, 4], center=true);
+  depth = 4;
+  translate([0, depth / 2, 1]) cube([outer, depth, 4], center=true);
   translate([0, 0, -2]) cylinder(d=5.5, h=3);
   translate([0, 0, -1]) rotate([0, 0, 180]) arc(180, r1=outer/2, r2=0, h=4);
 }
