@@ -101,8 +101,14 @@ ball_mount([0, 30, 0]) {
   mount();
 
   multmatrix(keyboard_offset) {
-    color("lightsteelblue") assembled_plate();
-    accessories($render_controller=true);
+    color("lightsteelblue") assembled_plate($detail=false);
+    accessories(
+      $render_controller=true,
+      $render_leds=true,
+      $render_switches=true,
+      $render_keycaps=true,
+      $key_pressed=false
+    );
 
     for (i=[0:2]) post_place(i) {
       m3_screw();
