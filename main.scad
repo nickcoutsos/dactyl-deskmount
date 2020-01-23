@@ -369,14 +369,14 @@ module plate_trim() {
   // color("red", alpha=0.4)
   difference() {
     serial_hulls() {
-      finger_edge_n(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_s(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_n(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_s(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_n(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_s(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_n(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
-      finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_n(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
+      finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0, -3]) scale([1.2, 1, 0.75]) plate_edge(horizontal=true);
     }
 
     if (detail) {
