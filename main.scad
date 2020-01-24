@@ -124,13 +124,20 @@ module plate() {
   }
 
   triangle_hulls() {
-    finger_corner_sw(1, 4) plate_corner();
     thumb_edge_e(0, 0) plate_corner();
-    finger_corner_nw(1, 4) plate_corner();
+    finger_corner_sw(1, 4) plate_corner();
     thumb_corner_ne(0, 0) plate_corner();
+    finger_corner_nw(1, 4) plate_corner();
+  }
+  triangle_hulls() {
+    finger_corner_nw(1, 4) plate_corner();
     finger_corner_sw(1, 3) plate_corner();
-    thumb_corner_nw(0, 0) plate_corner();
+    thumb_corner_ne(0, 0) plate_corner();
     finger_corner_sw(0, 3) plate_corner();
+    thumb_corner_nw(0, 0) plate_corner();
+    thumb_corner_ne(1, 0) plate_corner();
+  }
+  triangle_hulls() {
     thumb_corner_ne(1, 0) plate_corner();
     thumb_corner_se(1, 1) plate_corner();
     finger_corner_sw(0, 3) plate_corner();
@@ -235,7 +242,6 @@ module plate_trim() {
       plate_corner();
     thumb_corner_nw(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
   }
-
 
   serial_hulls(close=false) {
     // top left corner
@@ -345,12 +351,12 @@ module plate_trim() {
     translate([0, 0, plate_thickness])
     rotate([-90, 0, 0]) {
       edge_profile(30);
-      edge_profile(60);
-      edge_profile(90);
+      edge_profile(50);
+      edge_profile(70);
     }
 
     // thumb to led column
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([-90, 0, 0]) edge_profile(0);
+    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([-90, 0, 0]) edge_profile(30);
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([0, 0, 0]) edge_profile(0);
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
     finger_corner_nw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
