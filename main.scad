@@ -12,6 +12,7 @@ $render_switches = false;
 $render_keycaps = false;
 $render_controller = false;
 $render_leds = true;
+$render_trrs = false;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -23,6 +24,16 @@ leds = [
   [-0.75, 2.34],
   [-0.75, 1.96],
 ];
+
+module position_trrs() {
+  multmatrix(thumb_place_transformation(1, 1.5))
+  translate([-2, -6, -14.5])
+  rotate([69, 0, 0])
+  rotate([0, 0, 164.5])
+  rotate([0, -1, 0])
+  translate([0, 0, -0.25])
+    children();
+}
 
 module screw_post() {
   outer = 11;
@@ -199,6 +210,10 @@ module accessories() {
     socket(center=true);
     translate([0, 0, 2]) pro_micro(center=true);
   }
+
+  if ($render_trrs) {
+    position_trrs() trrs_breakout(center=true);
+  }
 }
 
 module plate_trim() {
@@ -235,7 +250,7 @@ module plate_trim() {
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
     thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     thumb_corner_nw(2, 2)
-    translate([10, 0, -15])
+    translate([10, -1, -15])
     translate([0, 0, -plate_thickness*1.5])
     translate([0, 0, plate_thickness])
     rotate([-90, 0, 0])
@@ -346,7 +361,7 @@ module plate_trim() {
       edge_profile(0);
 
     thumb_corner_nw(2, 2)
-    translate([10, 0, -15])
+    translate([10, -1, -15])
     translate([0, 0, -plate_thickness*1.5])
     translate([0, 0, plate_thickness])
     rotate([-90, 0, 0]) {
@@ -404,6 +419,18 @@ module plate_trim() {
   post_place(0) rotate([0, 0, -90]) screw_post();
   post_place(1) rotate([0, 0, 0]) screw_post();
   post_place(2) rotate([0, 0, 180]) screw_post();
+
+  position_trrs() {
+    hull() {
+      translate([-6, 1.5, 1.5]) cube([1.25, 11.5, 2.5], center=true);
+      translate([-8, 1.5, 0]) cube([1.25, 11, .5], center=true);
+    }
+
+    hull() {
+      translate([6, 1.5, 1.5]) cube([1.25, 11.5, 2.5], center=true);
+      translate([8, 1.5, 0]) cube([1.25, 11, .5], center=true);
+    }
+  }
 }
 
 module assembled_plate() {
@@ -419,6 +446,7 @@ module assembled_plate() {
       post_place(0) m3_screw($clearance=1, footprint=true);
       post_place(1) m3_screw($clearance=1, footprint=true);
       post_place(2) m3_screw($clearance=1, footprint=true);
+      position_trrs() trrs_breakout(center=true, $clearance=1);
     }
   }
 }

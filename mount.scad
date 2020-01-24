@@ -107,6 +107,7 @@ ball_mount([0, 30, 0]) {
       $render_leds=true,
       $render_switches=true,
       $render_keycaps=true,
+      $render_trrs=true,
       $key_pressed=false
     );
 
