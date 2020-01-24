@@ -12,7 +12,7 @@ $render_switches = false;
 $render_keycaps = false;
 $render_controller = false;
 $render_leds = true;
-$render_trrs = false;
+$render_trrs = true;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -28,10 +28,10 @@ leds = [
 module position_trrs() {
   multmatrix(thumb_place_transformation(1, 1.5))
   translate([-2, -6, -14.5])
-  rotate([69, 0, 0])
+  rotate([65, 0, 0])
   rotate([0, 0, 164.5])
-  rotate([0, -1, 0])
-  translate([0, 0, -0.25])
+  rotate([0, 0, 0])
+  translate([0, 0.2, -0.25])
     children();
 }
 
@@ -458,7 +458,7 @@ assembled_plate($detail=true);
 
 /// samples for test prints
 // intersection() {
-//   assembled_plate();
+//   assembled_plate($detail=true);
 //   // keys
 //   // #translate([-9, 11, 15]) cube([40, 40, 24], center=true);
 //   // keys, first two rows
@@ -482,4 +482,6 @@ assembled_plate($detail=true);
 //   //   finger_edge_n(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
 //   //   finger_edge_s(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
 //   // }
+//   // trrs mount
+//   // #position_trrs() cube([15, 18, 8], center=true);
 // }
