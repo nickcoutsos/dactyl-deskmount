@@ -149,20 +149,28 @@ module jr_connector(pin_count) {
   cube([2.4*pin_count + 2.6/2, 2.6, 14.1]);
 }
 
-module micro_usb_breakout(center=false) {
-  CLEARANCE = $clearance == undef ? 0.15 : $clearance;
+module micro_usb_breakout(center=false, footprint=false) {
+  CLEARANCE = is_undef($clearance) ? 0.15 : $clearance;
   C = [1, 1, 1] * CLEARANCE;
-  pcb_dimensions = [12.7, 14.1, 1.8] + C;
-  connector_dimensions = [6, 5, 2] + C;
+  pcb_dimensions = [12.7, 14.1, 1.8];
+  connector_dimensions = [6, 5, 2];
 
-  translate(center ? pcb_dimensions/-2 : [0, 0, 0])
+  translate(center ? [0, 0, 0] : pcb_dimensions/2)
   rotate([0, 0, 180])
-  translate(-C/2)
   {
-    color("mediumblue") cube(pcb_dimensions);
+    color("mediumblue") cube(pcb_dimensions + C, center=true);
     color("silver")
-    translate([(pcb_dimensions.x - connector_dimensions.x)/2, 0, pcb_dimensions.z])
-      cube(connector_dimensions);
+    translate([
+      0,
+      -pcb_dimensions.y + connector_dimensions.y,
+      pcb_dimensions.z + connector_dimensions.z
+    ] / 2) {
+      cube(connector_dimensions + C, center=true);
+      if (footprint) {
+        translate([0, -5, 0])
+        cube(connector_dimensions + C + [0, 10, 0], center=true);
+      }
+    }
   }
 }
 
