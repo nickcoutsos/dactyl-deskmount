@@ -12,8 +12,9 @@ $render_all = false;
 $render_switches = false;
 $render_keycaps = false;
 $render_controller = false;
-$render_leds = true;
+$render_leds = false;
 $render_trrs = false;
+$render_usb = false;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -33,6 +34,13 @@ module position_trrs() {
   rotate([0, 0, 164.5])
   rotate([0, -1, 0])
   translate([0, 0, -0.25])
+    children();
+}
+
+module position_usb_port() {
+  multmatrix(finger_place_transformation(0.5, 1))
+  translate([0, 5, -6.5])
+  rotate([-18, 0, 0])
     children();
 }
 
@@ -215,6 +223,10 @@ module accessories() {
   if ($render_trrs || $render_all) {
     position_trrs() trrs_breakout(center=true);
   }
+
+  if ($render_usb || $render_all) {
+    position_usb_port() micro_usb_breakout(center=true);
+  }
 }
 
 module plate_trim() {
@@ -266,6 +278,7 @@ module plate_trim() {
 
     // top edge
     finger_corner_nw(1, 1) edge_profile(90);
+    finger_edge_n(1, 1) edge_profile(90);
     finger_corner_ne(1, 1) edge_profile(60);
     finger_corner_nw(2, 1) edge_profile(60);
     finger_corner_ne(2, 1) edge_profile(120);
@@ -432,6 +445,24 @@ module plate_trim() {
       translate([8, 1.5, 0]) cube([1.25, 11, .5], center=true);
     }
   }
+
+  hull() {
+    finger_edge_n(1, 1) translate([-1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+  }
+  hull() {
+    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+  }
+  hull() {
+    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    finger_edge_n(0, 1) translate([1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+  }
+  position_usb_port() translate([0, 5.5 + plate_thickness/2, 0]) cube([15, plate_thickness, 4], center=true);
 }
 
 module assembled_plate() {
@@ -448,6 +479,7 @@ module assembled_plate() {
       post_place(1) m3_screw($clearance=1, footprint=true);
       post_place(2) m3_screw($clearance=1, footprint=true);
       position_trrs() trrs_breakout(center=true, $clearance=1);
+      position_usb_port() micro_usb_breakout($clearance=1, center=true, footprint=true);
     }
   }
 }
@@ -483,4 +515,6 @@ assembled_plate($detail=true);
 //   //   finger_edge_n(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
 //   //   finger_edge_s(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
 //   // }
+//   // usb breakout
+//   // multmatrix(finger_place_transformation(0.5, 0.5)) translate([0, 0, -7]) rotate([-20, 0, 0]) cube([16, 10, 10], center=true);
 // }
