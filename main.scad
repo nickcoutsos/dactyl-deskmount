@@ -8,6 +8,7 @@ include <definitions.scad>
 
 $fn = 12;
 $key_pressed = false;
+$render_all = false;
 $render_switches = false;
 $render_keycaps = false;
 $render_controller = false;
@@ -175,8 +176,8 @@ module plate() {
 module accessories() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
-      if ($render_switches) finger_place(col, row) kailh_choc_switch();
-      if ($render_keycaps) finger_place(col, row) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) finger_place(col, row) kailh_choc_switch();
+      if ($render_keycaps || $render_all) finger_place(col, row) color("white") kailh_choc_keycap();
     }
   }
 
@@ -184,12 +185,12 @@ module accessories() {
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      if ($render_switches) thumb_place(colIndex, rowIndex) kailh_choc_switch();
-      if ($render_keycaps) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) thumb_place(colIndex, rowIndex) kailh_choc_switch();
+      if ($render_keycaps || $render_all) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
     }
   }
 
-  if ($render_leds)
+  if ($render_leds || $render_all)
   for (pos=leds) {
     $fn=12;
     $u = led_size;
@@ -203,7 +204,7 @@ module accessories() {
   }
 
 
-  if ($render_controller)
+  if ($render_controller || $render_all)
   thumb_place(0.5, 0)
   translate([0, 0, -10])
   rotate([180, 0, 0]) {
@@ -211,7 +212,7 @@ module accessories() {
     translate([0, 0, 2]) pro_micro(center=true);
   }
 
-  if ($render_trrs) {
+  if ($render_trrs || $render_all) {
     position_trrs() trrs_breakout(center=true);
   }
 }
