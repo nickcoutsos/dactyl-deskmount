@@ -101,7 +101,7 @@ ball_mount([0, 30, 0]) {
   mount();
 
   multmatrix(keyboard_offset) {
-    color("lightsteelblue") assembled_plate($detail=false);
+    assembled_plate($detail=false);
     accessories(
       $render_controller=true,
       $render_leds=true,

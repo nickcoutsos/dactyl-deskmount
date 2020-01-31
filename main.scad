@@ -27,6 +27,14 @@ leds = [
   [-0.75, 1.96],
 ];
 
+module fillet(r, h, center=false) {
+  linear_extrude(height=h)
+  difference() {
+    square([r, r]);
+    translate([r, r, 0]) circle(r);
+  }
+}
+
 module position_trrs() {
   multmatrix(thumb_place_transformation(1, 1.5))
   translate([-2, -6, -14.5])
@@ -211,13 +219,11 @@ module accessories() {
       led();
   }
 
-
-  if ($render_controller || $render_all)
-  thumb_place(0.5, 0)
-  translate([0, 0, -10])
-  rotate([180, 0, 0]) {
-    socket(center=true);
-    translate([0, 0, 2]) pro_micro(center=true);
+  if ($render_controller || $render_all) {
+    pcb_socket_mount() {
+      socket(center=true);
+      translate([0, 0, 2]) pro_micro(center=true);
+    }
   }
 
   if ($render_trrs || $render_all) {
@@ -481,6 +487,77 @@ module assembled_plate() {
       position_trrs() trrs_breakout(center=true, $clearance=1);
       position_usb_port() micro_usb_breakout($clearance=1, center=true, footprint=true);
     }
+  }
+}
+
+module pcb_socket_mount() {
+  multmatrix(thumb_place_transformation(0.5, -0.5))
+  translate([0, 0, -7.5]) {
+    difference() {
+      union() {
+        difference() {
+          cube([34.75, 22, 2], center=true);
+          cube([31, 16.5, 4], center=true);
+        }
+
+        translate([0, 0, 0])
+        cube([34.75, 5, 2], center=true);
+      }
+
+      translate([0, 0, -2])
+      rotate([180, 0, 0])
+        socket(center=true, $clearance=0.5);
+    }
+
+    translate([0, 0, -2])
+    rotate([180, 0, 0])
+      children();
+  }
+
+  multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) {
+    translate([0, plate_height/2+3, -1]) cube([plate_width, 2, 2], center=true);
+    translate([0, -(plate_height/2+3), -1]) cube([plate_width, 2, 2], center=true);
+  }
+
+  multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) {
+    translate([0, plate_height/2+3, -1]) cube([plate_width, 2, 2], center=true);
+    translate([0, -(plate_height/2+3), -1]) cube([plate_width, 2, 2], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2, plate_height/2+3, -1]) cube([.1, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2, plate_height/2+3, -1]) cube([.1, 2, 2], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2, -(plate_height/2+3), -1]) cube([.1, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2, -(plate_height/2+3), -1]) cube([.1, 2, 2], center=true);
   }
 }
 
