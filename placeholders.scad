@@ -149,43 +149,60 @@ module jr_connector(pin_count) {
   cube([2.4*pin_count + 2.6/2, 2.6, 14.1]);
 }
 
-module micro_usb_breakout(center=false) {
-  CLEARANCE = $clearance == undef ? 0.15 : $clearance;
+module micro_usb_breakout(center=false, footprint=false) {
+  CLEARANCE = is_undef($clearance) ? 0.15 : $clearance;
   C = [1, 1, 1] * CLEARANCE;
-  pcb_dimensions = [12.7, 14.1, 1.8] + C;
-  connector_dimensions = [6, 5, 2] + C;
+  pcb_dimensions = [12.7, 14.1, 1.8];
+  connector_dimensions = [6, 5, 2];
 
-  translate(center ? pcb_dimensions/-2 : [0, 0, 0])
+  translate(center ? [0, 0, 0] : pcb_dimensions/2)
   rotate([0, 0, 180])
-  translate(-C/2)
   {
-    color("mediumblue") cube(pcb_dimensions);
+    color("mediumblue") cube(pcb_dimensions + C, center=true);
     color("silver")
-    translate([(pcb_dimensions.x - connector_dimensions.x)/2, 0, pcb_dimensions.z])
-      cube(connector_dimensions);
+    translate([
+      0,
+      -pcb_dimensions.y + connector_dimensions.y,
+      pcb_dimensions.z + connector_dimensions.z
+    ] / 2) {
+      cube(connector_dimensions + C, center=true);
+      if (footprint) {
+        translate([0, -5, 0])
+        cube(connector_dimensions + C + [0, 10, 0], center=true);
+      }
+    }
   }
 }
 
 module socket(center=false) {
-  translate(center ? -[33, 17, 1.5]/2 : [0, 0, 0]) {
+  c = [1, 1, 1] * (is_undef($clearance) ? 0 : $clearance);
+  thickness = 3.02;
+  rect = [30.55, 17.76, thickness];
+
+  bar = [thickness, 17.76, 2.05];
+
+  translate(center ? [0, 0, 0] : rect/2) {
     color([1,1,1]*.2) {
-      translate([0, 0, 0]) cube([33, 2.5, 2]);
-      translate([0, 17-2.5, 0]) cube([33, 2.5, 2]);
-      translate([0, 0, 0]) cube([2.5, 17, 1.25]);
-      translate([15, 0, 0]) cube([2.5, 17, 1.25]);
-      translate([33-2.5, 0, 0]) cube([2.5, 17, 1.25]);
+      translate([0, -(rect.y - thickness) / 2, 0]) cube([rect.x, thickness, rect.z] + c, center=true);
+      translate([0, (rect.y - thickness)/2, 0]) cube([rect.x, thickness, rect.z] + c, center=true);
+
+      translate([0, 0, (-rect.z + bar.z)/2]) {
+        cube(bar + c, center=true);
+        translate([-(rect.x - bar.x)/2, 0, 0]) cube(bar + c, center=true);
+        translate([(rect.x - bar.x)/2, 0, 0]) cube(bar + c, center=true);
+      }
     }
 
+    translate(-[rect.x, 0, rect.z]/2)
     color("silver") {
-      for (i=[1:13]) {
-        translate([2.54 * (i - .5), 2.54/2, 0.5]) cube([0.64, 0.64, 3.5], center=true);
-        translate([2.54 * (i - .5), 2.54/2, -2]) cube([0.30, 0.30, 4], center=true);
+      for (i=[1:12]) {
+        translate([2.54 * (i - .5), 15.28/2, rect.z]) cube([0.64, 0.64, 0.1] + c, center=true);
+        translate([2.54 * (i - .5), 15.28/2, -1.98/2]) cube([0.64, 0.64, 1.98] + c, center=true);
+        translate([2.54 * (i - .5), 15.28/2, -4.57/2]) cube([0.30, 0.30, 4.57] + c, center=true);
 
-        translate([0, 17, 0])
-        mirror([0, 1, 0]) {
-          translate([2.54 * (i - .5), 2.54/2, 0.5]) cube([0.64, 0.64, 3.5], center=true);
-          translate([2.54 * (i - .5), 2.54/2, -2]) cube([0.30, 0.30, 4], center=true);
-        }
+        translate([2.54 * (i - .5), -15.28/2, rect.z]) cube([0.64, 0.64, 0.1] + c, center=true);
+        translate([2.54 * (i - .5), -15.28/2, -1.98/2]) cube([0.64, 0.64, 1.98] + c, center=true);
+        translate([2.54 * (i - .5), -15.28/2, -4.57/2]) cube([0.30, 0.30, 4.57] + c, center=true);
       }
     }
   }

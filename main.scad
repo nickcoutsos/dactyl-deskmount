@@ -8,11 +8,13 @@ include <definitions.scad>
 
 $fn = 12;
 $key_pressed = false;
+$render_all = false;
 $render_switches = false;
 $render_keycaps = false;
 $render_controller = false;
-$render_leds = true;
-$render_trrs = true;
+$render_leds = false;
+$render_trrs = false;
+$render_usb = false;
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];
@@ -25,6 +27,14 @@ leds = [
   [-0.75, 1.96],
 ];
 
+module fillet(r, h, center=false) {
+  linear_extrude(height=h)
+  difference() {
+    square([r, r]);
+    translate([r, r, 0]) circle(r);
+  }
+}
+
 module position_trrs() {
   multmatrix(thumb_place_transformation(1, 1.5))
   translate([-2, -6, -14.5])
@@ -32,6 +42,13 @@ module position_trrs() {
   rotate([0, 0, 164.5])
   rotate([0, 0, 0])
   translate([0, 0.2, -0.25])
+    children();
+}
+
+module position_usb_port() {
+  multmatrix(finger_place_transformation(0.5, 1))
+  translate([0, 5, -6.5])
+  rotate([-18, 0, 0])
     children();
 }
 
@@ -175,8 +192,8 @@ module plate() {
 module accessories() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
-      if ($render_switches) finger_place(col, row) kailh_choc_switch();
-      if ($render_keycaps) finger_place(col, row) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) finger_place(col, row) kailh_choc_switch();
+      if ($render_keycaps || $render_all) finger_place(col, row) color("white") kailh_choc_keycap();
     }
   }
 
@@ -184,12 +201,12 @@ module accessories() {
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      if ($render_switches) thumb_place(colIndex, rowIndex) kailh_choc_switch();
-      if ($render_keycaps) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) thumb_place(colIndex, rowIndex) kailh_choc_switch();
+      if ($render_keycaps || $render_all) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
     }
   }
 
-  if ($render_leds)
+  if ($render_leds || $render_all)
   for (pos=leds) {
     $fn=12;
     $u = led_size;
@@ -202,17 +219,19 @@ module accessories() {
       led();
   }
 
-
-  if ($render_controller)
-  thumb_place(0.5, 0)
-  translate([0, 0, -10])
-  rotate([180, 0, 0]) {
-    socket(center=true);
-    translate([0, 0, 2]) pro_micro(center=true);
+  if ($render_controller || $render_all) {
+    pcb_socket_mount() {
+      socket(center=true);
+      translate([0, 0, 2]) pro_micro(center=true);
+    }
   }
 
-  if ($render_trrs) {
+  if ($render_trrs || $render_all) {
     position_trrs() trrs_breakout(center=true);
+  }
+
+  if ($render_usb || $render_all) {
+    position_usb_port() micro_usb_breakout(center=true);
   }
 }
 
@@ -265,6 +284,7 @@ module plate_trim() {
 
     // top edge
     finger_corner_nw(1, 1) edge_profile(90);
+    finger_edge_n(1, 1) edge_profile(90);
     finger_corner_ne(1, 1) edge_profile(60);
     finger_corner_nw(2, 1) edge_profile(60);
     finger_corner_ne(2, 1) edge_profile(120);
@@ -431,6 +451,24 @@ module plate_trim() {
       translate([8, 1.5, 0]) cube([1.25, 11, .5], center=true);
     }
   }
+
+  hull() {
+    finger_edge_n(1, 1) translate([-1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+  }
+  hull() {
+    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+  }
+  hull() {
+    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    finger_edge_n(0, 1) translate([1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+  }
+  position_usb_port() translate([0, 5.5 + plate_thickness/2, 0]) cube([15, plate_thickness, 4], center=true);
 }
 
 module assembled_plate() {
@@ -447,7 +485,79 @@ module assembled_plate() {
       post_place(1) m3_screw($clearance=1, footprint=true);
       post_place(2) m3_screw($clearance=1, footprint=true);
       position_trrs() trrs_breakout(center=true, $clearance=1);
+      position_usb_port() micro_usb_breakout($clearance=1, center=true, footprint=true);
     }
+  }
+}
+
+module pcb_socket_mount() {
+  multmatrix(thumb_place_transformation(0.5, -0.5))
+  translate([0, 0, -7.5]) {
+    difference() {
+      union() {
+        difference() {
+          cube([34.75, 22, 2], center=true);
+          cube([31, 16.5, 4], center=true);
+        }
+
+        translate([0, 0, 0])
+        cube([34.75, 5, 2], center=true);
+      }
+
+      translate([0, 0, -2])
+      rotate([180, 0, 0])
+        socket(center=true, $clearance=0.5);
+    }
+
+    translate([0, 0, -2])
+    rotate([180, 0, 0])
+      children();
+  }
+
+  multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) {
+    translate([0, plate_height/2+3, -1]) cube([plate_width, 2, 2], center=true);
+    translate([0, -(plate_height/2+3), -1]) cube([plate_width, 2, 2], center=true);
+  }
+
+  multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) {
+    translate([0, plate_height/2+3, -1]) cube([plate_width, 2, 2], center=true);
+    translate([0, -(plate_height/2+3), -1]) cube([plate_width, 2, 2], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([-33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -8]) translate([33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
+  }
+
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2, plate_height/2+3, -1]) cube([.1, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2, plate_height/2+3, -1]) cube([.1, 2, 2], center=true);
+  }
+  hull() {
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2, -(plate_height/2+3), -1]) cube([.1, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2, -(plate_height/2+3), -1]) cube([.1, 2, 2], center=true);
   }
 }
 
@@ -484,4 +594,6 @@ assembled_plate($detail=true);
 //   // }
 //   // trrs mount
 //   // #position_trrs() cube([15, 18, 8], center=true);
+//   // usb breakout
+//   // multmatrix(finger_place_transformation(0.5, 0.5)) translate([0, 0, -7]) rotate([-20, 0, 0]) cube([16, 10, 10], center=true);
 // }
