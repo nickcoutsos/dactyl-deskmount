@@ -173,6 +173,15 @@ ball_mount([0, 30, 0]) {
 //     tee_nut($clearance=1, footprint=true);
 //     multmatrix(keyboard_offset) assembled_plate();
 //   }
+
+//   // ball mount socket
+//   // table_hook();
+//   // rotate(90, Z)
+//   // rotate(60, X)
+//   // rotate(180, Z)
+//   // translate([0, 0, -25])
+//   //   cylinder(d=40, h=10, center=true);
+
 //   // nut holder
 //   // #translate([10, -42, 22]) cylinder(d=12, h=12, center=true);
 //   // base
