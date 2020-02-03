@@ -110,7 +110,7 @@ module table_hook() {
       rotate(60, X)
       rotate(180, Z)
       translate([0, 0, -23.98 - 3])
-        cylinder(d=28.44 + 10, h=29.26 -5 +1);
+        cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
 
       translate([-20-6, 20, -5]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=9.375);
       translate([-26, 45, 5]) rotate([60, 0, 0]) truncated_sphere(r=9.375);
@@ -123,24 +123,24 @@ module table_hook() {
       color("gray") translate([0, 68.98, 0]) translate([0, 25, -15]) cube([400, 50, 30], center=true);
     }
 
-    rotate(90, Z)
-    rotate(60, X)
-    rotate(180, Z)
-    translate([0, 0, -23.98]) {
+    multmatrix(ball_mount_base_orientation)
+    translate([0, 0, -ball_mount_height]) {
       translate([0, 10.39 + 4, 0]/2) cylinder(d=4.5, h=40, center=true);
       translate([0, 10.39 + 4, 0]/-2) cylinder(d=4.5, h=40, center=true);
       cylinder(d=6.35, h=40, center=true);
-      translate([0, 0, 0]) cylinder(d=28.44 + 1, h=29.26 +1, $fn=48);
+      translate([0, 0, 0]) cylinder(d=ball_mount_diameter + 1, h=29.26 +1, $fn=48);
       translate([0, 0, -3]) rotate([180, 0, 0]) cylinder(d=30, h=15);
-      translate([0, (28.44 + 6)/2, 22])
-      rotate([90, 0, 0])
-        cylinder(d=20, h=15, center=true);
+
+      translate([0, ball_mount_diameter/2, 18]) {
+        cube([10, 10, 10], center=true);
+        translate([0, 0, -5]) rotate([90, 0, 0]) cylinder(d=10, h=15, center=true);
+      }
     }
   }
 }
 
 // mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
-ball_mount([0, 30, 0]) {
+ball_mount() {
   color("gold") tee_nut();
   mount();
 

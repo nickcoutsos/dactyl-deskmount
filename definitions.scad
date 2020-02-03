@@ -1,3 +1,6 @@
+use <scad-utils/linalg.scad>
+use <scad-utils/transformations.scad>
+
 X = [1, 0, 0];
 Y = [0, 1, 0];
 Z = [0, 0, 1];
@@ -69,6 +72,21 @@ thumb_overrides = [
   [0, 0, 1, 2, 90],
   [1, 0, 1, 2, 90]
 ];
+
+ball_mount_socket_thickness = 3;
+ball_mount_diameter = 28.44;
+ball_mount_height = 23.98;
+ball_mount_base_orientation = identity4()
+  * rotation([0, 0, 90])
+  * rotation([60, 0, 0])
+  * rotation([0, 0, 180]);
+
+ball_mount_pivot_orientation = identity4()
+ * rotation([0, 30, 0]);
+
+desk_thickness = 12.99;
+desk_available_depth = 68.98;
+desk_top_offset = [0, 50, 40];
 
 function get_overrides (source, colIndex, rowIndex) = (
   let(matches = [
