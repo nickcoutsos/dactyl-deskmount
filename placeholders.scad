@@ -277,7 +277,7 @@ module edge_profile(rot=0) {
 
 module ball_mount(pivot=[0, 0, 0]) {
   rotate(90, Z)
-  rotate(50, X)
+  rotate(60, X)
   rotate(180, Z) {
     translate([0, 0, -23.98])
     color("dimgray")
@@ -287,6 +287,9 @@ module ball_mount(pivot=[0, 0, 0]) {
       translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) sphere(r=12);
       translate([0, 0, 21.55 + 4]) rotate([90, 0, 0]) cylinder(d=8, h=20);
       translate([0, -10, 21.55 + 8]) cube([8, 10, 8], center=true);
+      translate([0, 10.39 + 4, 0]/2) cylinder(d=4, h=5, center=true);
+      translate([0, 10.39 + 4, 0]/-2) cylinder(d=4, h=5, center=true);
+      cylinder(d=6.35, h=4, center=true);
     }
 
     translate([0, 0, -23.98])

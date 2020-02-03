@@ -8,7 +8,7 @@ use <main.scad>
 include <definitions.scad>
 
 $fn = 12;
-keyboard_offset = rotation([0, -20, 0]) * translation([30, 10, -6]);
+keyboard_offset = rotation([0, -20, 0]) * translation([30, 5, -6]);
 
 module tee_nut(footprint=false) {
   $fn=26;
@@ -96,9 +96,57 @@ module mount() {
   }
 }
 
+module table() {
+  translate([0, 50, 40]) {
+    color("tan") translate([0, 60, -12.99/2]) cube([400, 120, 12.99], center=true);
+    color("gray") translate([0, 68.98, 0]) translate([0, 25, -20]) cube([400, 50, 20], center=true);
+  }
+}
+
+module table_hook() {
+  difference() {
+    triangle_hulls() {
+      rotate(90, Z)
+      rotate(60, X)
+      rotate(180, Z)
+      translate([0, 0, -23.98 - 3])
+        cylinder(d=28.44 + 10, h=29.26 -5 +1);
+
+      translate([-20-6, 20, -5]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=9.375);
+      translate([-26, 45, 5]) rotate([60, 0, 0]) truncated_sphere(r=9.375);
+      translate([-26, 70, 25]) rotate([90, 0, 0]) truncated_sphere(r=9.375);
+      translate([-26, 50, 40]) rotate([0, 0, 0]) truncated_sphere(r=9.375);
+    }
+
+    translate([0, 50, 40]) {
+      color("tan") translate([0, 60, -12.99/2]) cube([400, 120, 12.99], center=true);
+      color("gray") translate([0, 68.98, 0]) translate([0, 25, -15]) cube([400, 50, 30], center=true);
+    }
+
+    rotate(90, Z)
+    rotate(60, X)
+    rotate(180, Z)
+    translate([0, 0, -23.98]) {
+      translate([0, 10.39 + 4, 0]/2) cylinder(d=4, h=40, center=true);
+      translate([0, 10.39 + 4, 0]/-2) cylinder(d=4, h=40, center=true);
+      cylinder(d=6.35, h=40, center=true);
+      translate([0, 0, 0]) cylinder(d=28.44 + 1, h=29.26 +1);
+      translate([0, 0, -3]) rotate([180, 0, 0]) cylinder(d=30, h=15);
+      translate([0, (28.44 + 6)/2, 22])
+      rotate([90, 0, 0])
+        cylinder(d=20, h=15, center=true);
+    }
+  }
+}
+
+// mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
 ball_mount([0, 30, 0]) {
   color("gold") tee_nut();
   mount();
+
+  translate(-[0, 0, 15.05+8.47])
+  rotate([0, -30, 0])
+  table_hook();
 
   multmatrix(keyboard_offset) {
     assembled_plate($detail=false);
@@ -125,6 +173,15 @@ ball_mount([0, 30, 0]) {
 //     tee_nut($clearance=1, footprint=true);
 //     multmatrix(keyboard_offset) assembled_plate();
 //   }
+
+//   // ball mount socket
+//   // table_hook();
+//   // rotate(90, Z)
+//   // rotate(60, X)
+//   // rotate(180, Z)
+//   // translate([0, 0, -25])
+//   //   cylinder(d=40, h=10, center=true);
+
 //   // nut holder
 //   // #translate([10, -42, 22]) cylinder(d=12, h=12, center=true);
 //   // base

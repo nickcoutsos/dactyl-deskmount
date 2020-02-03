@@ -94,7 +94,7 @@ module place_thumb_keys (columns, rows) {
 }
 
 posts = [
-  thumb_place_transformation(2.5, 0.5) * translation([-2, 0, -6.25]) * rotation([0, -20, 0]),
+  thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]),
   finger_place_transformation(1.2, 4.55) * translation([0, 0, -6.25]) * rotation([37, 0, 0]),
   finger_place_transformation(1.2, 0.45) * translation([0, 0, -6.25]) * rotation([-24, 0, 0])
 ];

@@ -47,3 +47,20 @@ module serial_hulls(close=false) {
     }
   }
 }
+
+module mirror_axes(axes) {
+  children();
+  for (axis=axes)
+    mirror(axis)
+      children();
+}
+
+
+module truncated_sphere(r=undef, d=undef, rr=0.8) {
+  radius = is_undef(r) ? (is_undef(d) ? 2 : d / 2) : r;
+  difference() {
+    rotate([0, 90, 0]) sphere(radius);
+    translate([-radius, 0, 0]) cube([(1 - rr) * radius, radius, radius] * 2, center=true);
+    translate([+radius, 0, 0]) cube([(1 - rr) * radius, radius, radius] * 2, center=true);
+  }
+}
