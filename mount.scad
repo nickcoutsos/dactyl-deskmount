@@ -127,10 +127,10 @@ module table_hook() {
     rotate(60, X)
     rotate(180, Z)
     translate([0, 0, -23.98]) {
-      translate([0, 10.39 + 4, 0]/2) cylinder(d=4, h=40, center=true);
-      translate([0, 10.39 + 4, 0]/-2) cylinder(d=4, h=40, center=true);
+      translate([0, 10.39 + 4, 0]/2) cylinder(d=4.5, h=40, center=true);
+      translate([0, 10.39 + 4, 0]/-2) cylinder(d=4.5, h=40, center=true);
       cylinder(d=6.35, h=40, center=true);
-      translate([0, 0, 0]) cylinder(d=28.44 + 1, h=29.26 +1);
+      translate([0, 0, 0]) cylinder(d=28.44 + 1, h=29.26 +1, $fn=48);
       translate([0, 0, -3]) rotate([180, 0, 0]) cylinder(d=30, h=15);
       translate([0, (28.44 + 6)/2, 22])
       rotate([90, 0, 0])
