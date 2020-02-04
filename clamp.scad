@@ -7,7 +7,7 @@ $fn = 12;
 
 radius = 17.5/2 * 1.25;
 
-module hook() {
+module clamp() {
   clamp_offset = -[0, -16, desk_thickness + 2];
   difference() {
     hull() {
@@ -38,7 +38,7 @@ module hook() {
 }
 
 // table();
-hook();
+clamp();
 
 r = 2;
 c = [1, 1, 1] * (is_undef($clearance) ? 0 : $clearance);
