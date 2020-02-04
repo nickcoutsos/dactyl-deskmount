@@ -407,3 +407,52 @@ module arc(a=90, r1=1, r2=1, h=1, center=false) {
     }
   }
 }
+
+module tee_nut(footprint=false) {
+  $fn=26;
+  clearance = is_undef($clearance) ? 0 : $clearance;
+  height = 8.98;
+  prongs = [3.5, 1.58, 7.75];
+  diameter = 19;
+
+  difference() {
+    translate([0, 0, height])
+    translate([0, 0, clearance/2])
+    rotate([180, 0, 0]) {
+      translate([0, 0, clearance/4]) cylinder(d=diameter + clearance/2, h=1.35 + clearance/2);
+      translate([0, 0, clearance/4]) cylinder(d=7.7 + clearance/2, h=height + clearance/2);
+      translate([0, 0, clearance/4]) cylinder(d1=10 + clearance/2, d2=7.7 + clearance/2, h=2 + clearance/2);
+      rotate([0, 0, 90*1]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+      rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+      rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+      rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
+    }
+
+    if (!is_undef($detail) && $detail) {
+      cylinder(d=6.35, h=20, center=true);
+    }
+  }
+
+  if (footprint) {
+    translate([0, 0, height-1])
+    cylinder(
+      d1=diameter + clearance/2,
+      d2=diameter + 5 + clearance/2,
+      h=5
+    );
+  }
+}
+
+module table() {
+  c = [1, 1, 1] * (is_undef($clearance) ? 0 : $clearance);
+  r = 1.5;
+
+  surface_depth = desk_available_depth*1.5;
+  color("gray") translate([0, desk_available_depth, 0]) translate([0, 25, -20]) cube([400, 50, 20], center=true);
+  color("tan") {
+    translate([0, r -c.y/2, -r + c.z/2]) rotate([0, 90, 0]) cylinder(r=r, h=400, center=true);
+    translate([0, r -c.y/2, -desk_thickness + r - c.z/2]) rotate([0, 90, 0]) cylinder(r=r, h=400, center=true);
+    translate([0, r, 0]) translate([0, surface_depth, -desk_thickness] / 2) cube([400, surface_depth, desk_thickness] + c, center=true);
+    translate([0, r, 0]) translate([0, 0, -desk_thickness] / 2) cube([400, 2*r, desk_thickness - 2*r] + c, center=true);
+  }
+}

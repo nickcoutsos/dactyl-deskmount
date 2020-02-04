@@ -10,35 +10,6 @@ include <definitions.scad>
 $fn = 12;
 keyboard_offset = rotation([0, -20, 0]) * translation([30, 5, -6]);
 
-module tee_nut(footprint=false) {
-  $fn=26;
-  clearance = is_undef($clearance) ? 0 : $clearance;
-  height = 8.98;
-  prongs = [3.5, 1.58, 7.75];
-  diameter = 19;
-
-  translate([0, 0, height])
-  translate([0, 0, clearance/2])
-  rotate([180, 0, 0]) {
-    translate([0, 0, clearance/4]) cylinder(d=diameter + clearance/2, h=1.35 + clearance/2);
-    translate([0, 0, clearance/4]) cylinder(d=7.7 + clearance/2, h=height + clearance/2);
-    translate([0, 0, clearance/4]) cylinder(d1=10 + clearance/2, d2=7.7 + clearance/2, h=2 + clearance/2);
-    rotate([0, 0, 90*1]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*2]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*3]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-    rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
-  }
-
-  if (footprint) {
-    translate([0, 0, height-1])
-    cylinder(
-      d1=diameter + clearance/2,
-      d2=diameter + 5 + clearance/2,
-      h=5
-    );
-  }
-}
-
 module screw_and_nut_cutout() {
   translate([0, 0, 5]) cylinder(d=6.5, h=3);
   translate([0, 0, -1]) cylinder(d=3, h=6);
@@ -96,13 +67,6 @@ module mount() {
   }
 }
 
-module table() {
-  translate([0, 50, 40]) {
-    color("tan") translate([0, 60, -12.99/2]) cube([400, 120, 12.99], center=true);
-    color("gray") translate([0, 68.98, 0]) translate([0, 25, -20]) cube([400, 50, 20], center=true);
-  }
-}
-
 module table_hook() {
   difference() {
     triangle_hulls() {
@@ -138,6 +102,8 @@ module table_hook() {
     }
   }
 }
+
+translate(desk_top_offset) table();
 
 // mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
 ball_mount() {
