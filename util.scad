@@ -64,3 +64,23 @@ module truncated_sphere(r=undef, d=undef, rr=0.8) {
     translate([+radius, 0, 0]) cube([(1 - rr) * radius, radius, radius] * 2, center=true);
   }
 }
+
+module lobed_cylinder(radius, h=2) {
+  translate([0, 0, h/2])
+  difference() {
+    $fn=24;
+
+    hull()
+    for (i=[1:5]) {
+      rotate([0, 0, i*360/5])
+      translate([radius, 0, 0])
+        cylinder(r=radius/5, h=h, center=true);
+    }
+
+    for (i=[1:5]) {
+      rotate([0, 0, (i-0.5)*360/5])
+      translate([9/5*radius, 0, 0])
+        cylinder(r=0.9*radius, h=h+0.1, center=true);
+    }
+  }
+}

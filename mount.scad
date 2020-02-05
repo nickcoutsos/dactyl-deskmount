@@ -5,6 +5,7 @@ use <placeholders.scad>
 use <positioning.scad>
 use <util.scad>
 use <main.scad>
+use <clamp.scad>
 include <definitions.scad>
 
 $fn = 12;
@@ -68,24 +69,29 @@ module mount() {
 }
 
 module table_hook() {
+  translate([-26, 0, 0]) translate(desk_top_offset) clamp_accessories();
   difference() {
-    triangle_hulls() {
-      rotate(90, Z)
-      rotate(60, X)
-      rotate(180, Z)
-      translate([0, 0, -23.98 - 3])
-        cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
+    union() {
+      triangle_hulls() {
+        rotate(90, Z)
+        rotate(60, X)
+        rotate(180, Z)
+        translate([0, 0, -23.98 - 3])
+          cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
 
-      translate([-20-6, 20, -5]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=9.375);
-      translate([-26, 45, 5]) rotate([60, 0, 0]) truncated_sphere(r=9.375);
-      translate([-26, 70, 25]) rotate([90, 0, 0]) truncated_sphere(r=9.375);
-      translate([-26, 50, 40]) rotate([0, 0, 0]) truncated_sphere(r=9.375);
+        translate([-26, 20, -5]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=10.9375);
+        translate([-26, 30, -2]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=10.9375);
+        // translate([-26, 45, 5]) rotate([60, 0, 0]) truncated_sphere(r=10.9375);
+        // translate([-26, 50, 10]) rotate([60, 0, 0]) truncated_sphere(r=10.9375);
+        // translate([-26, 70, 25]) rotate([90, 0, 0]) truncated_sphere(r=10.9375);
+        // translate([-26, 50, 40]) rotate([0, 0, 0]) truncated_sphere(r=10.9375);
+        translate([-26, 0, 0]) translate(desk_top_offset) clamp_base();
+      }
+
+      translate([-26, 0, 0]) translate(desk_top_offset) clamp();
     }
 
-    translate([0, 50, 40]) {
-      color("tan") translate([0, 60, -12.99/2]) cube([400, 120, 12.99], center=true);
-      color("gray") translate([0, 68.98, 0]) translate([0, 25, -15]) cube([400, 50, 30], center=true);
-    }
+    translate([-26, 0, 0]) translate(desk_top_offset) clamp_cutouts();
 
     multmatrix(ball_mount_base_orientation)
     translate([0, 0, -ball_mount_height]) {
@@ -105,9 +111,9 @@ module table_hook() {
 
 translate(desk_top_offset) table();
 
-// mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
+mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
 ball_mount() {
-  color("gold") tee_nut();
+  color("goldenrod") tee_nut();
   mount();
 
   translate(-[0, 0, 15.05+8.47])

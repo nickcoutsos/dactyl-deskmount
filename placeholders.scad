@@ -409,7 +409,7 @@ module arc(a=90, r1=1, r2=1, h=1, center=false) {
 }
 
 module tee_nut(footprint=false) {
-  $fn=26;
+  $fn = is_undef($fn) ? 26 : $fn;
   clearance = is_undef($clearance) ? 0 : $clearance;
   height = 8.98;
   prongs = [3.5, 1.58, 7.75];
