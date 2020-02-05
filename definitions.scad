@@ -73,6 +73,10 @@ thumb_overrides = [
   [1, 0, 1, 2, 90]
 ];
 
+desk_arm_thickness = 25;
+desk_arm_trunc = 0.8;
+desk_arm_radius = (desk_arm_thickness / 2) / desk_arm_trunc;
+
 ball_mount_socket_thickness = 3;
 ball_mount_diameter = 28.44;
 ball_mount_height = 23.98;

@@ -69,22 +69,19 @@ module mount() {
 }
 
 module table_hook() {
-  translate([-26, 0, 0]) translate(desk_top_offset) clamp_accessories();
+  if (!is_undef($render_accessories) && $render_accessories) {
+    translate([-26, 0, 0]) translate(desk_top_offset) clamp_accessories();
+  }
+
   difference() {
     union() {
       triangle_hulls() {
-        rotate(90, Z)
-        rotate(60, X)
-        rotate(180, Z)
+        multmatrix(ball_mount_base_orientation)
         translate([0, 0, -23.98 - 3])
           cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
 
-        translate([-26, 20, -5]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=10.9375);
-        translate([-26, 30, -2]) rotate([0, -12*0, 0]) rotate([10, 0, 0]) truncated_sphere(r=10.9375);
-        // translate([-26, 45, 5]) rotate([60, 0, 0]) truncated_sphere(r=10.9375);
-        // translate([-26, 50, 10]) rotate([60, 0, 0]) truncated_sphere(r=10.9375);
-        // translate([-26, 70, 25]) rotate([90, 0, 0]) truncated_sphere(r=10.9375);
-        // translate([-26, 50, 40]) rotate([0, 0, 0]) truncated_sphere(r=10.9375);
+        translate([-26, 20, -5]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
+        translate([-26, 30, -2]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
         translate([-26, 0, 0]) translate(desk_top_offset) clamp_base();
       }
 
@@ -99,7 +96,7 @@ module table_hook() {
       translate([0, 10.39 + 4, 0]/-2) cylinder(d=4.5, h=40, center=true);
       cylinder(d=6.35, h=40, center=true);
       translate([0, 0, 0]) cylinder(d=ball_mount_diameter + 1, h=29.26 +1, $fn=48);
-      translate([0, 0, -3]) rotate([180, 0, 0]) cylinder(d=30, h=15);
+      translate([0, 0, -4]) rotate([180, 0, 0]) cylinder(d=30, h=15);
 
       translate([0, ball_mount_diameter/2, 18]) {
         cube([10, 10, 10], center=true);
@@ -109,16 +106,15 @@ module table_hook() {
   }
 }
 
-translate(desk_top_offset) table();
-
-mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
+// translate(desk_top_offset) table();
+// mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
 ball_mount() {
   color("goldenrod") tee_nut();
   mount();
 
   translate(-[0, 0, 15.05+8.47])
   rotate([0, -30, 0])
-  table_hook();
+  table_hook($render_accessories=true);
 
   multmatrix(keyboard_offset) {
     assembled_plate($detail=false);
