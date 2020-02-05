@@ -75,10 +75,14 @@ module table_hook() {
 
   difference() {
     union() {
+      multmatrix(ball_mount_base_orientation)
+      translate([0, 0, -23.98 - 3])
+        cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
+
       triangle_hulls() {
         multmatrix(ball_mount_base_orientation)
         translate([0, 0, -23.98 - 3])
-          cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=29.26 -5 +1);
+          cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=22 -5 +1);
 
         translate([-26, 20, -5]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
         translate([-26, 30, -2]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
@@ -113,7 +117,7 @@ ball_mount() {
   mount();
 
   translate(-[0, 0, 15.05+8.47])
-  rotate([0, -30, 0])
+  multmatrix(invert_rt(ball_mount_pivot_orientation))
   table_hook($render_accessories=true);
 
   multmatrix(keyboard_offset) {

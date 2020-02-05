@@ -82,7 +82,7 @@ ball_mount_diameter = 28.44;
 ball_mount_height = 23.98;
 ball_mount_base_orientation = identity4()
   * rotation([0, 0, 90])
-  * rotation([60, 0, 0])
+  * rotation([50, 0, 0])
   * rotation([0, 0, 180]);
 
 ball_mount_pivot_orientation = identity4()
