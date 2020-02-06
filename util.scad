@@ -66,21 +66,22 @@ module truncated_sphere(r=undef, d=undef, rr=0.8) {
 }
 
 module lobed_cylinder(radius, h=2) {
+  lobes = 6;
   translate([0, 0, h/2])
   difference() {
     $fn=24;
 
     hull()
-    for (i=[1:5]) {
-      rotate([0, 0, i*360/5])
+    for (i=[1:lobes]) {
+      rotate([0, 0, i*360/lobes])
       translate([radius, 0, 0])
         cylinder(r=radius/5, h=h, center=true);
     }
 
-    for (i=[1:5]) {
-      rotate([0, 0, (i-0.5)*360/5])
+    for (i=[1:lobes]) {
+      rotate([0, 0, (i-0.5)*360/lobes])
       translate([9/5*radius, 0, 0])
-        cylinder(r=0.9*radius, h=h+0.1, center=true);
+        cylinder(r=0.825*radius, h=h+0.1, center=true, $fn=76);
     }
   }
 }

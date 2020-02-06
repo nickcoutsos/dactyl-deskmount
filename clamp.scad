@@ -32,17 +32,19 @@ module clamp_cutouts() {
   translate(clamp_offset + [0, 2 -11 + cut_diameter/2, 1]) cylinder(d1=cut_diameter - 2, d2=cut_diameter + 4, h=4, center=true);
   translate(clamp_offset + [0, 2, -5]) rotate([0, 0, 45]) cylinder(d1=19, d2=21, h=1.5, center=true);
   translate(clamp_offset + [0, 2, -14]) rotate([0, 0, 45]) tee_nut($clearance=1);
-  translate(clamp_offset + [0, 2, -14]) cylinder(d=6.35, h=20, center=true);
+  translate(clamp_offset + [0, 2, -14]) cylinder(d=6.35+0.5, h=20, center=true);
   translate(clamp_offset + [0, 5, -38]) rotate([0, 90, 0]) cylinder(d=43, h=desk_arm_thickness+1, center=true);
   translate(clamp_offset + [0, 5+43/2, -38]) cube(43, center=true);
 }
 
 module bolt() {
+  bolt_height = 29.4;
+  cap_height = 4.3;
   c = is_undef($clearance) ? 0 : $clearance;
   e = is_undef($extend) ? 0 : $extend;
 
-  translate([0, 0, -c/2]) cylinder(d=6.35 + c, h=25.4 + c + e);
-  translate([0, 0, 21.4 - c/2]) cylinder(d=11+c, h=4+c + e, $fn=6);
+  translate([0, 0, -c/2]) cylinder(d=6.35 + c, h=bolt_height + c + e);
+  translate([0, 0, bolt_height - cap_height - c/2]) cylinder(d=12.47+c, h=cap_height+c + e, $fn=6);
 }
 
 module knob() {
@@ -63,13 +65,13 @@ module clamp_accessories() {
     color("slategray") cylinder(d=20, h=1.5, $fn=24);
     color("slategray") translate([0, 0, 1.5]) cylinder(d1=18, d2=8, h=5);
     color("silver") translate([0, 0, 4]) bolt();
-    color("slategray") translate([0, 0, 30]) rotate([180, 0, 0]) knob();
+    color("slategray") translate([0, 0, 34]) rotate([180, 0, 0]) knob();
   }
 }
 
-table();
+// table();
 difference() {
-  clamp();
+  clamp($fn=12);
   clamp_cutouts();
 }
 
