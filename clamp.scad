@@ -3,11 +3,13 @@ use <placeholders.scad>
 use <util.scad>
 include <definitions.scad>
 
-$fn = 12;
+default_fn = 12;
 
 clamp_offset = -[0, -16, desk_thickness + 2];
 
 module clamp() {
+  $fn = is_undef($fn) ? default_fn : $fn;
+
   hull() {
     translate(-[0, 5, desk_thickness + 20]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
     translate(clamp_offset) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
@@ -18,6 +20,7 @@ module clamp() {
 }
 
 module clamp_base() {
+  $fn = is_undef($fn) ? default_fn : $fn;
   translate(-[0, 5, desk_thickness + 20]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
 }
 
@@ -31,6 +34,7 @@ module clamp_cutouts() {
   translate(clamp_offset + [0, 2, -14]) rotate([0, 0, 45]) tee_nut($clearance=1);
   translate(clamp_offset + [0, 2, -14]) cylinder(d=6.35, h=20, center=true);
   translate(clamp_offset + [0, 5, -38]) rotate([0, 90, 0]) cylinder(d=43, h=desk_arm_thickness+1, center=true);
+  translate(clamp_offset + [0, 5+43/2, -38]) cube(43, center=true);
 }
 
 module bolt() {
