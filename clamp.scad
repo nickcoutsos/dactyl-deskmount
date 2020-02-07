@@ -34,6 +34,7 @@ module clamp_cutouts() {
   translate(clamp_offset + [0, 2, -14]) rotate([0, 0, 45]) tee_nut($clearance=1);
   translate(clamp_offset + [0, 2, -14]) cylinder(d=6.35+0.5, h=20, center=true);
   translate(clamp_offset + [0, 5, -38]) rotate([0, 90, 0]) cylinder(d=43, h=desk_arm_thickness+1, center=true);
+  translate(clamp_offset + [0, 2, -16.5]) cylinder(d1=9, d2=6.35, h=3, center=true);
   translate(clamp_offset + [0, 5+43/2, -38]) cube(43, center=true);
 }
 

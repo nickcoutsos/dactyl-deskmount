@@ -74,14 +74,19 @@ module lobed_cylinder(radius, h=2) {
     hull()
     for (i=[1:lobes]) {
       rotate([0, 0, i*360/lobes])
-      translate([radius, 0, 0])
-        cylinder(r=radius/5, h=h, center=true);
+      translate([radius, 0, 0]) {
+        cylinder(r=radius/5, h=h-1, center=true);
+        cylinder(r=0.8*radius/5, h=h, center=true);
+      }
     }
 
     for (i=[1:lobes]) {
       rotate([0, 0, (i-0.5)*360/lobes])
-      translate([9/5*radius, 0, 0])
+      translate([9/5*radius, 0, 0]) {
         cylinder(r=0.825*radius, h=h+0.1, center=true, $fn=76);
+        translate([0, 0, h/2]) cylinder(r1=0.825*radius, r2=1.2*0.825*radius, h=1, center=true, $fn=76);
+        translate([0, 0, -h/2]) cylinder(r2=0.825*radius, r1=1.2*0.825*radius, h=1, center=true, $fn=76);
+      }
     }
   }
 }
