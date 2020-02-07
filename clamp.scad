@@ -50,8 +50,8 @@ module bolt() {
 
 module knob() {
   difference() {
-    lobed_cylinder(radius=8, h=6);
-    translate([0, 0, 25.4]) rotate([180, 0, 0]) color("silver") bolt($clearance=1, $extend=5);
+    lobed_cylinder(radius=8, h=7);
+    translate([0, 0, 29.4]) rotate([180, 0, 0]) color("silver") bolt($clearance=0.5, $extend=5);
   }
 }
 
