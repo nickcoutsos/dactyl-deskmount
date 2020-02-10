@@ -55,6 +55,16 @@ module knob() {
   }
 }
 
+module swivel_plate() {
+  difference() {
+    union() {
+      cylinder(d=20, h=1.5, $fn=24);
+      translate([0, 0, 1.5]) cylinder(d1=18, d2=9, h=5);
+    }
+    translate([0, 0, 3.5]) bolt($clearance=0.75);
+  }
+}
+
 module clamp_accessories() {
   color("goldenrod")
   translate(clamp_offset + [0, 2, -14])
@@ -63,14 +73,13 @@ module clamp_accessories() {
 
   translate(clamp_offset + [0, 2, 1.75])
   rotate([180, 0, 0]) {
-    color("slategray") cylinder(d=20, h=1.5, $fn=24);
-    color("slategray") translate([0, 0, 1.5]) cylinder(d1=18, d2=8, h=5);
     color("silver") translate([0, 0, 4]) bolt();
+    color("slategray") swivel_plate();
     color("slategray") translate([0, 0, 34]) rotate([180, 0, 0]) knob();
   }
 }
 
-// table();
+table();
 difference() {
   clamp($fn=12);
   clamp_cutouts();
