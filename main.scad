@@ -47,7 +47,7 @@ module position_trrs() {
 
 module position_usb_port() {
   multmatrix(finger_place_transformation(0.5, 1))
-  translate([0, 5, -6.5])
+  translate([0, 5, -7.5])
   rotate([-18, 0, 0])
     children();
 }
@@ -196,7 +196,6 @@ module accessories() {
       if ($render_keycaps || $render_all) finger_place(col, row) color("white") kailh_choc_keycap();
     }
   }
-
 
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
@@ -454,21 +453,21 @@ module plate_trim() {
 
   hull() {
     finger_edge_n(1, 1) translate([-1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
     finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
   }
   hull() {
     finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
   }
   hull() {
     finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     finger_edge_n(0, 1) translate([1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([-7.5, 5.5, 2]) rotate([90, 0, 0]) plate_corner();
+    position_usb_port() translate([-7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
   }
-  position_usb_port() translate([0, 5.5 + plate_thickness/2, 0]) cube([15, plate_thickness, 4], center=true);
+  position_usb_port() translate([0, 6.5 + plate_thickness/4, 0]) cube([15, plate_thickness * 1.5, 4], center=true);
 }
 
 module assembled_plate() {
@@ -485,7 +484,7 @@ module assembled_plate() {
       post_place(1) m3_screw($clearance=1, footprint=true);
       post_place(2) m3_screw($clearance=1, footprint=true);
       position_trrs() trrs_breakout(center=true, $clearance=1);
-      position_usb_port() micro_usb_breakout($clearance=1, center=true, footprint=true);
+      position_usb_port() micro_usb_breakout($clearance=0.5, center=true, footprint=true);
     }
   }
 }
