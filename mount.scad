@@ -31,7 +31,7 @@ module mount() {
         serial_hulls() {
           post_place(0) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
           post_place(0) translate([0, 0, -7 + .01]) cylinder(d=6, h=5);
-          post_place(0) translate([6.5, 0, -7 + .01]) cylinder(d=6, h=5);
+          post_place(0) translate([0, 6.5, -7 + .01]) cylinder(d=6, h=5);
 
           multmatrix(invert_rt(keyboard_offset))
           rotate([0, 0, 190])

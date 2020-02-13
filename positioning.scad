@@ -5,16 +5,9 @@ include <definitions.scad>
 module finger_place(column, row) {
   $u = is_undef($u) ? 1 : $u;
   $h = is_undef($h) ? 1 : $h;
-  arc = column >= 4 ? -2 : 0;
-  pivot = column >= 4
-    ? translation_part(finger_place_transformation(4, 3))
-    : [0, 0, 0];
 
   transformation = finger_place_transformation(column, row);
 
-  translate(pivot)
-  rotate([0, 0, arc])
-  translate(-pivot)
   multmatrix(transformation)
     children();
 }
@@ -30,6 +23,21 @@ module finger_edge_s(col, row, transform=identity4()) { finger_place(col, row) m
 module finger_edge_w(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_width/2*$u, 0, 0]) children(); } }
 
 function finger_place_transformation(column, row) = (
+  let(initial = finger_transformation(column, row))
+  let(arc = column >= 4 ? -2 : 0)
+  let(pivot = column >= 4
+    ? translation_part(finger_transformation(4, 3))
+    : [0, 0, 0]
+  )
+
+  identity4()
+  * translation(pivot)
+  * rotation([0, 0, arc])
+  * translation(-pivot)
+  * initial
+);
+
+function finger_transformation(column, row) = (
   let(row_angle = alpha * (2 - row))
   let(column_angle = beta * (2 - column))
   let(column_offset = !is_undef(finger_column_offsets[column])
@@ -94,9 +102,11 @@ module place_thumb_keys (columns, rows) {
 }
 
 posts = [
-  thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]),
+  thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]) * rotation([0, 0, -90]),
   finger_place_transformation(1.2, 4.55) * translation([0, 0, -6.25]) * rotation([37, 0, 0]),
-  finger_place_transformation(1.2, 0.45) * translation([0, 0, -6.25]) * rotation([-24, 0, 0])
+  finger_place_transformation(1.2, 0.45) * translation([0, 0, -6.25]) * rotation([-24, 0, 0]) * rotation([0, 0, 180]),
+  finger_place_transformation(4, 3.55) * translation([-2, 0, -5.6]) * rotation([30, 0, 0]),
+  finger_place_transformation(4, 0.45) * translation([-2, 0, -5.6]) * rotation([-30, 0, 0]) * rotation([0, 0, 180])
 ];
 
 function post_place_transformation (index) = (
