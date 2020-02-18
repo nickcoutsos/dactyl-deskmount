@@ -103,8 +103,8 @@ module place_thumb_keys (columns, rows) {
 
 posts = [
   thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]) * rotation([0, 0, -90]),
-  finger_place_transformation(1, 4.55) * translation([4, 0, -5.6]) * rotation([33, 0, 0]),
-  finger_place_transformation(1, 0.45) * translation([4, 0, -5.6]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]),
+  finger_place_transformation(1, 4.55) * translation([3, 0, -5.6]) * rotation([33, 0, 0]),
+  finger_place_transformation(1, 0.45) * translation([3, 0, -5.6]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]),
   finger_place_transformation(4, 3.55) * translation([-2, 0, -5.6]) * rotation([33, 0, 0]),
   finger_place_transformation(4, 0.45) * translation([-2, 0, -5.6]) * rotation([-33, 0, 0]) * rotation([0, 0, 180])
 ];
