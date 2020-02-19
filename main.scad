@@ -284,12 +284,12 @@ module plate_trim() {
     // top edge
     finger_corner_nw(1, 1) edge_profile(90);
     finger_edge_n(1, 1) edge_profile(90);
-    finger_corner_ne(1, 1) edge_profile(60);
+    finger_corner_ne(1, 1) edge_profile(45, stretch=true);
     finger_corner_nw(2, 1) edge_profile(60);
     finger_corner_ne(2, 1) edge_profile(120);
     finger_corner_nw(3, 1) edge_profile(110);
     finger_corner_ne(3, 1) edge_profile(120);
-    finger_corner_nw(4, 1) edge_profile(120);
+    finger_corner_nw(4, 1) edge_profile(135, stretch=true);
     finger_corner_ne(4, 1) edge_profile(90);
     finger_corner_nw(5, 1) edge_profile(90);
 
@@ -311,8 +311,8 @@ module plate_trim() {
     // bottom edge
     finger_corner_sw(5, 3) edge_profile(270);
     finger_corner_se(4, 3) edge_profile(270);
-    finger_corner_sw(4, 3) edge_profile(240);
-    finger_corner_se(3, 4) edge_profile(240);
+    finger_corner_sw(4, 3) edge_profile(270-45, stretch=true);
+    finger_corner_se(3, 4) edge_profile(220);
     finger_corner_se(3, 4) edge_profile(270);
     finger_corner_sw(3, 4) edge_profile(270);
     finger_corner_sw(3, 4) edge_profile(300);
@@ -320,10 +320,10 @@ module plate_trim() {
     finger_corner_sw(2, 4) edge_profile(240);
     finger_corner_se(1, 4) edge_profile(240);
     finger_corner_se(1, 4) edge_profile(270);
-    finger_corner_sw(1, 4) edge_profile(240);
+    finger_corner_sw(1, 4) edge_profile(235, stretch=true);
 
     // thumb bottom edge
-    thumb_edge_e(0, 0) edge_profile(200);
+    thumb_edge_e(0, 0) edge_profile(235, stretch=true);
     thumb_corner_se(0, 0) edge_profile(200);
     thumb_corner_se(0, 0) edge_profile(240);
     thumb_corner_sw(0, 0) edge_profile(270);

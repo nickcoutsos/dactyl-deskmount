@@ -262,8 +262,10 @@ module header_pins(pin_count, right_angle=false, reverse=false) {
   }
 }
 
-module edge_profile(rot=0) {
+module edge_profile(rot=0, stretch=false) {
+  h = sqrt(pow(plate_thickness, 2)*2);
   rotate([0, 0, -rot])
+  scale([stretch ? (h / plate_thickness) : 1, 1, 1])
   difference() {
     union() {
       translate([0, 0, -plate_thickness]) rotate([90, 0, 0]) cylinder(r=plate_thickness, h=.01, center=true);

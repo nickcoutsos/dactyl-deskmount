@@ -101,12 +101,15 @@ module place_thumb_keys (columns, rows) {
   }
 }
 
+r_offset = [0, plate_height/2 + plate_thickness * cos(360/12), 0];
+
 posts = [
   thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]) * rotation([0, 0, -90]),
-  finger_place_transformation(1, 4.55) * translation([3, 0, -5.6]) * rotation([33, 0, 0]),
-  finger_place_transformation(1, 0.45) * translation([3, 0, -5.6]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]),
-  finger_place_transformation(4, 3.55) * translation([-2, 0, -5.6]) * rotation([33, 0, 0]),
-  finger_place_transformation(4, 0.45) * translation([-2, 0, -5.6]) * rotation([-33, 0, 0]) * rotation([0, 0, 180])
+  finger_place_transformation(1, 4) * translation(-r_offset) * translation([2, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([35, 0, 0]) * translation([0, -4, -3]),
+  finger_place_transformation(1, 1) * translation(r_offset) * translation([2, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]) * translation([0, -4, -3]),
+
+  finger_place_transformation(4, 3) * translation(-r_offset) * translation([0, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([33, 0, 0]) * translation([0, -4, -3]),
+  finger_place_transformation(4, 1) * translation(r_offset) * translation([0, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]) * translation([0, -4, -3])
 ];
 
 function post_place_transformation (index) = (
