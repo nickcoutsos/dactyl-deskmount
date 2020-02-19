@@ -487,7 +487,7 @@ module assembled_plate() {
       post_place(2) m3_screw($clearance=1, footprint=true);
       post_place(3) m3_screw($clearance=1, footprint=true);
       post_place(4) m3_screw($clearance=1, footprint=true);
-      position_trrs() trrs_breakout(center=true, $clearance=1);
+      position_trrs() trrs_breakout(center=true, $clearance=0.5);
       position_usb_port() micro_usb_breakout($clearance=0.5, center=true, footprint=true);
     }
   }
