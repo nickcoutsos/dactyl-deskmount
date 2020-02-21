@@ -55,9 +55,11 @@ module position_usb_port() {
 module screw_post() {
   outer = 11;
   depth = 4;
-  translate([0, depth / 2, 1]) cube([outer, depth, 4], center=true);
+  hull() {
+    translate([0, depth, 1]) cube([outer + 2, 0.1, 4], center=true);
+    translate([0, 0, -1]) rotate([0, 0, 180]) arc(180, r1=outer/2, r2=0, h=4);
+  }
   translate([0, 0, -2]) cylinder(d=5.5, h=3);
-  translate([0, 0, -1]) rotate([0, 0, 180]) arc(180, r1=outer/2, r2=0, h=4);
 }
 
 module screw_cutout() {
