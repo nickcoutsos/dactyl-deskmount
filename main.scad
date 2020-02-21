@@ -23,8 +23,7 @@ leds = [
   [-0.75, 0.82],
   [-0.75, 1.2],
   [-0.75, 1.58],
-  [-0.75, 2.34],
-  [-0.75, 1.96],
+  [-0.75, 1.96]
 ];
 
 module fillet(r, h, center=false) {
@@ -36,19 +35,22 @@ module fillet(r, h, center=false) {
 }
 
 module position_trrs() {
-  multmatrix(thumb_place_transformation(1, 1.5))
-  translate([-2, -6, -14.5])
-  rotate([65, 0, 0])
-  rotate([0, 0, 164.5])
+  multmatrix(thumb_place_transformation(1.8, 1.5))
+  rotate([80, 0, 0])
+  translate([0, -19.5, 0])
+  rotate([0, 0, 175])
   rotate([0, 0, 0])
   translate([0, 0.2, -0.25])
     children();
 }
 
 module position_usb_port() {
-  multmatrix(finger_place_transformation(0.5, 1))
-  translate([0, 5, -7.5])
-  rotate([-18, 0, 0])
+  multmatrix(thumb_place_transformation(1.0, 1.5))
+  rotate([80, 0, 0])
+  translate([0, -20, 0])
+  rotate([0, 0, 175])
+  rotate([0, 0, 0])
+  translate([0, 0.2, -0.25])
     children();
 }
 
@@ -270,7 +272,7 @@ module plate_trim() {
     finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
     thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     thumb_corner_nw(2, 2)
-    translate([10, -1, -15])
+    translate([4, 3, -22])
     translate([0, 0, -plate_thickness*1.5])
     translate([0, 0, plate_thickness])
     rotate([-90, 0, 0])
@@ -382,7 +384,7 @@ module plate_trim() {
       edge_profile(0);
 
     thumb_corner_nw(2, 2)
-    translate([10, -1, -15])
+    translate([4, 3, -22])
     translate([0, 0, -plate_thickness*1.5])
     translate([0, 0, plate_thickness])
     rotate([-90, 0, 0]) {
@@ -454,24 +456,6 @@ module plate_trim() {
       translate([8, 1.5, 0]) cube([1.25, 11, .5], center=true);
     }
   }
-
-  hull() {
-    finger_edge_n(1, 1) translate([-1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
-    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-  }
-  hull() {
-    finger_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([-7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
-  }
-  hull() {
-    finger_corner_ne(0, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    finger_edge_n(0, 1) translate([1, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    position_usb_port() translate([-7.5, 6.5 - plate_thickness/2, 2]) scale([1, 1.5, 1]) rotate([90, 0, 0]) plate_corner();
-  }
-  position_usb_port() translate([0, 6.5 + plate_thickness/4, 0]) cube([15, plate_thickness * 1.5, 4], center=true);
 }
 
 module assembled_plate() {
