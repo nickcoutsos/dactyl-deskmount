@@ -576,7 +576,11 @@ assembled_plate($detail=true);
 //   //   finger_edge_s(leds[4].x, leds[4].y, $u=led_size, $h=led_size) multmatrix(led_transform) translate(led_offset) translate([0, 0, -3]) cube([12, 4, 6], center=true);
 //   // }
 //   // trrs mount
-//   // #position_trrs() cube([15, 18, 8], center=true);
+//   // multmatrix(thumb_place_transformation(1.5, 1.5))
+//   // rotate([0, 5, 0])
+//   // rotate([81, 0, 0])
+//   // translate([2, -19.5, .8])
+//   //   cube([32, 18, 8], center=true);
 //   // usb breakout
 //   // multmatrix(finger_place_transformation(0.5, 0.5)) translate([0, 0, -7]) rotate([-20, 0, 0]) cube([16, 10, 10], center=true);
 // }
