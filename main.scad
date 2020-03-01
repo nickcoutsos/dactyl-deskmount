@@ -4,6 +4,7 @@ use <scad-utils/transformations.scad>
 use <placeholders.scad>
 use <positioning.scad>
 use <util.scad>
+use <led-diffuser.scad>
 include <definitions.scad>
 
 $fn = 12;
@@ -67,54 +68,6 @@ module screw_cutout() {
   cylinder(d=3, h=plate_thickness*4, center=true);
   cylinder(d=4.5, h=5);
   translate([0, 0, 2]) cylinder(d1=3, d2=7, h=5, center=true);
-}
-
-
-module led_diffuser() {
-  module half_sphere(d=1) {
-    difference() {
-      sphere(d=d);
-      translate([0, 0, -d/2 - 0.5]) cube([d+1, d+1, d+1], center=true);
-    }
-  }
-  serial_hulls(close=true) {
-    finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_se(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_ne(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_se(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_ne(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_se(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_ne(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_se(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_nw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_sw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_nw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_sw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_nw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_sw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, +0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([+0.75, -0.75, -plate_thickness]) cylinder(d=1, h=plate_thickness);
-  }
-
-  triangle_hulls() {
-    finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_se(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_sw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_ne(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_nw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_se(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_sw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_ne(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_nw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_se(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_sw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_ne(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_nw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) half_sphere(d=1);
-    finger_corner_se(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0.75, 0]) half_sphere(d=1);
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([0, 0.75, 0]) half_sphere(d=1);
-  }
 }
 
 module plate() {
@@ -605,7 +558,7 @@ module pcb_socket_mount() {
 assembled_plate($detail=true);
 // plate();
 // plate_trim();
-// accessories();
+// accessories($render_all=true);
 
 /// samples for test prints
 // intersection() {
