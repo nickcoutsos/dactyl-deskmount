@@ -111,27 +111,27 @@ module led_diffuser() {
       [6, 8, 10],
       [10, 12, 14]
     ]) {
-      nw(leds[0]) translate([0+1, 0-0.75, 0-0.5]) sphere(d=.75);
-      ne(leds[0]) translate([0-1, 0-0.75, 0-0.5]) sphere(d=.75);
-      w(leds[0]) translate([0+1, 0, 0-0.5]) sphere(d=.75);
-      e(leds[0]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.75);
-      sw(leds[0]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.75);
-      se(leds[0]) translate([0-1, 0, 0-0.5]) sphere(d=.75);
+      nw(leds[0]) translate([0+1, 0-0.75, 0-0.5]) sphere(d=.5);
+      ne(leds[0]) translate([0-1, 0-0.75, 0-0.5]) sphere(d=.5);
+      w(leds[0]) translate([0+1, 0, 0-0.5]) sphere(d=.5);
+      e(leds[0]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.5);
+      sw(leds[0]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.5);
+      se(leds[0]) translate([0-1, 0, 0-0.5]) sphere(d=.5);
 
-      w(leds[1]) translate([0+1, 0, 0-0.5]) sphere(d=.75);
-      e(leds[1]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.75);
-      sw(leds[1]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.75);
-      se(leds[1]) translate([0-1, 0, 0-0.5]) sphere(d=.75);
+      w(leds[1]) translate([0+1, 0, 0-0.5]) sphere(d=.5);
+      e(leds[1]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.5);
+      sw(leds[1]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.5);
+      se(leds[1]) translate([0-1, 0, 0-0.5]) sphere(d=.5);
 
-      w(leds[2]) translate([0+1, 0, 0-0.5]) sphere(d=.75);
-      e(leds[2]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.75);
-      sw(leds[2]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.75);
-      se(leds[2]) translate([0-1, 0, 0-0.5]) sphere(d=.75);
+      w(leds[2]) translate([0+1, 0, 0-0.5]) sphere(d=.5);
+      e(leds[2]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.5);
+      sw(leds[2]) translate([+1.5+1, 0, 1.25-0.5]) sphere(d=.5);
+      se(leds[2]) translate([0-1, 0, 0-0.5]) sphere(d=.5);
 
-      w(leds[3]) translate([0+1, 0, 0-0.5]) sphere(d=.75);
-      e(leds[3]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.75);
-      sw(leds[3]) translate([0+1, 0.75, 0-0.5]) sphere(d=.75);
-      se(leds[3]) translate([0-1, 0.75, 0-0.5]) sphere(d=.75);
+      w(leds[3]) translate([0+1, 0, 0-0.5]) sphere(d=.5);
+      e(leds[3]) translate([-1.5-1, 0, 1.25-0.5]) sphere(d=.5);
+      sw(leds[3]) translate([0+1, 0.75, 0-0.5]) sphere(d=.5);
+      se(leds[3]) translate([0-1, 0.75, 0-0.5]) sphere(d=.5);
     }
   }
 
