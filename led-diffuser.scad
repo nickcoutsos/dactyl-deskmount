@@ -151,12 +151,12 @@ rotate([90, 0, 0])
 multmatrix(invert_rt(led_column_bottom)) {
   translate([0, -0.25, 0]) led_diffuser();
 
-  multmatrix(led_column_bottom) translate([2, 0, -7.7]) rotate([-90, 0, 0]) cylinder(d=10, h=2);
+  multmatrix(led_column_bottom) translate([2, 0, -8]) rotate([-90, 0, 0]) cylinder(d=10, h=2);
   serial_hulls() {
-    finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -1, -plate_thickness]) rotate([0, 35, 0]) rotate([75, 0, 0]) hull() { cylinder(d=0.45); translate([0, -1.5, 0]) cylinder(d=1.5); }
-    finger_corner_se(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([80, 0, 0]) hull() { cylinder(d=0.45); translate([0, -2, 0]) cylinder(d=1.5); }
-    finger_corner_se(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { cylinder(d=0.45); translate([0, -4, 0]) cylinder(d=1.75); }
-    finger_corner_se(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { cylinder(d=0.45); translate([0, -6, 0]) cylinder(d=2); }
-    finger_corner_se(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1.25, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { cylinder(d=0.45); translate([0, -6, 0]) cylinder(d=4); }
+    finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, -1, -plate_thickness]) rotate([0, 35, 0]) rotate([75, 0, 0]) hull() { translate([0, -0.1, 0]) cylinder(d=0.45); translate([0, -1.5, 0]) cylinder(d=1.5); }
+    finger_corner_se(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([80, 0, 0]) hull() { translate([0, -0.1, 0]) cylinder(d=0.45); translate([0, -2, 0]) cylinder(d=1.5); }
+    finger_corner_se(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { translate([0, -0.1, 0]) cylinder(d=0.45); translate([0, -4, 0]) cylinder(d=1.75); }
+    finger_corner_se(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { translate([0, -0.1, 0]) cylinder(d=0.45); translate([0, -6, 0]) cylinder(d=2); }
+    finger_corner_se(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) translate([-0.75, +1.25, -plate_thickness]) rotate([0, 35, 0]) rotate([90, 0, 0]) hull() { translate([0, -0.1, 0]) cylinder(d=0.45); translate([0, -6, 0]) cylinder(d=4); }
   }
 }
