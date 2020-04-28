@@ -6,7 +6,7 @@ include <definitions.scad>
 default_fn = 12;
 
 clamp_offset = -[0, -16, desk_thickness + 2];
-clamp_accessory_base = -3;
+clamp_accessory_base = -4;
 
 module clamp() {
   $fn = is_undef($fn) ? default_fn : $fn;
@@ -51,6 +51,13 @@ module bolt() {
   translate([0, 0, bolt_height - cap_height - c/2]) cylinder(d=12.47+c, h=cap_height+c + e, $fn=6);
 }
 
+module nut () {
+  c = is_undef($clearance) ? 0 : $clearance;
+  across_corners = 12.83;
+  height = 5.56;
+  cylinder(d=across_corners + c, h=height + c, $fn=6);
+}
+
 module knob() {
   difference() {
     lobed_cylinder(radius=8, h=7);
@@ -68,6 +75,17 @@ module swivel_plate() {
   }
 }
 
+module swivel_plate_with_nut() {
+  difference() {
+    union() {
+      cylinder(d=20, h=1.5, $fn=24);
+      translate([0, 0, 1.5]) cylinder(d1=18, d2=15, h=4);
+    }
+    translate([0, 0, 3.5]) bolt($clearance=0.75);
+    translate([0, 0, 1]) nut();
+  }
+}
+
 module clamp_accessories() {
   color("goldenrod")
   translate(clamp_offset + [0, 2, -14])
@@ -77,7 +95,7 @@ module clamp_accessories() {
   translate(clamp_offset + [0, 2, 1.75])
   rotate([180, 0, 0]) {
     color("silver") translate([0, 0, 4]) bolt();
-    color("slategray") swivel_plate();
+    color("slategray") swivel_plate_with_nut();
     color("slategray") translate([0, 0, 34]) rotate([180, 0, 0]) knob();
   }
 }

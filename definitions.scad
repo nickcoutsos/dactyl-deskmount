@@ -88,7 +88,8 @@ ball_mount_base_orientation = identity4()
 ball_mount_pivot_orientation = identity4()
  * rotation([0, 30, 0]);
 
-desk_thickness = 14.99;
+// desk_thickness = 14.99; // work
+desk_thickness = 22.28; // home
 desk_available_depth = 68.98;
 desk_top_offset = [0, 50, 40];
 
