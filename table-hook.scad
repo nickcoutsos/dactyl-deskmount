@@ -21,8 +21,8 @@ module table_hook(offset=[0, 0, 0]) {
         translate([0, 0, -23.98 - 3])
           cylinder(d=ball_mount_diameter + 2*ball_mount_socket_thickness, h=22 -5 +1);
 
-        translate([-26, 20, -5]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
-        translate([-26, 30, -2]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
+        translate([-26, 20, -8]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
+        translate([-26, 30, -8]) rotate([10, 0, 0]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
         translate(offset) translate(desk_top_offset) clamp_base();
       }
 
@@ -33,8 +33,10 @@ module table_hook(offset=[0, 0, 0]) {
 
     multmatrix(ball_mount_base_orientation)
     translate([0, 0, -ball_mount_height]) {
-      translate([0, 10.39 + 4, 0]/2) cylinder(d=4.5, h=40, center=true);
-      translate([0, 10.39 + 4, 0]/-2) cylinder(d=4.5, h=40, center=true);
+      rotate([0, 0, 90]) {
+        translate([0, 10.39 + 4, 0]/2) cylinder(d=4.5, h=40, center=true);
+        translate([0, 10.39 + 4, 0]/-2) cylinder(d=4.5, h=40, center=true);
+      }
       cylinder(d=6.35, h=40, center=true);
       translate([0, 0, 0]) cylinder(d=ball_mount_diameter + 1, h=29.26 +1, $fn=48);
       translate([0, 0, -4]) rotate([180, 0, 0]) cylinder(d=30, h=15);
@@ -46,3 +48,5 @@ module table_hook(offset=[0, 0, 0]) {
     }
   }
 }
+
+table_hook([-26, 0, 0], $render_accessories=false, $fn=12);

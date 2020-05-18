@@ -12,7 +12,7 @@ module clamp() {
   $fn = is_undef($fn) ? default_fn : $fn;
 
   hull() {
-    translate(-[0, 5, desk_thickness + 20]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
+    translate(-[0, 5, desk_thickness + 17]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
     translate(clamp_offset) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
     translate(clamp_offset + [0, 0, -10]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
     translate([0, 14, -4]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
@@ -22,7 +22,7 @@ module clamp() {
 
 module clamp_base() {
   $fn = is_undef($fn) ? default_fn : $fn;
-  translate(-[0, 5, desk_thickness + 20]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
+  translate(-[0, 5, desk_thickness + 17]) truncated_sphere(r=desk_arm_radius, rr=desk_arm_trunc);
 }
 
 module clamp_cutouts() {
