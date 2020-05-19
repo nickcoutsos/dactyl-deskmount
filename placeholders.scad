@@ -277,8 +277,14 @@ module edge_profile(rot=0, stretch=false) {
   }
 }
 
-module ball_mount(pivot) {
-  multmatrix(ball_mount_base_orientation) {
+module ball_mount(
+  pivot_transform=ball_mount_pivot_orientation,
+  base_transform=ball_mount_base_orientation
+) {
+  $inverse_base_transform = invert_rt(base_transform);
+  $inverse_pivot_transform = invert_rt(pivot_transform);
+
+  multmatrix(base_transform) {
     translate([0, 0, -23.98])
     color("dimgray")
     difference() {
@@ -300,10 +306,7 @@ module ball_mount(pivot) {
     }
   }
 
-  multmatrix(is_undef(pivot)
-    ? ball_mount_pivot_orientation
-    : rotation(pivot)
-  ) {
+  multmatrix(pivot_transform) {
     color("silver") sphere(r=11);
     color("silver") cylinder(d=5, h=30.23);
     color("dimgray") translate([0, 0, 15.05]) cylinder(d=28.88, h=8.47);

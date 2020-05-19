@@ -84,7 +84,7 @@ ball_mount() {
   mount();
 
   translate(-[0, 0, 15.05+8.47])
-  multmatrix(invert_rt(ball_mount_pivot_orientation))
+  multmatrix($inverse_pivot_transform)
   table_hook([-26, 0, 0], $render_accessories=true);
 
   multmatrix(keyboard_offset) {
