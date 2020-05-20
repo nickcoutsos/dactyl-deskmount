@@ -1,10 +1,9 @@
-use <scad-utils/linalg.scad>
-use <scad-utils/transformations.scad>
-
-use <placeholders.scad>
-use <positioning.scad>
-use <util.scad>
-include <definitions.scad>
+use <../scad-utils/linalg.scad>
+use <../scad-utils/transformations.scad>
+use <placeholders/ic-socket.scad>
+use <../positioning.scad>
+use <../util.scad>
+include <../definitions.scad>
 
 mount_top_height = 9.5 + 1;
 

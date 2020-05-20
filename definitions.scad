@@ -93,6 +93,8 @@ desk_thickness = 22.28; // home
 desk_available_depth = 68.98;
 desk_top_offset = [0, 50, 40];
 
+keyboard_offset = rotation([0, -20, 0]) * translation([30, 5, -6]);
+
 function get_overrides (source, colIndex, rowIndex) = (
   let(matches = [
     for(vec=source)

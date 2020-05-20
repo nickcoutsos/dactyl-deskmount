@@ -1,9 +1,9 @@
-use <scad-utils/linalg.scad>
-use <scad-utils/transformations.scad>
+use <../scad-utils/linalg.scad>
+use <../scad-utils/transformations.scad>
 
-use <positioning.scad>
-use <util.scad>
-include <definitions.scad>
+use <../positioning.scad>
+use <../util.scad>
+include <../definitions.scad>
 
 led_transform = rotation([0, -60, 0]);
 led_offset = [-6, 0, 0];

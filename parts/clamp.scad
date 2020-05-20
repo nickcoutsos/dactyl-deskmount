@@ -1,7 +1,8 @@
-use <scad-utils/transformations.scad>
-use <placeholders.scad>
-use <util.scad>
-include <definitions.scad>
+use <../scad-utils/transformations.scad>
+use <placeholders/tee-nut.scad>
+use <placeholders/table.scad>
+use <../util.scad>
+include <../definitions.scad>
 
 default_fn = 12;
 

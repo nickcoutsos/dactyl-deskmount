@@ -1,15 +1,15 @@
-use <scad-utils/linalg.scad>
-use <scad-utils/transformations.scad>
+use <../scad-utils/linalg.scad>
+use <../scad-utils/transformations.scad>
+use <../positioning.scad>
+use <../util.scad>
+use <../geometry.scad>
 
-use <placeholders.scad>
-use <positioning.scad>
-use <util.scad>
-use <main.scad>
-use <table-hook.scad>
-include <definitions.scad>
+use <placeholders/tee-nut.scad>
+use <placeholders/m3-hex-nut.scad>
 
-$fn = 12;
-keyboard_offset = rotation([0, -20, 0]) * translation([30, 5, -6]);
+include <../definitions.scad>
+
+mount_base_height = 8.5;
 
 module screw_and_nut_cutout() {
   translate([0, 0, 5]) cylinder(d=6.5, h=3);
@@ -18,9 +18,7 @@ module screw_and_nut_cutout() {
   m3_hex_nut($clearance=.75);
 }
 
-mount_base_height = 8.5;
-
-module mount() {
+module bottom_mount() {
   difference() {
     union() {
       color("forestgreen") rotate([0, 0, -70]) cylinder(d=28, h=mount_base_height, $fn=24);
@@ -77,52 +75,4 @@ module mount() {
   }
 }
 
-// translate(desk_top_offset) table();
-// mirror_axes([[1, 0, 0]]) translate([80, 0, 0])
-ball_mount() {
-  color("goldenrod") tee_nut();
-  mount();
-
-  translate(-[0, 0, 15.05+8.47])
-  multmatrix($inverse_pivot_transform)
-  table_hook([-26, 0, 0], $render_accessories=true);
-
-  multmatrix(keyboard_offset) {
-    assembled_plate($detail=false);
-    accessories(
-      $render_controller=true,
-      $render_leds=true,
-      $render_switches=true,
-      $render_keycaps=true,
-      $render_trrs=true,
-      $key_pressed=false
-    );
-
-    for (i=[0:2]) post_place(i) {
-      m3_screw();
-      translate([0, 0, -7]) m3_hex_nut();
-    }
-  }
-}
-
-/// samples for test prints
-// intersection() {
-//   difference() {
-//     mount();
-//     tee_nut($clearance=1, footprint=true);
-//     multmatrix(keyboard_offset) assembled_plate();
-//   }
-
-//   // ball mount socket
-//   // table_hook([-26, 0, 0]);
-//   // rotate(90, Z)
-//   // rotate(60, X)
-//   // rotate(180, Z)
-//   // translate([0, 0, -25])
-//   //   cylinder(d=40, h=10, center=true);
-
-//   // nut holder
-//   // #translate([10, -42, 22]) cylinder(d=12, h=12, center=true);
-//   // base
-//   // #translate([0, 0, -1]) cylinder(d=30, h=15);
-// }
+bottom_mount();

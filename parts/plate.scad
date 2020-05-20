@@ -1,12 +1,25 @@
-use <scad-utils/linalg.scad>
-use <scad-utils/transformations.scad>
+use <../scad-utils/linalg.scad>
+use <../scad-utils/transformations.scad>
 
-use <placeholders.scad>
-use <positioning.scad>
-use <util.scad>
+use <../geometry.scad>
+use <../positioning.scad>
+use <../util.scad>
+include <../definitions.scad>
+
 use <led-diffuser.scad>
 use <socket-mount.scad>
-include <definitions.scad>
+use <plate-atoms/choc-plate.scad>
+use <plate-atoms/corner.scad>
+use <plate-atoms/edge.scad>
+use <plate-atoms/trim-profile.scad>
+use <placeholders/m3-screw.scad>
+use <placeholders/keycap.scad>
+use <placeholders/keyswitch.scad>
+use <placeholders/5050-led.scad>
+use <placeholders/ic-socket.scad>
+use <placeholders/promicro.scad>
+use <placeholders/trrs-breakout.scad>
+use <placeholders/micro-usb-breakout.scad>
 
 $fn = 12;
 $key_pressed = false;
@@ -28,14 +41,6 @@ leds = [
   [-0.75, 1.58],
   [-0.75, 1.96]
 ];
-
-module fillet(r, h, center=false) {
-  linear_extrude(height=h)
-  difference() {
-    square([r, r]);
-    translate([r, r, 0]) circle(r);
-  }
-}
 
 module position_trrs() {
   multmatrix(thumb_place_transformation(1.5, 1.5))

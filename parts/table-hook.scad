@@ -1,9 +1,9 @@
-use <scad-utils/linalg.scad>
-use <scad-utils/transformations.scad>
-use <util.scad>
+use <../scad-utils/linalg.scad>
+use <../scad-utils/transformations.scad>
+use <../util.scad>
 use <clamp.scad>
 
-include <definitions.scad>
+include <../definitions.scad>
 
 module table_hook(offset=[0, 0, 0]) {
   if (!is_undef($render_accessories) && $render_accessories) {

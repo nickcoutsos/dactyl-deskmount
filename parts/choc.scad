@@ -1,4 +1,4 @@
-include <definitions.scad>
+include <../definitions.scad>
 
 module choc_keycap(height=3.5) {
 
