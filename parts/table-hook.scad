@@ -1,5 +1,6 @@
 use <../scad-utils/linalg.scad>
 use <../scad-utils/transformations.scad>
+use <../geometry.scad>
 use <../util.scad>
 use <clamp.scad>
 

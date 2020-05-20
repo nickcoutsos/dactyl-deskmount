@@ -33,7 +33,15 @@ printing on top of support material.
 
 I had few versions of this, but the idea is to print a very thin (1 line thick)
 cover in transparent or light coloured filament to diffuse the LED light. It
-worked ok.
+worked ok. The important thing was to not blind anybody catching an eyeful of my
+keyboard's lights, but printing it in translucent filament gives a very pretty
+look. If you render the script standalone (instead of importing the module) its
+in a standing position with manually generated support for printing stability.
+
+In the end I settled on a solid pyramid-like pattern hoping to get interesting
+refraction of the light, but if I were to do this again I would redesign the
+plate so that this part doesn't have curves on multiple axis and cut a piece of
+acrylic for the LEDs to shine through the edge.
 
 ### `bottom-mount.scad`
 

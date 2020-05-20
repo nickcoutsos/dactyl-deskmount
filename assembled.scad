@@ -13,7 +13,6 @@ use <parts/placeholders/promicro.scad>
 use <parts/placeholders/table.scad>
 use <positioning.scad>
 use <util.scad>
-use <ko-footprint.scad>
 include <definitions.scad>
 
 $fn = 12;
@@ -29,7 +28,7 @@ ball_mount() {
   table_hook([-26, 0, 0], $render_accessories=true);
 
   multmatrix(keyboard_offset) {
-    assembled_plate($detail=false);
+    assembled_plate($detail=true);
     accessories(
       $render_controller=true,
       $render_leds=true,

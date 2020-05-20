@@ -1,7 +1,11 @@
 use <../scad-utils/transformations.scad>
+use <../geometry.scad>
+use <clamp-knob.scad>
+use <clamp-swivel-plate.scad>
+use <placeholders/hex-nut-and-bolt.scad>
+use <placeholders/nut.scad>
 use <placeholders/tee-nut.scad>
 use <placeholders/table.scad>
-use <../util.scad>
 include <../definitions.scad>
 
 default_fn = 12;
@@ -39,51 +43,6 @@ module clamp_cutouts() {
     translate(clamp_offset + [0, 5, -38]) rotate([0, 90, 0]) cylinder(d=43, h=desk_arm_thickness+1, center=true);
     translate(clamp_offset + [0, 2, -16.5]) cylinder(d1=9, d2=6.35, h=3, center=true);
     translate(clamp_offset + [0, 5+43/2, -38]) cube(43, center=true);
-  }
-}
-
-module bolt() {
-  bolt_height = 29.4;
-  cap_height = 4.3;
-  c = is_undef($clearance) ? 0 : $clearance;
-  e = is_undef($extend) ? 0 : $extend;
-
-  translate([0, 0, -c/2]) cylinder(d=6.35 + c, h=bolt_height + c + e);
-  translate([0, 0, bolt_height - cap_height - c/2]) cylinder(d=12.47+c, h=cap_height+c + e, $fn=6);
-}
-
-module nut () {
-  c = is_undef($clearance) ? 0 : $clearance;
-  across_corners = 12.83;
-  height = 5.56;
-  cylinder(d=across_corners + c, h=height + c, $fn=6);
-}
-
-module knob() {
-  difference() {
-    lobed_cylinder(radius=8, h=7);
-    translate([0, 0, 29.4]) rotate([180, 0, 0]) color("silver") bolt($clearance=0.5, $extend=5);
-  }
-}
-
-module swivel_plate() {
-  difference() {
-    union() {
-      cylinder(d=20, h=1.5, $fn=24);
-      translate([0, 0, 1.5]) cylinder(d1=18, d2=9, h=5);
-    }
-    translate([0, 0, 3.5]) bolt($clearance=0.75);
-  }
-}
-
-module swivel_plate_with_nut() {
-  difference() {
-    union() {
-      cylinder(d=20, h=1.5, $fn=24);
-      translate([0, 0, 1.5]) cylinder(d1=18, d2=15, h=4);
-    }
-    translate([0, 0, 3.5]) bolt($clearance=0.75);
-    translate([0, 0, 1]) nut();
   }
 }
 
