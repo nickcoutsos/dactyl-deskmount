@@ -15,7 +15,7 @@ use <plate-atoms/trim-profile.scad>
 use <placeholders/m3-screw.scad>
 use <placeholders/keycap.scad>
 use <placeholders/keyswitch.scad>
-use <placeholders/5050-led.scad>
+use <placeholders/3535-led.scad>
 use <placeholders/ic-socket.scad>
 use <placeholders/promicro.scad>
 use <placeholders/trrs-breakout.scad>

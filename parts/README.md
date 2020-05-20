@@ -69,7 +69,7 @@ own they are useless but the intention is to hull the pieces together.
 
 ## Placeholders
 
-### `5050-led.scad`
+### `3535-led.scad`
 
 Everything I do is handwired so surface mount components aren't really an option.
 You can find ws2812b LEDs on individual PCBs (including capacitor and resistor)
