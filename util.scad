@@ -1,25 +1,8 @@
+use <debug-helpers.scad>
 
-_debug_colors = [
-  "tomato",
-  "peachpuff",
-  "rosybrown",
-  "yellowgreen",
-  "mediumseagreen",
-  "skyblue",
-  "steelblue",
-  "mediumorchid",
-  "slategray"
-];
-
-module debug(i) {
-  if (!is_undef($debug) && $debug != false) {
-    color(_debug_colors[i % len(_debug_colors)])
-    children();
-  } else {
-    children();
-  }
-}
-
+/**
+ * Make a "triangle" strip by hulling triplets of child nodes.
+ */
 module triangle_hulls() {
   for (i=[0:$children - 3]) {
     debug(i)
@@ -31,6 +14,13 @@ module triangle_hulls() {
   }
 }
 
+/**
+ * Hull a series of children together. Instead of a single hull composed of
+ * every child it's a sequence of hulls of adjacent (in terms of module order)
+ * children.
+ *
+ * @param bool [close=false] make a closed "loop" by hulling the first and last child
+ */
 module serial_hulls(close=false) {
   for (i=[0:$children-2]) {
     debug(i)
@@ -48,6 +38,11 @@ module serial_hulls(close=false) {
   }
 }
 
+/**
+ * Like mirror() except it results in both the original and mirrored version. It
+ * also lets you specify multiple mirror axes so you can use one transformation
+ * to make an instance of the child in each quadrant/octant.
+ */
 module mirror_axes(axes) {
   children();
   for (axis=axes)
