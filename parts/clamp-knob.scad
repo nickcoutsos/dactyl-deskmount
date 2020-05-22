@@ -1,5 +1,5 @@
 use <../geometry.scad>
-use <placeholders/bolt.scad>
+use <placeholders/hex-nut-and-bolt.scad>
 
 module knob() {
   difference() {
