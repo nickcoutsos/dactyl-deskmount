@@ -78,6 +78,23 @@ thumb_overrides = [
   [1, 0, 1, 2, 90]
 ];
 
+// Between the finger and thumb clusters is a column of LEDs positioned using
+// finger key positioning and some additional scaling/rotating.
+led_transform = rotation([0, -60, 0]);
+led_offset = [-6, 0, 0];
+
+// LED size is used for $u and $h to scale the plate edge/corner pieces for
+// easier and positioning.
+led_size = 0.52;
+
+// LED positioning is given with [col, row] pairs.
+leds = [
+  [-0.75, 0.82],
+  [-0.75, 1.2],
+  [-0.75, 1.58],
+  [-0.75, 1.96]
+];
+
 // how thick to make the arm/clamp.
 // I haven't tried other values as I didn't want to print one that's too weak
 // and keep iterating. Wouldn't be a bad idea to render one and throw it into

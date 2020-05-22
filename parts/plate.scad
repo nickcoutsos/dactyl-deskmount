@@ -11,6 +11,7 @@ use <socket-mount.scad>
 use <plate-atoms/choc-plate.scad>
 use <plate-atoms/corner.scad>
 use <plate-atoms/edge.scad>
+use <plate-atoms/led-sockets.scad>
 use <plate-atoms/trim.scad>
 use <placeholders/m3-screw.scad>
 use <placeholders/keycap.scad>
@@ -31,16 +32,6 @@ $render_leds = false;
 $render_trrs = false;
 $render_usb = false;
 $render_diffuser = false;
-
-led_transform = rotation([0, -60, 0]);
-led_offset = [-6, 0, 0];
-led_size = 0.52;
-leds = [
-  [-0.75, 0.82],
-  [-0.75, 1.2],
-  [-0.75, 1.58],
-  [-0.75, 1.96]
-];
 
 module position_trrs() {
   multmatrix(thumb_place_transformation(1.5, 1.5))
@@ -239,6 +230,7 @@ module assembled_plate() {
     union() {
       plate();
       plate_trim();
+      led_sockets();
     }
 
     if (detail) {
