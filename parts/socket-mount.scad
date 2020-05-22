@@ -2,6 +2,7 @@ use <../scad-utils/linalg.scad>
 use <../scad-utils/transformations.scad>
 use <placeholders/ic-socket.scad>
 use <../positioning.scad>
+use <../positioning-transformations.scad>
 use <../util.scad>
 include <../definitions.scad>
 

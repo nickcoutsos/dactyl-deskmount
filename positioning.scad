@@ -1,7 +1,23 @@
 use <scad-utils/transformations.scad>
 use <scad-utils/linalg.scad>
+use <positioning-transformations.scad>
 include <definitions.scad>
 
+/**
+ * Important note:
+ * While finger_place and thumb_place should realistically work in the same way,
+ * they are currently written expecting that thumb_place parameters are indices
+ * to the `thumb_columns` 2d-array while finger_place parameters are the actual
+ * column/row positions. This is confusing and should be improved.
+ */
+
+/**
+ * Position child modules in the given finger column and row.
+ *
+ * If $u or $h aren't defined in this context they default to 1.
+ * @param Number column
+ * @param Number row
+ */
 module finger_place(column, row) {
   $u = is_undef($u) ? 1 : $u;
   $h = is_undef($h) ? 1 : $h;
@@ -12,82 +28,15 @@ module finger_place(column, row) {
     children();
 }
 
-module finger_corner_nw(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset(-1, 1)) children(); }
-module finger_corner_ne(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset( 1, 1)) children(); }
-module finger_corner_se(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset( 1,-1)) children(); }
-module finger_corner_sw(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset(-1,-1)) children(); }
-
-module finger_edge_n(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, plate_dimensions.y/2*$h, 0]) children(); } }
-module finger_edge_e(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([plate_dimensions.x/2*$u, 0, 0]) children(); } }
-module finger_edge_s(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, -plate_dimensions.y/2*$h, 0]) children(); } }
-module finger_edge_w(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_dimensions.x/2*$u, 0, 0]) children(); } }
-
-function finger_corner_transformation_nw(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(-1, 1);
-function finger_corner_transformation_ne(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(1, 1);
-function finger_corner_transformation_se(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(1, -1);
-function finger_corner_transformation_sw(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(-1, -1);
-
-function led_transformation(led) = finger_place_transformation(leds[led].x, leds[led].y) * led_transform;
-function led_corner_transformation_nw(led) = led_transformation(led) * key_size_offset(-1, 1, $uh=led_size);
-function led_corner_transformation_ne(led) = led_transformation(led) * key_size_offset( 1, 1, $uh=led_size);
-function led_corner_transformation_se(led) = led_transformation(led) * key_size_offset( 1,-1, $uh=led_size);
-function led_corner_transformation_sw(led) = led_transformation(led) * key_size_offset(-1,-1, $uh=led_size);
-function led_edge_transformation_n(led) = led_transformation(led) * key_size_offset(0, 1, $uh=led_size);
-function led_edge_transformation_e(led) = led_transformation(led) * key_size_offset(1, 1, $uh=led_size);
-function led_edge_transformation_s(led) = led_transformation(led) * key_size_offset(0, -1, $uh=led_size);
-function led_edge_transformation_w(led) = led_transformation(led) * key_size_offset(-1, 0, $uh=led_size);
-
-module led_position(led) { $u=led_size; $h=led_size; multmatrix(led_transformation(led)) children(); }
-module led_corner_nw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_nw(led)) children(); }
-module led_corner_ne(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_ne(led)) children(); }
-module led_corner_se(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_se(led)) children(); }
-module led_corner_sw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_sw(led)) children(); }
-module led_edge_n(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_n(led)) children(); }
-module led_edge_e(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_e(led)) children(); }
-module led_edge_s(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_s(led)) children(); }
-module led_edge_w(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_w(led)) children(); }
-
-function get_u_size() = !is_undef($uh) ? $uh : (!is_undef($u) ? $u : 1);
-function get_h_size() = !is_undef($uh) ? $uh : (!is_undef($h) ? $h : 1);
-function key_size_offset(x, y) = translation([
-  plate_dimensions.x * get_u_size() * x / 2,
-  plate_dimensions.y * get_h_size() * y / 2,
-  0
-]);
-
-function finger_place_transformation(column, row) = (
-  let(initial = finger_transformation(column, row))
-  let(arc = column >= 4 ? -2 : 0)
-  let(pivot = column >= 4
-    ? translation_part(finger_transformation(4, 3))
-    : [0, 0, 0]
-  )
-
-  identity4()
-  * translation(pivot)
-  * rotation([0, 0, arc])
-  * translation(-pivot)
-  * initial
-);
-
-function finger_transformation(column, row) = (
-  let(row_angle = alpha * (2 - row))
-  let(column_angle = beta * (2 - column))
-  let(column_offset = !is_undef(finger_column_offsets[column])
-    ? finger_column_offsets[column]
-    : [0, 0, 0])
-
-  translation([0, 0, 13])
-  * rotation(beta*3 * Y)
-  * translation(column_offset)
-  * translation([0, 0, finger_column_radius])
-  * rotation(column_angle * Y)
-  * translation([0, 0, -finger_column_radius])
-  * translation([0, 0, finger_row_radius])
-  * rotation(row_angle * X)
-  * translation([0, 0, -finger_row_radius])
-);
-
+/**
+ * Position child modules in the given thumb column and row.
+ *
+ * $u, $h, $rot will be set in this context according to the configured
+ * `thumb_overrides` definition.
+ *
+ * @param Number colIndex
+ * @param Number rowIndex
+ */
 module thumb_place (colIndex, rowIndex) {
   dimensions = get_overrides(thumb_overrides, colIndex, rowIndex);
   $u = dimensions[0];
@@ -100,6 +49,19 @@ module thumb_place (colIndex, rowIndex) {
     children();
 }
 
+// The following modules build on the basic {finger/thumb}_place module and
+// apply further transforms to position child nodes at the specified cardinal
+// direction of the plate, setting sizing context as appropriate.
+module finger_corner_nw(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset(-1, 1)) children(); }
+module finger_corner_ne(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset( 1, 1)) children(); }
+module finger_corner_se(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset( 1,-1)) children(); }
+module finger_corner_sw(col, row, transform=identity4()) { multmatrix(finger_place_transformation(col, row) * transform * key_size_offset(-1,-1)) children(); }
+
+module finger_edge_n(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, plate_dimensions.y/2*$h, 0]) children(); } }
+module finger_edge_e(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([plate_dimensions.x/2*$u, 0, 0]) children(); } }
+module finger_edge_s(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([0, -plate_dimensions.y/2*$h, 0]) children(); } }
+module finger_edge_w(col, row, transform=identity4()) { finger_place(col, row) multmatrix(transform) { translate([-plate_dimensions.x/2*$u, 0, 0]) children(); } }
+
 module thumb_corner_nw(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * -plate_dimensions.x/2, (is_undef($h) ? 1 : $h) * plate_dimensions.y/2, 0]) children(); }
 module thumb_corner_ne(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * plate_dimensions.x/2, (is_undef($h) ? 1 : $h) * plate_dimensions.y/2, 0]) children(); }
 module thumb_corner_se(col, row) { thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * plate_dimensions.x/2, (is_undef($h) ? 1 : $h) * -plate_dimensions.y/2, 0]) children(); }
@@ -110,54 +72,15 @@ module thumb_edge_e(col, row) { $length = is_undef($h) ? 1 : $h * plate_dimensio
 module thumb_edge_s(col, row) { $length = is_undef($u) ? 1 : $u * plate_dimensions.y; thumb_place(col, row) translate([0, (is_undef($h) ? 1 : $h) * -plate_dimensions.y/2, 0]) children(); }
 module thumb_edge_w(col, row) { $length = is_undef($h) ? 1 : $h * plate_dimensions.y; thumb_place(col, row) translate([(is_undef($u) ? 1 : $u) * -plate_dimensions.x/2, 0, 0]) children(); }
 
-function thumb_corner_transformation_nw(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(-1, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-function thumb_corner_transformation_ne(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(1, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-function thumb_corner_transformation_se(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(1, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-function thumb_corner_transformation_sw(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(-1, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-
-// function thumb_edge_transformation_n(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(0, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_e(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_s(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(0, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_w(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(-1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
-
-function thumb_place_transformation (column, row) = (
-  let(column_angle = beta * column)
-  let(row_angle = alpha * row)
-
-  translation([-52, -45, 40])
-  * rotation(axis=alpha * unit([1, 1, 0]))
-  * rotation([0, 0, 180 * (.25 - .1875)])
-  * translation([mount_width, 0, 0])
-  * translation([0, 0, thumb_column_radius])
-  * rotation([0, column_angle, 0])
-  * translation([0, 0, -thumb_column_radius])
-  * translation([0, 0, thumb_row_radius])
-  * rotation([row_angle, 0, 0])
-  * translation([0, 0, -thumb_row_radius])
-);
-
-module place_thumb_keys (columns, rows) {
-  for (col=columns, row=rows) {
-    if (col != 0 || row != 4) {
-      thumb_place(col, row) children();
-    }
-  }
-}
-
-r_offset = [0, plate_dimensions.y/2 + plate_thickness * cos(360/12), 0];
-
-posts = [
-  thumb_place_transformation(2.5, 0.5) * translation([-2.2, 0, -5]) * rotation([0, -20, 0]) * rotation([0, 0, -90]),
-  finger_place_transformation(1, 4) * translation(-r_offset) * translation([2, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([35, 0, 0]) * translation([0, -4, -3]),
-  finger_place_transformation(1, 1) * translation(r_offset) * translation([2, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]) * translation([0, -4, -3]),
-
-  finger_place_transformation(4, 3) * translation(-r_offset) * translation([0, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([33, 0, 0]) * translation([0, -4, -3]),
-  finger_place_transformation(4, 1) * translation(r_offset) * translation([0, 0, -plate_thickness + plate_thickness * sin(360/12)]) * rotation([-33, 0, 0]) * rotation([0, 0, 180]) * translation([0, -4, -3])
-];
-
-function post_place_transformation (index) = (
-  posts[index]
-);
+module led_position(led) { $u=led_size; $h=led_size; multmatrix(led_transformation(led)) children(); }
+module led_corner_nw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_nw(led)) children(); }
+module led_corner_ne(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_ne(led)) children(); }
+module led_corner_se(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_se(led)) children(); }
+module led_corner_sw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_sw(led)) children(); }
+module led_edge_n(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_n(led)) children(); }
+module led_edge_e(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_e(led)) children(); }
+module led_edge_s(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_s(led)) children(); }
+module led_edge_w(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_w(led)) children(); }
 
 module post_place(index) {
   multmatrix(post_place_transformation(index)) children();

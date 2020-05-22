@@ -3,7 +3,6 @@ use <../geometry.scad>
 use <clamp-knob.scad>
 use <clamp-swivel-plate.scad>
 use <placeholders/hex-nut-and-bolt.scad>
-use <placeholders/nut.scad>
 use <placeholders/tee-nut.scad>
 use <placeholders/table.scad>
 include <../definitions.scad>

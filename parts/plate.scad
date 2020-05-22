@@ -3,6 +3,7 @@ use <../scad-utils/transformations.scad>
 
 use <../geometry.scad>
 use <../positioning.scad>
+use <../positioning-transformations.scad>
 use <../util.scad>
 include <../definitions.scad>
 

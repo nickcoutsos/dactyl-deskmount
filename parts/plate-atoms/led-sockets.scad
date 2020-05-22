@@ -42,13 +42,9 @@ module led_sockets() {
     }
 
     if (!is_undef($detail) && $detail) {
-      for (pos=leds) {
-        $fn=12;
-        $u = led_size;
-        $h = led_size;
-
-        finger_place(pos.x, pos.y)
-        multmatrix(led_transform)
+      $fn=12;
+      for (i=[0:len(leds)-1]) {
+        led_position(i)
         translate([0, 0, -5.7])
           led($clearance=0.5, footprint=true);
       }
