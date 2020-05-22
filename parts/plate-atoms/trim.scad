@@ -30,14 +30,14 @@ module plate_trim() {
   detail = is_undef($detail) ? false : $detail;
 
   hull() {
-    finger_edge_s(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_edge(horizontal=true);
+    led_edge_s(3) plate_edge(horizontal=true);
     thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     thumb_corner_ne(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
   }
 
   triangle_hulls() {
     thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
+    led_corner_sw(3) plate_corner();
     thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
     thumb_corner_nw(2, 2)
     translate([4, 3, -22])
@@ -131,7 +131,7 @@ module plate_trim() {
       edge_profile(90);
 
     hull() {
-      finger_corner_se(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) plate_corner();
+      led_corner_se(3) plate_corner();
       finger_corner_nw(0, 3) plate_corner();
     }
   }
@@ -162,20 +162,20 @@ module plate_trim() {
     }
 
     // thumb to led column
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([-90, 0, 0]) edge_profile(30);
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([0, 0, 0]) edge_profile(0);
-    finger_corner_sw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_nw(leds[3].x, leds[3].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_sw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_nw(leds[2].x, leds[2].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_sw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_nw(leds[1].x, leds[1].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_sw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(0);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(30);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(60);
-    finger_corner_nw(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) edge_profile(90);
-    finger_corner_ne(leds[0].x, leds[0].y, led_transform, $u=led_size, $h=led_size) translate(led_offset) rotate([0, 30, 0]) edge_profile(90);
+    led_corner_sw(3) rotate([-90, 0, 0]) edge_profile(30);
+    led_corner_sw(3) rotate([0, 0, 0]) edge_profile(0);
+    led_corner_sw(3) edge_profile(0);
+    led_corner_nw(3) edge_profile(0);
+    led_corner_sw(2) edge_profile(0);
+    led_corner_nw(2) edge_profile(0);
+    led_corner_sw(1) edge_profile(0);
+    led_corner_nw(1) edge_profile(0);
+    led_corner_sw(0) edge_profile(0);
+    led_corner_nw(0) edge_profile(0);
+    led_corner_nw(0) edge_profile(30);
+    led_corner_nw(0) edge_profile(60);
+    led_corner_nw(0) edge_profile(90);
+    led_corner_ne(0) rotate([0, 30, 0]) edge_profile(90);
     finger_corner_nw(0, 1) edge_profile(90);
   }
 

@@ -191,17 +191,7 @@ module accessories() {
   }
 
   if ($render_leds || $render_all)
-  for (pos=leds) {
-    $fn=12;
-    $u = led_size;
-    $h = led_size;
-
-    finger_place(pos.x, pos.y)
-    multmatrix(led_transform)
-    translate(led_offset)
-    translate([0, 0, -6])
-      led();
-  }
+  for (i=[0:len(leds)-1]) led_position(i) translate([0, 0, -6]) led();
 
   if ($render_controller || $render_all) {
     pcb_socket_mount() {

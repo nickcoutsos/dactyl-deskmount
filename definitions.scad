@@ -79,9 +79,8 @@ thumb_overrides = [
 ];
 
 // Between the finger and thumb clusters is a column of LEDs positioned using
-// finger key positioning and some additional scaling/rotating.
-led_transform = rotation([0, -60, 0]);
-led_offset = [-6, 0, 0];
+// finger key positioning and some additional offset and pivot.
+led_transform = rotation([0, -60, 0]) * translation([-6, 0, 0]);
 
 // LED size is used for $u and $h to scale the plate edge/corner pieces for
 // easier and positioning.

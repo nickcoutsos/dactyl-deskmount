@@ -27,11 +27,33 @@ function finger_corner_transformation_ne(col, row, transform=identity4()) = fing
 function finger_corner_transformation_se(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(1, -1);
 function finger_corner_transformation_sw(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(-1, -1);
 
-function key_size_offset(x, y) = (
-  let($u = is_undef($u) ? 1 : $u)
-  let($h = is_undef($h) ? 1 : $h)
-  translation([plate_dimensions.x/2*$u * x, plate_dimensions.y/2*$h * y, 0])
-);
+function led_transformation(led) = finger_place_transformation(leds[led].x, leds[led].y) * led_transform;
+function led_corner_transformation_nw(led) = led_transformation(led) * key_size_offset(-1, 1, $uh=led_size);
+function led_corner_transformation_ne(led) = led_transformation(led) * key_size_offset( 1, 1, $uh=led_size);
+function led_corner_transformation_se(led) = led_transformation(led) * key_size_offset( 1,-1, $uh=led_size);
+function led_corner_transformation_sw(led) = led_transformation(led) * key_size_offset(-1,-1, $uh=led_size);
+function led_edge_transformation_n(led) = led_transformation(led) * key_size_offset(0, 1, $uh=led_size);
+function led_edge_transformation_e(led) = led_transformation(led) * key_size_offset(1, 1, $uh=led_size);
+function led_edge_transformation_s(led) = led_transformation(led) * key_size_offset(0, -1, $uh=led_size);
+function led_edge_transformation_w(led) = led_transformation(led) * key_size_offset(-1, 0, $uh=led_size);
+
+module led_position(led) { $u=led_size; $h=led_size; multmatrix(led_transformation(led)) children(); }
+module led_corner_nw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_nw(led)) children(); }
+module led_corner_ne(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_ne(led)) children(); }
+module led_corner_se(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_se(led)) children(); }
+module led_corner_sw(led) { $u=led_size; $h=led_size; multmatrix(led_corner_transformation_sw(led)) children(); }
+module led_edge_n(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_n(led)) children(); }
+module led_edge_e(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_e(led)) children(); }
+module led_edge_s(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_s(led)) children(); }
+module led_edge_w(led) { $u=led_size; $h=led_size; multmatrix(led_edge_transformation_w(led)) children(); }
+
+function get_u_size() = !is_undef($uh) ? $uh : (!is_undef($u) ? $u : 1);
+function get_h_size() = !is_undef($uh) ? $uh : (!is_undef($h) ? $h : 1);
+function key_size_offset(x, y) = translation([
+  plate_dimensions.x * get_u_size() * x / 2,
+  plate_dimensions.y * get_h_size() * y / 2,
+  0
+]);
 
 function finger_place_transformation(column, row) = (
   let(initial = finger_transformation(column, row))
