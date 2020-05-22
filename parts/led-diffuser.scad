@@ -127,7 +127,7 @@ module led_diffuser() {
 led_column_bottom = (
   finger_place_transformation(leds[3].x, leds[3].y, $u=led_size, $h=led_size)
   * led_transform
-  * translation([0, -plate_height/2*led_size, 0])
+  * translation([0, -plate_dimensions.y/2*led_size, 0])
   * translation(led_offset)
 );
 

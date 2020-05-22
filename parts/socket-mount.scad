@@ -32,39 +32,39 @@ module pcb_socket_mount() {
   }
 
   multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) {
-    translate([-plate_width/4, plate_height/2+3, -1]) cube([plate_width/2, 2, 2], center=true);
-    translate([-plate_width/4, -(plate_height/2+3), -1]) cube([plate_width/2, 2, 2], center=true);
+    translate([-plate_dimensions.x/4, plate_dimensions.y/2+3, -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
+    translate([-plate_dimensions.x/4, -(plate_dimensions.y/2+3), -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
   }
 
   multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) {
-    translate([plate_width/4, plate_height/2+3, -1]) cube([plate_width/2, 2, 2], center=true);
-    translate([plate_width/4, -(plate_height/2+3), -1]) cube([plate_width/2, 2, 2], center=true);
+    translate([plate_dimensions.x/4, plate_dimensions.y/2+3, -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
+    translate([plate_dimensions.x/4, -(plate_dimensions.y/2+3), -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
   }
 
   hull() {
-    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-(keyhole_length+plate_padding.x/2)/2, 0, -1]) cube([plate_padding.x/2, plate_dimensions.y+5, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([-33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
   }
   hull() {
-    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([(keyhole_length+plate_horizontal_padding/2)/2, 0, -1]) cube([plate_horizontal_padding/2, plate_height+5, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([(keyhole_length+plate_padding.x/2)/2, 0, -1]) cube([plate_padding.x/2, plate_dimensions.y+5, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([33/2, 0, 1]) cube([1.75, 22, 1.75], center=true);
   }
 
   hull() {
-    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_dimensions.x/2+2, plate_dimensions.y/2+3, -1]) cube([4, 2, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([-33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
   }
   hull() {
-    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, plate_height/2+3, -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_dimensions.x/2-2, plate_dimensions.y/2+3, -1]) cube([4, 2, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([33/2, (22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
   }
 
   hull() {
-    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_width/2+2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-plate_dimensions.x/2+2, -(plate_dimensions.y/2+3), -1]) cube([4, 2, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([-33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
   }
   hull() {
-    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_width/2-2, -(plate_height/2+3), -1]) cube([4, 2, 2], center=true);
+    multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) translate([plate_dimensions.x/2-2, -(plate_dimensions.y/2+3), -1]) cube([4, 2, 2], center=true);
     multmatrix(thumb_place_transformation(0.5, -0.5)) translate([0, 0, -10]) translate([33/2, -(22-0.5)/2, 1]) cube([1.75, 0.5, 1.75], center=true);
   }
 }

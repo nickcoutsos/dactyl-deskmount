@@ -5,8 +5,8 @@ module kailh_choc_plate() {
   h = !is_undef($h) ? $h : 1;
   rot = !is_undef($rot) ? $rot : 0;
 
-  width = u * plate_width;
-  depth = h * plate_height;
+  width = u * plate_dimensions.x;
+  depth = h * plate_dimensions.y;
 
   difference() {
     translate([0, 0, -plate_thickness/2])
