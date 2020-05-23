@@ -1,8 +1,5 @@
-use <scad-utils/transformations.scad>
-use <scad-utils/linalg.scad>
-
-use <placeholders.scad>
-use <table-hook.scad>
+use <../../scad-utils/transformations.scad>
+use <../../scad-utils/linalg.scad>
 
 dimensions = [160, 114.9, 10.9];
 radius = 7;
@@ -31,16 +28,4 @@ module trackpad(center=false) {
       [-1, 4.9],
     ]);
   }
-}
-
-trackpad_pivot = [-5, 10, -10];
-
-translate([0, -20, -20])
-ball_mount(trackpad_pivot) {
-  translate(-[0, 0, 15.05+8.47])
-  multmatrix(invert_rt(rotation(trackpad_pivot)))
-  table_hook([-26, 20, 20], $render_accessories=true);
-
-  translate([40, -10, 8])
-  trackpad(center=true);
 }
