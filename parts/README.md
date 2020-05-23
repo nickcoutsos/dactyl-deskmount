@@ -77,6 +77,14 @@ own they are useless but the intention is to hull the pieces together.
 
 ## Placeholders
 
+![placeholders.png](outputs/placeholders.png "Placeholder parts")
+
+_(left to right: `led`, `hex_nut`, `hex_bolt`, `socket`, `kailh_choc_keycap`,
+`kailh_choc_switch`, `m3_nut`, `m3_screw`, `micro_usb_breakout`, `pro_micro`,
+`tee_nut`, `trrs_breakout`)_
+
+_(top to bottom: normal, `$detail=true`, `$detail=true; $clearance=1`)_
+
 ### `3535-led.scad`
 
 Everything I do is handwired so surface mount components aren't really an option.

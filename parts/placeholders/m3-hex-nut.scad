@@ -6,7 +6,7 @@ module m3_hex_nut() {
   diameter = 6.12 + clearance;
   height = 2.35 + clearance;
 
-  color("dimgray")
+  color("silver")
   translate([0, 0, center ? -height/2 : 0])
   difference() {
     cylinder(d=diameter, h=height, $fn=6);

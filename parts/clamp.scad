@@ -53,7 +53,7 @@ module clamp_accessories() {
 
   translate(clamp_offset + [0, 2, 1.75])
   rotate([180, 0, 0]) {
-    color("silver") translate([0, 0, 4]) bolt();
+    color("silver") translate([0, 0, 4]) hex_bolt();
     color("slategray") swivel_plate_with_nut();
     color("slategray") translate([0, 0, 34]) rotate([180, 0, 0]) knob();
   }

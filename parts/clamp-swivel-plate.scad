@@ -16,7 +16,7 @@ module swivel_plate_with_nut() {
       cylinder(d=20, h=1.5, $fn=24);
       translate([0, 0, 1.5]) cylinder(d1=18, d2=15, h=4);
     }
-    translate([0, 0, 3.5]) bolt($clearance=0.75);
-    translate([0, 0, 1]) nut();
+    translate([0, 0, 3.5]) hex_bolt($clearance=0.75);
+    translate([0, 0, 1]) hex_nut();
   }
 }
