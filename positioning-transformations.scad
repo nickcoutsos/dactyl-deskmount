@@ -86,20 +86,23 @@ function thumb_place_transformation (column, row) = (
 
 // These functions extend the basic finger key transformation by shifting to a
 // specific corner of that key's plate to simplify joining key plates together.
-function finger_corner_transformation_nw(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(-1, 1);
-function finger_corner_transformation_ne(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(1, 1);
-function finger_corner_transformation_se(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(1, -1);
-function finger_corner_transformation_sw(col, row, transform=identity4()) = finger_place_transformation(col, row) * transform * key_size_offset(-1, -1);
+function finger_corner_transformation_nw(col, row) = finger_place_transformation(col, row) * key_size_offset(-1, 1);
+function finger_corner_transformation_ne(col, row) = finger_place_transformation(col, row) * key_size_offset(1, 1);
+function finger_corner_transformation_se(col, row) = finger_place_transformation(col, row) * key_size_offset(1, -1);
+function finger_corner_transformation_sw(col, row) = finger_place_transformation(col, row) * key_size_offset(-1, -1);
+function finger_edge_transformation_n(col, row)    = finger_place_transformation(col, row) * key_size_offset(0, 1);
+function finger_edge_transformation_e(col, row)    = finger_place_transformation(col, row) * key_size_offset(1, 0);
+function finger_edge_transformation_s(col, row)    = finger_place_transformation(col, row) * key_size_offset(0, -1);
+function finger_edge_transformation_w(col, row)    = finger_place_transformation(col, row) * key_size_offset(-1, 0);
 
 function thumb_corner_transformation_nw(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(-1, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
 function thumb_corner_transformation_ne(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(1, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
 function thumb_corner_transformation_se(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(1, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
 function thumb_corner_transformation_sw(colIndex, rowIndex) = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(-1, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-
-// function thumb_edge_transformation_n(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(0, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_e(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_s(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(0, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
-// function thumb_edge_transformation_w(col, row) = let(dim=get_overrides(thumb_overrides, col, row)) thumb_place_transformation(col, row) * key_size_offset(-1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
+function thumb_edge_transformation_n(colIndex, rowIndex)    = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(0, 1, $u=dim[0], $h=dim[1], $rot=dim[2]);
+function thumb_edge_transformation_e(colIndex, rowIndex)    = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
+function thumb_edge_transformation_s(colIndex, rowIndex)    = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(0, -1, $u=dim[0], $h=dim[1], $rot=dim[2]);
+function thumb_edge_transformation_w(colIndex, rowIndex)    = let(row=thumb_columns[colIndex][rowIndex]) let(dim=get_overrides(thumb_overrides, colIndex, rowIndex)) thumb_place_transformation(colIndex, row) * key_size_offset(-1, 0, $u=dim[0], $h=dim[1], $rot=dim[2]);
 
 // Similar to `finger_{corner/edge}_transformation_*` but adds the transforms
 // used for the LED column.
@@ -109,7 +112,7 @@ function led_corner_transformation_ne(led) = led_transformation(led) * key_size_
 function led_corner_transformation_se(led) = led_transformation(led) * key_size_offset( 1,-1, $uh=led_size);
 function led_corner_transformation_sw(led) = led_transformation(led) * key_size_offset(-1,-1, $uh=led_size);
 function led_edge_transformation_n(led) = led_transformation(led) * key_size_offset(0, 1, $uh=led_size);
-function led_edge_transformation_e(led) = led_transformation(led) * key_size_offset(1, 1, $uh=led_size);
+function led_edge_transformation_e(led) = led_transformation(led) * key_size_offset(1, 0, $uh=led_size);
 function led_edge_transformation_s(led) = led_transformation(led) * key_size_offset(0, -1, $uh=led_size);
 function led_edge_transformation_w(led) = led_transformation(led) * key_size_offset(-1, 0, $uh=led_size);
 
@@ -121,7 +124,6 @@ function key_size_offset(x, y) = translation([
   plate_dimensions.y * get_h_size() * y / 2,
   0
 ]);
-
 
 // Transformation matrices for each screw post.
 r_offset = [0, plate_dimensions.y/2 + plate_thickness * cos(360/12), 0];
