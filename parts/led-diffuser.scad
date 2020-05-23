@@ -7,12 +7,6 @@ use <../positioning-transformations.scad>
 use <../util.scad>
 include <../definitions.scad>
 
-module poly_hulls(paths) {
-  for (i=[0:len(paths)-1]) {
-    debug(i) hull() for (j=paths[i]) children(j);
-  }
-}
-
 module led_diffuser() {
   $fn=13;
   module half_sphere(d=1) {

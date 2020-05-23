@@ -39,6 +39,19 @@ module serial_hulls(close=false) {
 }
 
 /**
+ * For complex geometries based on groups of hulls with some overlap.
+ *
+ * Each array in `path` represents a group of child nodes to be hulled together.
+ *
+ * @param Array<Array<Integer>> paths - an array of arrays of child indices
+ */
+module poly_hulls(paths) {
+  for (i=[0:len(paths)-1]) {
+    debug(i) hull() for (j=paths[i]) children(j);
+  }
+}
+
+/**
  * Like mirror() except it results in both the original and mirrored version. It
  * also lets you specify multiple mirror axes so you can use one transformation
  * to make an instance of the child in each quadrant/octant.
