@@ -2,6 +2,8 @@
 ---
 ![dactyl-deskmount.jpg](outputs/dactyl-deskmount.jpg "Dactyl and desk mounting hardware")
 
+_[(3D Preview of assembled keyboard)](outputs/preview.stl)_
+
 ## Goal
 
 Essentially, make a variant of the [dactyl-keyboard] that doesn't impose
@@ -124,7 +126,19 @@ Admittedly I do think a few subtle lights can add to the keyboard's aesthetics.
 
 ## Pre-rendered parts
 
-_TODO: commit STL files_
+All printable pieces are pre-rendered (for my specific setup) and available in
+[outputs/pre-rendered/](outputs/pre-rendered):
+
+* [bottom-mount](outputs/pre-rendered/bottom-mount.stl)
+* [choc-keycap-1u](outputs/pre-rendered/choc-keycap-1u.stl)
+* [choc-keycap-1u-index](outputs/pre-rendered/choc-keycap-1u-index.stl)
+* [choc-keycap-2u](outputs/pre-rendered/choc-keycap-2u.stl)
+* [clamp-knob](outputs/pre-rendered/clamp-knob.stl)
+* [clamp-swivel-plate](outputs/pre-rendered/clamp-swivel-plate.stl)
+* [led-diffuser](outputs/pre-rendered/led-diffuser.stl)
+* [plate](outputs/pre-rendered/plate.stl)
+* [socket-mount](outputs/pre-rendered/socket-mount.stl)
+* [table-hook](outputs/pre-rendered/table-hook.stl)
 
 
 [dactyl-keyboard]:https://github.com/adereth/dactyl-keyboard/
