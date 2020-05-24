@@ -65,9 +65,9 @@ module position_usb_port() {
 }
 
 module plate() {
-  for (col=[0:len(finger_columns)-1]) {
-    for (row=finger_columns[col]) {
-      finger_place(col, row) switch_plate();
+  for (colIndex=[0:len(finger_columns) - 1]) {
+    for (rowIndex=[0:len(finger_columns[colIndex]) - 1]) {
+      finger_key(colIndex, rowIndex) switch_plate();
     }
   }
 
@@ -78,37 +78,40 @@ module plate() {
     }
   }
 
-  for (col=[0:len(finger_columns)-1]) {
-    for (rowIndex=[0:len(finger_columns[col])-2]) {
-      this_row = finger_columns[col][rowIndex];
-      next_row = finger_columns[col][rowIndex+1];
+  for (colIndex=[0:len(finger_columns)-1]) {
+    for (rowIndex=[0:len(finger_columns[colIndex])-2]) {
+      // this_row = finger_columns[colIndex][rowIndex];
+      // next_row = finger_columns[colIndex][rowIndex+1];
 
       hull() {
-        finger_edge_s(col, this_row) plate_edge(horizontal=true);
-        finger_edge_n(col, next_row) plate_edge(horizontal=true);
+        finger_key_edge_s(colIndex, rowIndex) plate_edge(horizontal=true);
+        finger_key_edge_n(colIndex, rowIndex + 1) plate_edge(horizontal=true);
       }
     }
   }
 
-  for (col=[0:len(finger_columns)-2]) {
-    this_column = finger_columns[col];
-    next_column = finger_columns[col+1];
+  for (colIndex=[0:len(finger_columns)-2]) {
+    this_column = finger_columns[colIndex];
+    next_column = finger_columns[colIndex+1];
 
-    for (rowIndex=[0:len(finger_columns[col]) - 1]) {
-      this = [col, this_column[rowIndex]];
-      down = [col, this_column[rowIndex+1]];
-      right = [col+1, next_column[rowIndex]];
-      down_right = [col+1, next_column[rowIndex+1]];
+    for (rowIndex=[0:len(finger_columns[colIndex]) - 1]) {
+      this = [colIndex, this_column[rowIndex]];
+      down = [colIndex, this_column[rowIndex+1]];
+      right = [colIndex+1, next_column[rowIndex]];
+      down_right = [colIndex+1, next_column[rowIndex+1]];
 
-      if (right.y) triangle_hulls() {
-        finger_corner_ne(this.x, this.y) plate_corner();
-        finger_corner_nw(right.x, right.y) plate_corner();
-        finger_corner_se(this.x, this.y) plate_corner();
-        finger_corner_sw(right.x, right.y) plate_corner();
+      if (!is_undef(right.y)) triangle_hulls() {
+        finger_key_corner_ne(colIndex, rowIndex) plate_corner();
+        finger_key_corner_nw(colIndex+1, rowIndex) plate_corner();
+        finger_key_corner_se(colIndex, rowIndex) plate_corner();
+        finger_key_corner_sw(colIndex+1, rowIndex) plate_corner();
 
-        if (down.y) finger_corner_ne(down.x, down.y) plate_corner();
-        if (down_right.x && down_right.y) finger_corner_nw(down_right.x, down_right.y) plate_corner();
-        else if (down.y) finger_corner_se(down.x, down.y) plate_corner();
+        if (!is_undef(down.y))
+          finger_key_corner_ne(colIndex, rowIndex+1) plate_corner();
+        if (!is_undef(down_right.x) && !is_undef(down_right.y))
+          finger_key_corner_nw(colIndex+1, rowIndex+1) plate_corner();
+        else if (!is_undef(down.y))
+          finger_key_corner_se(colIndex, rowIndex+1) plate_corner();
       }
     }
   }
@@ -188,10 +191,10 @@ module plate() {
 }
 
 module accessories() {
-  for (col=[0:len(finger_columns)-1]) {
-    for (row=finger_columns[col]) {
-      if ($render_switches || $render_all) finger_place(col, row) switch();
-      if ($render_keycaps || $render_all) finger_place(col, row) color("white") keycap();
+  for (colIndex=[0:len(finger_columns)-1]) {
+    for (rowIndex=[0:len(finger_columns[colIndex])-1]) {
+      if ($render_switches || $render_all) finger_key(colIndex, rowIndex) switch();
+      if ($render_keycaps || $render_all) finger_key(colIndex, rowIndex) color("white") keycap();
     }
   }
 

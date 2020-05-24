@@ -63,6 +63,12 @@ finger_columns = [
   [1, 2, 3]
 ];
 
+finger_overrides = [
+  // [5, 0, 1.5, 1, 0, 0.25, 0],
+  // [5, 1, 1.5, 1, 0, 0.25, 0],
+  // [5, 2, 1.5, 1, 0, 0.25, 0]
+];
+
 // Per-column selection of thumb keys and their row positions.
 // In this case because of the 2u keys there's need to use fractional values.
 thumb_columns = [
@@ -144,12 +150,17 @@ desk_top_offset = [0, 50, 40];
 // Desired offset from keyboard "origin" to bottom mount component.
 keyboard_offset = rotation([0, -20, 0]) * translation([30, 5, -6]);
 
+function slice(vec, start, end) = (
+  let(e=is_undef(end) ? len(vec) - 1 : end)
+  [ for(i=[start:e]) vec[i] ]
+);
+
 // Look up thumb overrides for given column and row index
 function get_overrides (source, colIndex, rowIndex) = (
   let(matches = [
     for(vec=source)
     if (vec[0] == colIndex && vec[1] == rowIndex)
-    [ vec[2], vec[3], vec[4] ]
+    slice(vec, 2)
   ])
 
   len(matches) > 0 ? matches[0] : [1, 1, 0]

@@ -19,6 +19,11 @@ function finger_transformation(column, row) = (
   let(column_offset = !is_undef(finger_column_offsets[column])
     ? finger_column_offsets[column]
     : [0, 0, 0])
+  let(key_offset = [
+    !is_undef($xOffset) ? $xOffset * plate_dimensions.x : 0,
+    !is_undef($yOffset) ? $yOffset * plate_dimensions.y : 0,
+    0
+  ])
 
   translation([0, 0, 13])
   * rotation(beta*3 * Y)
@@ -29,6 +34,7 @@ function finger_transformation(column, row) = (
   * translation([0, 0, finger_row_radius])
   * rotation(row_angle * X)
   * translation([0, 0, -finger_row_radius])
+  * translation(key_offset)
 );
 
 /**
