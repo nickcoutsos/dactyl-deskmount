@@ -7,3 +7,7 @@ module knob() {
     translate([0, 0, 29.4]) rotate([180, 0, 0]) color("silver") hex_bolt($clearance=0.5, $extend=5);
   }
 }
+
+translate([0, 0, 7])
+rotate([180, 0, 0])
+knob();

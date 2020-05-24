@@ -254,7 +254,7 @@ module assembled_plate() {
 assembled_plate($detail=true);
 // plate();
 // plate_trim();
-accessories($render_all=true);
+// accessories($render_all=true);
 
 /// samples for test prints
 // intersection() {

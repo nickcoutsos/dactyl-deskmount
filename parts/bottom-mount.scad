@@ -76,4 +76,4 @@ module bottom_mount() {
   }
 }
 
-bottom_mount();
+bottom_mount($fn=12, $detail=true);

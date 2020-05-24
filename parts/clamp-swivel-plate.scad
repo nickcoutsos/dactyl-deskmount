@@ -6,7 +6,7 @@ module swivel_plate() {
       cylinder(d=20, h=1.5, $fn=24);
       translate([0, 0, 1.5]) cylinder(d1=18, d2=9, h=5);
     }
-    translate([0, 0, 3.5]) bolt($clearance=0.75);
+    translate([0, 0, 3.5]) hex_bolt($clearance=0.75);
   }
 }
 
@@ -20,3 +20,5 @@ module swivel_plate_with_nut() {
     translate([0, 0, 1]) hex_nut();
   }
 }
+
+swivel_plate();

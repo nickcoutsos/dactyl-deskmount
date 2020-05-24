@@ -32,15 +32,23 @@ module pcb_socket_mount() {
       children();
   }
 
-  multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) {
-    translate([-plate_dimensions.x/4, plate_dimensions.y/2+3, -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
-    translate([-plate_dimensions.x/4, -(plate_dimensions.y/2+3), -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
-  }
+  multmatrix(thumb_place_transformation(1, -0.5))
+  mirror_axes([[0, 1, 0]])
+  translate(-[
+    plate_dimensions.x / 4,
+    plate_dimensions.y / 2 + 3,
+    plate_dimensions.z + 1
+  ])
+    cube([plate_dimensions.x/2, 2, 2], center=true);
 
-  multmatrix(thumb_place_transformation(0, -0.5)) translate([0, 0, -plate_thickness]) {
-    translate([plate_dimensions.x/4, plate_dimensions.y/2+3, -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
-    translate([plate_dimensions.x/4, -(plate_dimensions.y/2+3), -1]) cube([plate_dimensions.x/2, 2, 2], center=true);
-  }
+  multmatrix(thumb_place_transformation(0, -0.5))
+  mirror_axes([[0, 1, 0]])
+  translate([
+    plate_dimensions.x / 4,
+    plate_dimensions.y / 2 + 3,
+    -plate_dimensions.z - 1
+  ])
+    cube([plate_dimensions.x/2, 2, 2], center=true);
 
   hull() {
     multmatrix(thumb_place_transformation(1, -0.5)) translate([0, 0, -plate_thickness]) translate([-(keyhole_length+plate_padding.x/2)/2, 0, -1]) cube([plate_padding.x/2, plate_dimensions.y+5, 2], center=true);

@@ -19,7 +19,7 @@ module tee_nut(footprint=false) {
       rotate([0, 0, 90*4]) translate([(diameter)/2-prongs.x/2, -0.5, prongs.z/2+clearance/2]) cube(prongs + [1,1,1] * clearance/2, center=true);
     }
 
-    if (!is_undef($detail) && $detail) {
+    if (!is_undef($detail) && $detail && !footprint) {
       cylinder(d=6.35, h=20, center=true);
     }
   }
