@@ -19,9 +19,11 @@ use <placeholders/choc-keycap.scad>
 use <placeholders/choc-switch.scad>
 use <placeholders/3535-led.scad>
 use <placeholders/ic-socket.scad>
+use <placeholders/mx-switch.scad>
 use <placeholders/promicro.scad>
 use <placeholders/trrs-breakout.scad>
 use <placeholders/micro-usb-breakout.scad>
+use <placeholders/xda-keycap.scad>
 
 $fn = 12;
 $key_pressed = false;
@@ -33,6 +35,16 @@ $render_leds = false;
 $render_trrs = false;
 $render_usb = false;
 $render_diffuser = false;
+
+module switch() {
+  if (switch_type == "choc") kailh_choc_switch();
+  if (switch_type == "mx") mx_switch();
+}
+
+module keycap() {
+  if (keycap_type == "choc") kailh_choc_keycap();
+  if (keycap_type == "xda") xda_keycap();
+}
 
 module position_trrs() {
   multmatrix(thumb_place_transformation(1.5, 1.5))
@@ -178,16 +190,16 @@ module plate() {
 module accessories() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
-      if ($render_switches || $render_all) finger_place(col, row) kailh_choc_switch();
-      if ($render_keycaps || $render_all) finger_place(col, row) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) finger_place(col, row) switch();
+      if ($render_keycaps || $render_all) finger_place(col, row) color("white") keycap();
     }
   }
 
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      if ($render_switches || $render_all) thumb_place(colIndex, rowIndex) kailh_choc_switch();
-      if ($render_keycaps || $render_all) thumb_place(colIndex, rowIndex) color("white") kailh_choc_keycap();
+      if ($render_switches || $render_all) thumb_place(colIndex, rowIndex) switch();
+      if ($render_keycaps || $render_all) thumb_place(colIndex, rowIndex) color("white") keycap();
     }
   }
 

@@ -6,6 +6,9 @@ X = [1, 0, 0];
 Y = [0, 1, 0];
 Z = [0, 0, 1];
 
+switch_type = "choc";
+keycap_type = "choc";
+
 keyhole_length = choc_keyhole_length;
 keycap_width   = choc_keycap_width;
 keycap_depth   = choc_keycap_depth;
