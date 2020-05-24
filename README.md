@@ -1,6 +1,6 @@
 # dactyl-deskmount
 ---
-![dactyl-deskmount.png](outputs/dactyl-deskmount.png "Dactyl and desk mounting hardware rendered in OpenSCAD")
+![dactyl-deskmount.jpg](outputs/dactyl-deskmount.jpg "Dactyl and desk mounting hardware")
 
 ## Goal
 
