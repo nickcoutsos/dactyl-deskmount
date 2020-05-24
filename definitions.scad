@@ -1,16 +1,16 @@
 use <scad-utils/linalg.scad>
 use <scad-utils/transformations.scad>
+include <switch-and-keycap-specs.scad>
 
 X = [1, 0, 0];
 Y = [0, 1, 0];
 Z = [0, 0, 1];
 
-// these measurements are specific to kailh choc caps and switches.
-keyhole_length = 13.8;
-keycap_length = 17.6;
-keycap_depth = 16.6;
-keycap_height = 3.4;
-cap_top_height = 9;
+keyhole_length = choc_keyhole_length;
+keycap_width   = choc_keycap_width;
+keycap_depth   = choc_keycap_depth;
+keycap_height  = choc_keycap_height;
+cap_top_height = choc_keycap_top_height;
 
 plate_thickness = 2.7;
 plate_padding = [2.5, 2.5]; // horizontal and vertical padding around switches.
@@ -21,16 +21,16 @@ plate_dimensions = [
 ];
 
 // overall space allotted for each keycap
-mount_width = keycap_length + 1;
-mount_height = keycap_depth + 1;
+mount_width = keycap_width + 1;
+mount_depth = keycap_depth + 1;
 
 // angle from key-to-key in a column (alpha) and column-to-column (beta)
 alpha = 180/12;
 beta = 180/36;
 
-finger_row_radius = mount_height / 2 / sin(alpha/2) + cap_top_height;
+finger_row_radius = mount_depth / 2 / sin(alpha/2) + cap_top_height;
 finger_column_radius = mount_width / 2 / sin(beta/2) + cap_top_height;
-thumb_row_radius = mount_height / 2 / sin(alpha/2) + cap_top_height;
+thumb_row_radius = mount_depth / 2 / sin(alpha/2) + cap_top_height;
 thumb_column_radius = mount_width / 2 / sin(beta/2) + cap_top_height;
 
 // Per-column offsets for finger keys.

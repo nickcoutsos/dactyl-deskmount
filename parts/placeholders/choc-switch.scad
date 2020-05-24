@@ -1,7 +1,11 @@
+include <../../switch-and-keycap-specs.scad>
+
 module kailh_choc_switch() {
   rot = !is_undef($rot) ? $rot : 0;
   detail = !is_undef($detail) && $detail;
-  height = !is_undef($key_pressed) && $key_pressed == true ? -2.18 : 0;
+  height = !is_undef($key_pressed) && $key_pressed == true
+    ? choc_switch_travel
+    : 0;
 
   rotate([0, 0, rot]) {
     color("lightgray") translate([0, 0, 1.4]) cube([13.8, 13.8, 2.8], center=true);

@@ -9,14 +9,14 @@ include <../definitions.scad>
 
 use <led-diffuser.scad>
 use <socket-mount.scad>
-use <plate-atoms/choc-plate.scad>
+use <plate-atoms/switch-plate.scad>
 use <plate-atoms/corner.scad>
 use <plate-atoms/edge.scad>
 use <plate-atoms/led-sockets.scad>
 use <plate-atoms/trim.scad>
 use <placeholders/m3-screw.scad>
-use <placeholders/keycap.scad>
-use <placeholders/keyswitch.scad>
+use <placeholders/choc-keycap.scad>
+use <placeholders/choc-switch.scad>
 use <placeholders/3535-led.scad>
 use <placeholders/ic-socket.scad>
 use <placeholders/promicro.scad>
@@ -55,14 +55,14 @@ module position_usb_port() {
 module plate() {
   for (col=[0:len(finger_columns)-1]) {
     for (row=finger_columns[col]) {
-      finger_place(col, row) kailh_choc_plate();
+      finger_place(col, row) switch_plate();
     }
   }
 
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      thumb_place(colIndex, rowIndex) kailh_choc_plate();
+      thumb_place(colIndex, rowIndex) switch_plate();
     }
   }
 
@@ -104,7 +104,7 @@ module plate() {
   for (colIndex=[0:len(thumb_columns)-1]) {
     rows = thumb_columns[colIndex];
     for (rowIndex=[0:len(thumb_columns[colIndex])-1]) {
-      thumb_place(colIndex, rowIndex) kailh_choc_plate();
+      thumb_place(colIndex, rowIndex) switch_plate();
     }
 
     if (len(rows) > 1) for (rowIndex=[0:len(rows)-2]) {
