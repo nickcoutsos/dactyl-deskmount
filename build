@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+OpenSCAD parts/bottom-mount.scad -o rendered/bottom-mount.stl
+OpenSCAD parts/choc.scad -o rendered/choc-keycap-1u.stl -D "cap_height=3.8" -D '$scoop=0.81'
+OpenSCAD parts/choc.scad -o rendered/choc-keycap-1u-index.stl -D "cap_height=3.8" -D '$scoop=0.81' -D '$bump=true'
+OpenSCAD parts/choc.scad -o rendered/choc-keycap-2u.stl -D '$u=2' -D '$scoop_offset_y=-4'
+OpenSCAD parts/clamp-knob.scad -o rendered/clamp-knob.stl
+OpenSCAD parts/clamp-swivel-plate.scad -o rendered/clamp-swivel-plate.stl
+OpenSCAD parts/led-diffuser.scad -o rendered/led-diffuser.stl
+OpenSCAD parts/plate.scad -o rendered/plate.stl
+OpenSCAD parts/socket-mount.scad -o rendered/socket-mount.stl
+OpenSCAD parts/table-hook.scad -o rendered/table-hook.stl

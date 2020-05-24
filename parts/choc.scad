@@ -1,5 +1,7 @@
 include <../definitions.scad>
 
+cap_height = 3.5;
+
 module choc_keycap(height=3.5) {
 
   u = !is_undef($u) ? $u : 1;
@@ -86,18 +88,4 @@ module legs() {
   }
 }
 
-difference() {
-  // original
-  // choc_keycap();
-
-  // deep scoop
-  // choc_keycap(height=3.8, $scoop=0.81);
-
-  // deep w/ bump
-  choc_keycap(height=3.8, $scoop=0.81, $bump=true);
-
-  // thumb
-  // choc_keycap($u=2, $scoop_offset_y=-4);
-
-  // translate([5, 0, 2]) cube([10, 20, 8], center=true);
-}
+choc_keycap(cap_height);
