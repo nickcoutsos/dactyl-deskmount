@@ -1,8 +1,10 @@
 # dactyl-deskmount
 ---
-![dactyl-deskmount.jpg](outputs/dactyl-deskmount.jpg "Dactyl and desk mounting hardware")
+![dactyl-deskmount.jpg](outputs/finished-product/dactyl-deskmount.jpg "Dactyl and desk mounting hardware")
 
 _[(3D Preview of assembled keyboard)](outputs/preview.stl)_
+
+_[(More photos of the finished product)](outputs/finished-product/)_
 
 ## Goal
 
