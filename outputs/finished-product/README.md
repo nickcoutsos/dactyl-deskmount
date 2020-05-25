@@ -31,6 +31,9 @@ professional.
 I did have some concerns about having this in an office setting where delicate
 components are exposed to stray dogs but that's moot for the foreseeable future.
 
+Anywho, one other nice benefit to mounting this off the front of the desk is the
+ability to run the USB cable under my desk and out of sight.
+
 
 ## Mount
 
