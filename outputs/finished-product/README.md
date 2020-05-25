@@ -44,7 +44,7 @@ This is the assembled keyboard mount without the keyboard.
 The main black print is the [table hook](../pre-rendered/table-hook.stl) and in the clamp part (left) is the [swivel plate](../pre-rendered/clamp-swivel-plate.stl)
 (it doesn't really stay in place when not clamped) sitting on top of a 1/4" hex
 bolt screwed into a tee-nut and the hex head covered by a small comfortable
-[knob](../pre-rendered/clamp-knob.stil).
+[knob](../pre-rendered/clamp-knob.stl).
 
 The other end holds an off-the-shelf ball mount, and on top of that in white is
 the [bottom mount](../pre-rendered/bottom-mount.stl) to which the keyboard 
