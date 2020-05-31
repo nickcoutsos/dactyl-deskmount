@@ -44,3 +44,31 @@ module lobed_cylinder(radius, h=2) {
     }
   }
 }
+
+function l (t, s) = (
+  let(cos4t=pow(cos(t), s))
+  let(sin4t=pow(sin(t), s))
+  let(rho=1/pow(cos4t + sin4t, 1/s))
+  [
+    rho * cos(t),
+    rho * sin(t)
+  ]
+);
+
+function make_squircle(r=1, s=5, steps=40) = (
+  let(quadrant = concat([
+    for (t=[0:steps/4])
+    l(t/(steps/4)*90, s) * r
+  ], [[0, r]]))
+
+  concat(
+    quadrant,
+    [ for (p=quadrant) [-p.x,  p.y] ],
+    [ for (p=quadrant) [-p.x, -p.y] ],
+    [ for (p=quadrant) [ p.x, -p.y] ]
+  )
+);
+
+module squircle(r=1, s=5, steps=40) {
+  polygon(make_squircle(r, s, steps));
+}
