@@ -118,3 +118,19 @@ module led_edge_w(led)    { $u=led_size; $h=led_size; multmatrix(led_edge_transf
 module post_place(index) {
   multmatrix(post_place_transformation(index)) children();
 }
+
+
+module position_back_plate() {
+  multmatrix(thumb_place_transformation(1.5, 1))
+  translate([0, plate_dimensions.y/2, 0])
+  rotate([90, 0, 0])
+  translate([0, -20, 0])
+    children();
+}
+
+module position_back_plate_bottom_left() { position_back_plate() translate([-15, -5, 0]) children(); }
+module position_back_plate_bottom_right() { position_back_plate() translate([+15, -5, 0]) children(); }
+module position_back_plate_bottom_mid() { position_back_plate() translate([0, -5, 0]) children(); }
+module position_back_plate_top_right() { position_back_plate() translate([+15, +15, 0]) children(); }
+module position_back_plate_top_left() { position_back_plate() translate([-plate_dimensions.x, +15, 0]) children(); }
+module position_back_plate_top_mid() { position_back_plate() translate([0, +15, 0]) children(); }

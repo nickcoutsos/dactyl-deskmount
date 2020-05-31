@@ -47,20 +47,16 @@ module keycap() {
 }
 
 module position_trrs() {
-  multmatrix(thumb_place_transformation(1.5, 1.5))
-  rotate([0, 5, 0])
-  rotate([81, 0, 0])
-  translate([-5.25, -20, -0.5])
-    rotate([0, 0, 180])
+  position_back_plate()
+  translate([-5.25, 0, -1.5])
+  rotate([0, 0, 180])
     children();
 }
 
 module position_usb_port() {
-  multmatrix(thumb_place_transformation(1.5, 1.5))
-  rotate([0, 5, 0])
-  rotate([81, 0, 0])
-  translate([8, -19, -0.5])
-    rotate([0, 0, 180])
+  position_back_plate()
+  translate([8, 0.5, -1.5])
+  rotate([0, 0, 180])
     children();
 }
 

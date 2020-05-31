@@ -27,28 +27,32 @@ module screw_cutout() {
   translate([0, 0, 2]) cylinder(d1=3, d2=7, h=5, center=true);
 }
 
-module plate_trim() {
-  detail = is_undef($detail) ? false : $detail;
+module back_plate() {
+  triangle_hulls() {
+    led_edge_s(3) plate_edge(horizontal=true);
+    position_back_plate_bottom_right() plate_corner();
+    thumb_corner_ne(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_back_plate_top_right() plate_corner();
+    thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_back_plate_top_mid() plate_corner();
+    thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_back_plate_top_left() plate_corner();
+
+    thumb_corner_nw(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_back_plate_bottom_left() plate_corner();
+  }
 
   hull() {
-    led_edge_s(3) plate_edge(horizontal=true);
-    thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    thumb_corner_ne(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
+    position_back_plate() translate([-15, -5, 0]) plate_corner();
+    position_back_plate() translate([+15, -5, 0]) plate_corner();
+    position_back_plate() translate([+15, +15, 0]) plate_corner();
+    position_back_plate() translate([-plate_dimensions.x, +15, 0]) plate_corner();
   }
+}
 
-  triangle_hulls() {
-    thumb_corner_nw(1, 1) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    led_corner_sw(3) plate_corner();
-    thumb_corner_ne(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-    thumb_corner_nw(2, 2)
-    translate([4, 3, -22])
-    translate([0, 0, -plate_thickness*1.5])
-    translate([0, 0, plate_thickness])
-    rotate([-90, 0, 0])
-      plate_corner();
-    thumb_corner_nw(2, 2) translate([0, 0, -plate_thickness*1.5]) rotate([90, 0, 0]) plate_corner();
-  }
-
+module perimeter() {
+  // main trim
+  // perimeter of thumb and finger cluster without backplate and led column)
   serial_hulls(close=false) {
     // top left corner
     finger_corner_nw(0, 1) edge_profile(90);
@@ -137,14 +141,15 @@ module plate_trim() {
     }
   }
 
+  // thumb top left corner
   serial_hulls() {
-    // thumb top left corner
     thumb_corner_nw(2, 2) edge_profile(0);
     thumb_corner_nw(2, 2) edge_profile(30);
     thumb_corner_nw(2, 2) edge_profile(60);
     thumb_corner_nw(2, 2) edge_profile(90);
   }
 
+  // back plate and led column trim
   serial_hulls() {
     thumb_corner_nw(2, 2)
     translate([0, 0, -plate_thickness*1.5])
@@ -152,18 +157,20 @@ module plate_trim() {
     translate([0, 0, plate_thickness])
       edge_profile(0);
 
-    thumb_corner_nw(2, 2)
-    translate([4, 3, -22])
-    translate([0, 0, -plate_thickness*1.5])
-    translate([0, 0, plate_thickness])
-    rotate([-90, 0, 0]) {
+    position_back_plate_bottom_left()
+    translate([0, 0, -plate_thickness])
+    rotate([180, 0, 0]) {
       edge_profile(30);
       edge_profile(50);
       edge_profile(70);
     }
 
+    position_back_plate_bottom_right()
+    translate([0, 0, -plate_thickness])
+    rotate([180, 0, 0])
+      edge_profile(60);
+
     // thumb to led column
-    led_corner_sw(3) rotate([-90, 0, 0]) edge_profile(30);
     led_corner_sw(3) rotate([0, 0, 0]) edge_profile(0);
     led_corner_sw(3) edge_profile(0);
     led_corner_nw(3) edge_profile(0);
@@ -179,6 +186,12 @@ module plate_trim() {
     led_corner_ne(0) rotate([0, 30, 0]) edge_profile(90);
     finger_corner_nw(0, 1) edge_profile(90);
   }
+}
+
+module plate_trim() {
+  back_plate();
+
+  perimeter();
 
   post_place(0) screw_post();
   post_place(1) screw_post();
@@ -186,11 +199,10 @@ module plate_trim() {
   post_place(3) screw_post();
   post_place(4) screw_post();
 
-  multmatrix(thumb_place_transformation(1.5, 1.5))
-  rotate([0, 5, 0])
-  rotate([81, 0, 0])
+  // breakout board holders
+  position_back_plate()
   for (offset=[-11.5, 1, 15])
-    translate([offset, -19, .8])
+    translate([offset, 1, .8])
     rotate([90, 0, 0])
       cylinder(d=3, h=7);
 }
