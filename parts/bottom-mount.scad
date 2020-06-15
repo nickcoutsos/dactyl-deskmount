@@ -19,7 +19,7 @@ mount_base_height = 8.5;
 
 zero = [0,0,0,1];
 
-thumb_arm_base = translation([-15, -10, 5]) * [0, 0, 0, 1];
+thumb_arm_base = translation([-20, -10, 5]) * [0, 0, 0, 1];
 thumb_arm_tip = keyboard_offset * post_place_transformation(0) * translation([0, 0, -6]) * [0, 0, 0, 1];
 lower_arm_base = keyboard_offset * finger_place_transformation(1.3, 2.5) * translation([0, 0, -11.5]) * zero;
 lower_arm_tip = keyboard_offset * post_place_transformation(3) * translation([0, 0, -5]) * zero;
@@ -27,7 +27,7 @@ top_arm_base = keyboard_offset * finger_place_transformation(1.3, 2.0) * transla
 top_arm_tip = keyboard_offset * post_place_transformation(4) * translation([0, 0, -5]) * zero;
 
 steps = 6;
-profiles = [for (t=[0:steps]) circle(pow((1 - t/steps), 2) * 1.5 + 3, $fn=12)];
+profiles = [for (t=[0:steps]) circle(pow((1 - t/steps), 2) * 0.5 + 4, $fn=12)];
 
 module screw_and_nut_cutout() {
   translate([0, 0, 5]) cylinder(d=6.5, h=3);
@@ -72,7 +72,7 @@ module bottom_mount() {
           translate(take3(thumb_arm_base)) sphere(r=4.5);
         }
 
-        bezier_sweep([ thumb_arm_base, [-15, 0, 0], thumb_arm_tip, [-5, -1, -10] ], profiles);
+        bezier_sweep([ thumb_arm_base, [-15, 0, 0], thumb_arm_tip, [-5, -1, -2] ], profiles);
 
         multmatrix(keyboard_offset)
         serial_hulls() {
@@ -86,13 +86,13 @@ module bottom_mount() {
       serial_hulls() {
         post_place(1) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
         post_place(1) translate([0, 0, -7 + .01]) cylinder(d=6, h=5);
-        multmatrix(finger_place_transformation(1.2, 4)) translate([0, 0, -10]) sphere(r=3);
-        multmatrix(finger_place_transformation(1.2, 3.5)) translate([0, 0, -10]) sphere(r=3.5);
-        multmatrix(finger_place_transformation(1.2, 3)) translate([0, 0, -10]) sphere(r=3.5);
-        multmatrix(finger_place_transformation(1.2, 2.5)) translate([0, 0, -10]) sphere(r=3.5);
-        multmatrix(finger_place_transformation(1.2, 2)) translate([0, 0, -10]) sphere(r=3);
-        multmatrix(finger_place_transformation(1.2, 1.5)) translate([0, 0, -10]) sphere(r=3);
-        multmatrix(finger_place_transformation(1.2, 1)) translate([0, 0, -10]) sphere(r=3);
+        multmatrix(finger_place_transformation(1.2, 4)) translate([0, 0, -10]) sphere(r=3.5);
+        multmatrix(finger_place_transformation(1.2, 3.5)) translate([0, 0, -10]) sphere(r=4);
+        multmatrix(finger_place_transformation(1.2, 3)) translate([0, 0, -10]) sphere(r=4);
+        multmatrix(finger_place_transformation(1.2, 2.5)) translate([0, 0, -10]) sphere(r=4);
+        multmatrix(finger_place_transformation(1.2, 2)) translate([0, 0, -10]) sphere(r=4);
+        multmatrix(finger_place_transformation(1.2, 1.5)) translate([0, 0, -10]) sphere(r=3.5);
+        multmatrix(finger_place_transformation(1.2, 1)) translate([0, 0, -10]) sphere(r=3.5);
         post_place(2) translate([0, 0, -7 + .01]) cylinder(d=6, h=5);
         post_place(2) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
       }
@@ -101,7 +101,7 @@ module bottom_mount() {
       union() {
         multmatrix(keyboard_offset) post_place(3) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
         multmatrix(keyboard_offset) post_place(4) translate([0, 0, -7 + .01]) cylinder(d=11, h=6);
-        bezier_sweep([ top_arm_base, [20, 5, 0], top_arm_tip, [10, 20, 12] ], profiles);
+        bezier_sweep([ top_arm_base, [20, 5, 0], top_arm_tip, [10, 20, 15.5] ], profiles);
         bezier_sweep([ lower_arm_base, [20, -5, 0], lower_arm_tip, [10, -20, 12] ], profiles);
         hull() {
           translate(take3(top_arm_base)) sphere(r=4.5);
