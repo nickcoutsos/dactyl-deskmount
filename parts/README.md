@@ -49,6 +49,14 @@ This may be the lightest piece that takes most of the strain. It attaches to the
 ball mount (secured in place via a tee-nut) with arms extending to screw holes
 on the plate that fasten via m3 screw and hex nut.
 
+__**NEW:**__ after a bit of use I was happy with the stability fo the camera
+mount, but the plate itself would flex a fair bit when pressing keys on outer
+columns (particularly modifiers like shift and layer toggles where I'm holding
+the key down). The bottom mount has been updated to add additional branches to
+connect to the outer column screw holes, and all arms have been made thicker.
+
+Now the main source of flex comes from the table hook.
+
 ### `table-hook.scad`
 
 The table hook (which includes the `clamp.scad` part) is a holder for the ball
